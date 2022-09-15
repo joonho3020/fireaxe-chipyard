@@ -46,6 +46,10 @@ class FPGemminiRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new chipyard.config.AbstractConfig)
 
+class EinsteinRocketConfig extends Config(
+  new einstein.DefaultEinsteinConfig ++
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  new chipyard.config.AbstractConfig)
 
 // DOC include start: DmiRocket
 class dmiRocketConfig extends Config(
