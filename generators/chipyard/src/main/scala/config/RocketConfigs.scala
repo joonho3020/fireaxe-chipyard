@@ -51,6 +51,16 @@ class EinsteinRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new chipyard.config.AbstractConfig)
 
+class LargeEinsteinRocketConfig extends Config(
+  new einstein.LargeDenseEinsteinConfig ++
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  new chipyard.config.AbstractConfig)
+
+class SparseDenseEinsteinRocketConfig extends Config(
+  new einstein.SparseDenseEinsteinConfig ++
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  new chipyard.config.AbstractConfig)
+
 // DOC include start: DmiRocket
 class dmiRocketConfig extends Config(
   new chipyard.harness.WithSerialAdapterTiedOff ++               // don't attach an external SimSerial
