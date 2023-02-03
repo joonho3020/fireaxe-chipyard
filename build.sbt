@@ -191,7 +191,7 @@ lazy val boom = (project in file("generators/boom"))
   .settings(commonSettings)
 
 lazy val saturn = (project in file("generators/saturn"))
-  .dependsOn(rocketchip, testchipip)
+  .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
 
