@@ -74,6 +74,7 @@ case $1 in
 
 	# test streaming-fir
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} run-binary-fast BINARY=$LOCAL_CHIPYARD_DIR/tests/streaming-fir.riscv
+<<<<<<< HEAD
 
 	# test nvdla
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} BINARY=$LOCAL_CHIPYARD_DIR/tests/nvdla.riscv run-binary-fast
@@ -84,6 +85,12 @@ case $1 in
 	;;
     chipyard-manyperipherals)
 	# SPI Flash read tests, then bmark tests
+=======
+        ;;
+    chipyard-manyperipherals)
+	# bmark tests, then SPI Flash read tests
+        run_bmark ${mapping[$1]}
+>>>>>>> Consolidate peripheral device testing configs into a single ManyPeripheralsConfig
 
         make -C $LOCAL_CHIPYARD_DIR/tests
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} BINARY=$LOCAL_CHIPYARD_DIR/tests/spiflashread.riscv run-binary-fast
