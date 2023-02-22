@@ -7,26 +7,9 @@ class SaturnConfig extends Config(
   new chipyard.config.AbstractConfig
 )
 
-class Saturn3WideConfig extends Config(
-  new saturn.common.WithSaturnFPWidth(2) ++
-  new saturn.common.WithSaturnFetchWidth(16) ++
-  new saturn.common.WithSaturnRetireWidth(3) ++
-  new saturn.common.WithNSaturnCores(1) ++
-  new chipyard.config.AbstractConfig
-)
-
-class Saturn4WideConfig extends Config(
-  new saturn.common.WithSaturnFPWidth(2) ++
-  new saturn.common.WithSaturnFetchWidth(32) ++
-  new saturn.common.WithSaturnRetireWidth(4) ++
-  new saturn.common.WithNSaturnCores(1) ++
-  new chipyard.config.AbstractConfig
-)
-
-class Saturn5WideConfig extends Config(
-  new saturn.common.WithSaturnFPWidth(2) ++
-  new saturn.common.WithSaturnFetchWidth(64) ++
-  new saturn.common.WithSaturnRetireWidth(5) ++
+class SaturnCosimConfig extends Config(
+  new chipyard.harness.WithCospike ++                            // attach spike-cosim
+  new chipyard.config.WithTraceIO ++                             // enable the traceio
   new saturn.common.WithNSaturnCores(1) ++
   new chipyard.config.AbstractConfig
 )
