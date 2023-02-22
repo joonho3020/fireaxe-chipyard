@@ -3,37 +3,41 @@ package chipyard.upf
 
 import chipyard.{TestHarness, ChipTopLazyRawModuleImp, DigitalTop}
 import freechips.rocketchip.diplomacy.LazyModule
-import chisel.{UPFAspect, UPFFunc, ChiselUPFElement}
 
 import scala.collection.mutable.ListBuffer
 
+import scalax.collection.mutable.Graph
+import scalax.collection.GraphPredef._, scalax.collection.GraphEdge._
+
 object ChipTopUPF {
+
   def default: UPFFunc.UPFFunction = {
     case top: ChipTopLazyRawModuleImp => {      
-      val modulesList = createModulesList(top)
-      var (g, pdList) = createPowerDomains(modulesList)
-      g = connectPDHierarchy(g, pdList)
-      g.bfsVisitor(g.rootObj, UPFGenerator.generateUPF)
+      val modulesList = getLazyModules(top.outer.lazySystem)
+      val pdList = createPowerDomains(modulesList)
+      val g = connectPDHierarchy(pdList)
+      for (node <- g.nodes.filter(_.diPredecessors.isEmpty)) { // all nodes without parents
+        g.outerNodeTraverser(node).foreach(UPFGenerator.generateUPF(_, g))
+      }
     }
   }
 
-  def createModulesList(top: ChipTopLazyRawModuleImp): ListBuffer[LazyModule] = {
-    var modulesList = ListBuffer[LazyModule]()
-    modulesList.append(top.outer.lazySystem)
-    val tiles = top.outer.lazySystem match {
-      case t: DigitalTop => t.tiles.map(x => x)
-      case _ => throw new Exception("Unsupported BuildSystem type")
+  def getLazyModules(top: LazyModule): ListBuffer[LazyModule] = {
+    var i = 0
+    var result = new ListBuffer[LazyModule]()
+    result.append(top)
+    while (i < result.length) {
+      val lazyMod = result(i)
+      for (child <- lazyMod.getChildren) {
+        result.append(child)
+      }
+      i += 1
     }
-    for (tile <- tiles) {
-      modulesList.append(tile)
-    }
-    modulesList ++= top.outer.lazySystem.getChildren
-    return modulesList
+    return result
   }
 
-  def createPowerDomains(modulesList: ListBuffer[LazyModule]): (PowerGraph, ListBuffer[PowerDomain]) = {
+  def createPowerDomains(modulesList: ListBuffer[LazyModule]): ListBuffer[PowerDomain] = {
     var pdList = ListBuffer[PowerDomain]()
-    var g = new PowerGraph()
     for (pdInput <- UPFInputs.upfInfo) {
       var pdModules = ListBuffer[LazyModule]()
       for (moduleName <- pdInput.moduleList) {
@@ -41,7 +45,7 @@ object ChipTopUPF {
         if (module.length == 1) { // filter returns a collection
           pdModules.append(module(0))
         } else {
-          throw new Exception("PowerDomainInput module list doesn't exist in design.")
+          throw new Exception(s"PowerDomainInput module list doesn't exist in design. Modules matching input ${moduleName} are: ${module}.")
         }
       }
       val pd = new PowerDomain(name=pdInput.name, modules=pdModules, 
@@ -49,18 +53,16 @@ object ChipTopUPF {
                                 highVoltage=pdInput.highVoltage, lowVoltage=pdInput.lowVoltage)
       pdList.append(pd)
     }
-    return (g, pdList)
+    return pdList
   }
 
-  def connectPDHierarchy(g: PowerGraph, pdList: ListBuffer[PowerDomain]): PowerGraph = {
+  def connectPDHierarchy(pdList: ListBuffer[PowerDomain]): Graph[PowerDomain, DiEdge] = {
+    var g = Graph[PowerDomain, DiEdge]()
     for (pd <- pdList) {
-      if (pd.isTop) {
-        g.createGraph(pd)
-      }
       val pdInput = UPFInputs.upfInfo.filter(_.name == pd.name)(0)
       val childPDs = pdList.filter(x => pdInput.childrenPDs.contains(x.name))
       for (childPD <- childPDs) {
-        g.addChild(pd, childPD)
+        g += (pd ~> childPD) // directed edge from pd to childPD
       }
     }
     return g

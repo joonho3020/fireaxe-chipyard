@@ -1,33 +1,34 @@
 package chipyard.upf
 
+import freechips.rocketchip.diplomacy.LazyModule
+
 import java.io.FileWriter
 import java.nio.file.{Paths, Files}
 import scala.collection.mutable.ListBuffer
+import scalax.collection.mutable.Graph
+import scalax.collection.GraphPredef._, scalax.collection.GraphEdge._
 
+case class PowerDomain (val name: String, val modules: ListBuffer[LazyModule], 
+                        val isTop: Boolean, val isGated: Boolean,
+                        val highVoltage: Double, val lowVoltage: Double) {
+    val mainVoltage = isGated match {
+        case true => highVoltage // gated nets should have access to high voltage rail (since they are being gated to optimize power)
+        case false => lowVoltage // currently assuming non-gated nets are on low voltage rail
+    }
+}
 
 object UPFGenerator {
 
-    def generateUPF(node: Node, graph: PowerGraph): Unit = {
-        val pd = node.nodeObj match {
-            case o: PowerDomain => o
-            case _ => throw new Exception("Power domain cannot be a non-PowerDomain object.")
-        }
-        val children = node.getChildren().map{
-            node => node.nodeObj match {
-                case o: PowerDomain => o
-                case _ => throw new Exception("Power domain children cannot be non-PowerDomain objects.")
-            }
-        }
-        val pdList = graph.getAllObjs() match {
-            case l: List[PowerDomain] => l
-            case _ => throw new Exception("Power domain list cannot consist of non-PowerDomain objects.")
-        }
-        val filePath = "/scratch/s.sridhar/upf7"
+    def generateUPF(pd: PowerDomain, g: Graph[PowerDomain, DiEdge]): Unit = {
+        val node = g.get(pd)
+        val children = node.diSuccessors.map(x => x.toOuter).toList
+        val pdList = g.nodes.map(x => x.toOuter).toList
+        val filePath = "/scratch/s.sridhar/upf8"
         val fileName = s"${pd.name}.upf"
         writeFile(filePath, fileName, createMessage(pd, children, pdList))
     }
 
-    def createMessage(pd: PowerDomain, children: ListBuffer[PowerDomain], pdList: List[PowerDomain]): String = {
+    def createMessage(pd: PowerDomain, children: List[PowerDomain], pdList: List[PowerDomain]): String = {
         var message = ""
         message += loadUPF(pd, children)
         message += createPowerDomains(pd)
@@ -50,7 +51,7 @@ object UPFGenerator {
         fw.close()
     }
 
-    def getPorts(pd: PowerDomain, children: ListBuffer[PowerDomain]): ListBuffer[String] = {
+    def getPorts(pd: PowerDomain, children: List[PowerDomain]): ListBuffer[String] = {
         var portsList = ListBuffer[String]()
         portsList += "VDDH"
         portsList += "VDDL"
@@ -65,7 +66,7 @@ object UPFGenerator {
         return portsList
     }
 
-    def loadUPF(pd: PowerDomain, children: ListBuffer[PowerDomain]): String = {
+    def loadUPF(pd: PowerDomain, children: List[PowerDomain]): String = {
         var message = "##### Set Scope and Load UPF #####\n"
         var subMessage = s"set_scope /${pd.modules(0).module.name}\n" // 
         children.foreach{
