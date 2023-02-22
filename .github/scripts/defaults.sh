@@ -62,12 +62,17 @@ mapping["chipyard-gemmini"]=" CONFIG=GemminiRocketConfig"
 mapping["chipyard-cva6"]=" CONFIG=CVA6Config"
 mapping["chipyard-ibex"]=" CONFIG=IbexConfig"
 <<<<<<< HEAD
+<<<<<<< HEAD
 mapping["chipyard-spiflashwrite"]=" CONFIG=SmallSPIFlashRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
 mapping["chipyard-manyperipherals"]=" CONFIG=ManyPeripheralsRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
 =======
 mapping["chipyard-spiflashwrite"]=" CONFIG=SmallSPIFlashRocketConfig"
 mapping["chipyard-manyperipherals"]=" CONFIG=ManyPeripheralsRocketConfig"
 >>>>>>> Consolidate peripheral device testing configs into a single ManyPeripheralsConfig
+=======
+mapping["chipyard-spiflashwrite"]=" CONFIG=SmallSPIFlashRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
+mapping["chipyard-manyperipherals"]=" CONFIG=ManyPeripheralsRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
+>>>>>>> Move EXTRA_SIM_FLAGS to defaults.sh in CI
 mapping["chipyard-cloneboom"]=" CONFIG=Cloned64MegaBoomConfig verilog"
 mapping["chipyard-nocores"]=" CONFIG=NoCoresConfig verilog"
 mapping["tracegen"]=" CONFIG=NonBlockingTraceGenL2Config"

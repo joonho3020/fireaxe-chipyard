@@ -94,9 +94,13 @@ case $1 in
 =======
 >>>>>>> Consolidate mmio-accelerator test configs into a single config
     chipyard-manyperipherals)
+<<<<<<< HEAD
 	# bmark tests, then SPI Flash read tests
         run_bmark ${mapping[$1]}
 >>>>>>> Consolidate peripheral device testing configs into a single ManyPeripheralsConfig
+=======
+	# SPI Flash read tests, then bmark tests
+>>>>>>> Move EXTRA_SIM_FLAGS to defaults.sh in CI
 
         make -C $LOCAL_CHIPYARD_DIR/tests
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} BINARY=$LOCAL_CHIPYARD_DIR/tests/spiflashread.riscv run-binary-fast
