@@ -916,13 +916,6 @@ jobs:
             chipyard-ibex-run-tests,
             chipyard-sodor-run-tests,
             chipyard-dmirocket-run-tests,
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-            chipyard-fftgenerator-run-tests,
->>>>>>> Consolidate peripheral device testing configs into a single ManyPeripheralsConfig
-=======
->>>>>>> Consolidate mmio-accelerator test configs into a single config
             chipyard-spiflashwrite-run-tests,
             chipyard-manyperipherals-run-tests,
             chipyard-sha3-run-tests,

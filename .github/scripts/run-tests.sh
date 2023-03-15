@@ -74,10 +74,6 @@ case $1 in
 
 	# test streaming-fir
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} run-binary-fast BINARY=$LOCAL_CHIPYARD_DIR/tests/streaming-fir.riscv
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Consolidate mmio-accelerator test configs into a single config
 
 	# test nvdla
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} BINARY=$LOCAL_CHIPYARD_DIR/tests/nvdla.riscv run-binary-fast
@@ -86,21 +82,8 @@ case $1 in
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} BINARY=$LOCAL_CHIPYARD_DIR/tests/fft.riscv run-binary-fast
 
 	;;
-<<<<<<< HEAD
     chipyard-manyperipherals)
 	# SPI Flash read tests, then bmark tests
-=======
-        ;;
-=======
->>>>>>> Consolidate mmio-accelerator test configs into a single config
-    chipyard-manyperipherals)
-<<<<<<< HEAD
-	# bmark tests, then SPI Flash read tests
-        run_bmark ${mapping[$1]}
->>>>>>> Consolidate peripheral device testing configs into a single ManyPeripheralsConfig
-=======
-	# SPI Flash read tests, then bmark tests
->>>>>>> Move EXTRA_SIM_FLAGS to defaults.sh in CI
 
         make -C $LOCAL_CHIPYARD_DIR/tests
         make -C $LOCAL_SIM_DIR $DISABLE_SIM_PREREQ ${mapping[$1]} BINARY=$LOCAL_CHIPYARD_DIR/tests/spiflashread.riscv run-binary-fast

@@ -14,9 +14,6 @@ REMOTE_CHIPYARD_DIR=$GITHUB_WORKSPACE
 REMOTE_SIM_DIR=$REMOTE_CHIPYARD_DIR/sims/verilator
 REMOTE_FIRESIM_DIR=$REMOTE_CHIPYARD_DIR/sims/firesim/sim
 REMOTE_FPGA_DIR=$REMOTE_CHIPYARD_DIR/fpga
-REMOTE_JAVA_OPTS="-Xmx10G -Xss8M"
-# Disable the supershell to greatly improve the readability of SBT output when captured by Circle CI
-REMOTE_SBT_OPTS="-Dsbt.ivy.home=$REMOTE_WORK_DIR/.ivy2 -Dsbt.supershell=false -Dsbt.global.base=$REMOTE_WORK_DIR/.sbt -Dsbt.boot.directory=$REMOTE_WORK_DIR/.sbt/boot"
 
 # local variables (aka within the docker container)
 LOCAL_CHIPYARD_DIR=$GITHUB_WORKSPACE
@@ -26,21 +23,14 @@ LOCAL_FIRESIM_DIR=$LOCAL_CHIPYARD_DIR/sims/firesim/sim
 # CI uses temp directories with very long names
 # explicitly force socket creation to use /tmp to avoid name length errors
 # https://github.com/sbt/sbt/pull/6887
-JAVA_TMP_DIR=$(mktemp -d -t ci-cy-XXXXXXXX)
+REMOTE_JAVA_TMP_DIR=$(mktemp -d -t ci-cy-XXXXXXXX)
+REMOTE_COURSIER_CACHE=$REMOTE_WORK_DIR/.coursier-cache
 
 # key value store to get the build groups
 declare -A grouping
 grouping["group-cores"]="chipyard-cva6 chipyard-ibex chipyard-rocket chipyard-hetero chipyard-boom chipyard-sodor chipyard-digitaltop chipyard-multiclock-rocket chipyard-nomem-scratchpad chipyard-spike chipyard-clone"
 grouping["group-peripherals"]="chipyard-dmirocket chipyard-spiflashwrite chipyard-mmios chipyard-nocores chipyard-manyperipherals"
-<<<<<<< HEAD
-<<<<<<< HEAD
 grouping["group-accels"]="chipyard-mempress chipyard-sha3 chipyard-hwacha chipyard-gemmini chipyard-manymmioaccels"
-=======
-grouping["group-accels"]="chipyard-fftgenerator chipyard-nvdla chipyard-mempress chipyard-sha3 chipyard-hwacha chipyard-gemmini chipyard-streaming-fir chipyard-streaming-passthrough"
->>>>>>> Consolidate peripheral device testing configs into a single ManyPeripheralsConfig
-=======
-grouping["group-accels"]="chipyard-mempress chipyard-sha3 chipyard-hwacha chipyard-gemmini chipyard-manymmioaccels"
->>>>>>> Consolidate mmio-accelerator test configs into a single config
 grouping["group-constellation"]="chipyard-constellation"
 grouping["group-tracegen"]="tracegen tracegen-boom"
 grouping["group-other"]="icenet testchipip constellation"
@@ -61,18 +51,8 @@ mapping["chipyard-hwacha"]=" CONFIG=HwachaRocketConfig"
 mapping["chipyard-gemmini"]=" CONFIG=GemminiRocketConfig"
 mapping["chipyard-cva6"]=" CONFIG=CVA6Config"
 mapping["chipyard-ibex"]=" CONFIG=IbexConfig"
-<<<<<<< HEAD
-<<<<<<< HEAD
 mapping["chipyard-spiflashwrite"]=" CONFIG=SmallSPIFlashRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
 mapping["chipyard-manyperipherals"]=" CONFIG=ManyPeripheralsRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
-=======
-mapping["chipyard-spiflashwrite"]=" CONFIG=SmallSPIFlashRocketConfig"
-mapping["chipyard-manyperipherals"]=" CONFIG=ManyPeripheralsRocketConfig"
->>>>>>> Consolidate peripheral device testing configs into a single ManyPeripheralsConfig
-=======
-mapping["chipyard-spiflashwrite"]=" CONFIG=SmallSPIFlashRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
-mapping["chipyard-manyperipherals"]=" CONFIG=ManyPeripheralsRocketConfig EXTRA_SIM_FLAGS='+spiflash0=${LOCAL_CHIPYARD_DIR}/tests/spiflash.img'"
->>>>>>> Move EXTRA_SIM_FLAGS to defaults.sh in CI
 mapping["chipyard-cloneboom"]=" CONFIG=Cloned64MegaBoomConfig verilog"
 mapping["chipyard-nocores"]=" CONFIG=NoCoresConfig verilog"
 mapping["tracegen"]=" CONFIG=NonBlockingTraceGenL2Config"
