@@ -51,6 +51,11 @@ else
 	OBJ_DIR          ?= $(vlsi_dir)/$(VLSI_OBJ_DIR)/$(long_name)-$(VLSI_TOP)
 endif
 
+ifneq ($(ASPECTS), )
+	comma = ,
+	UPF_ASPECT = $(foreach aspect, $(subst $(comma), , $(ASPECTS)), --with-aspect $(aspect))
+endif
+
 #########################################################################################
 # general rules
 #########################################################################################
