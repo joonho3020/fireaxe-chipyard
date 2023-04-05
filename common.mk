@@ -18,6 +18,7 @@ HELP_COMPILATION_VARIABLES += \
 "   EXTRA_SIM_REQS            = additional make requirements to build the simulator" \
 "   ENABLE_SBT_THIN_CLIENT    = if set, use sbt's experimental thin client (works best when overridding SBT_BIN with the mainline sbt script)" \
 "   ENABLE_CUSTOM_FIRRTL_PASS = if set, enable custom firrtl passes (SFC lowers to LowFIRRTL & MFC converts to Verilog)" \
+"   ENABLE_YOSYS_FLOW         = if set, add compilation flags to enable the vlsi flow for yosys(tutorial flow)" \
 "   EXTRA_CHISEL_OPTIONS      = additional options to pass to the Chisel compiler" \
 "   EXTRA_FIRRTL_OPTIONS      = additional options to pass to the FIRRTL compiler"
 
@@ -26,6 +27,7 @@ EXTRA_SIM_CXXFLAGS   ?=
 EXTRA_SIM_LDFLAGS    ?=
 EXTRA_SIM_SOURCES    ?=
 EXTRA_SIM_REQS       ?=
+ENABLE_CUSTOM_FIRRTL_PASS += $(ENABLE_YOSYS_FLOW)
 
 #----------------------------------------------------------------------------
 HELP_SIMULATION_VARIABLES += \
@@ -48,13 +50,14 @@ HELP_COMMANDS += \
 "   run-tests                   = run all assembly and benchmark tests" \
 "   launch-sbt                  = start sbt terminal" \
 "   {shutdown,start}-sbt-server = shutdown or start sbt server if using ENABLE_SBT_THIN_CLIENT" \
-"   find-config-fragments       = list all config. fragments and their locations (recursive up to CONFIG_FRAG_LEVELS=$(CONFIG_FRAG_LEVELS))"
+"   find-config-fragments       = list all config. fragments"
 
 #########################################################################################
 # include additional subproject make fragments
 # see HELP_COMPILATION_VARIABLES
 #########################################################################################
 include $(base_dir)/generators/cva6/cva6.mk
+include $(base_dir)/generators/ibex/ibex.mk
 include $(base_dir)/generators/tracegen/tracegen.mk
 include $(base_dir)/generators/nvdla/nvdla.mk
 include $(base_dir)/tools/dromajo/dromajo.mk
@@ -102,15 +105,15 @@ $(BOOTROM_TARGETS): $(build_dir)/bootrom.%.img: $(TESTCHIP_RSRCS_DIR)/testchipip
 # create firrtl file rule and variables
 #########################################################################################
 # AG: must re-elaborate if cva6 sources have changed... otherwise just run firrtl compile
-$(FIRRTL_FILE) $(ANNO_FILE) &: $(SCALA_SOURCES) $(SCALA_BUILDTOOL_DEPS) $(EXTRA_GENERATOR_REQS)
+$(FIRRTL_FILE) $(ANNO_FILE) $(CHISEL_LOG_FILE) &: $(SCALA_SOURCES) $(SCALA_BUILDTOOL_DEPS) $(EXTRA_GENERATOR_REQS)
 	mkdir -p $(build_dir)
-	$(call run_scala_main,$(SBT_PROJECT),$(GENERATOR_PACKAGE).Generator,\
+	(set -o pipefail && $(call run_scala_main,$(SBT_PROJECT),$(GENERATOR_PACKAGE).Generator,\
 		--target-dir $(build_dir) \
 		--name $(long_name) \
 		--top-module $(MODEL_PACKAGE).$(MODEL) \
 		--legacy-configs $(CONFIG_PACKAGE):$(CONFIG) \
 		$(UPF_ASPECT) \
-		$(EXTRA_CHISEL_OPTIONS))
+		$(EXTRA_CHISEL_OPTIONS)) | tee $(CHISEL_LOG_FILE))
 
 define mfc_extra_anno_contents
 [
@@ -160,6 +163,7 @@ SFC_MFC_TARGETS = \
 	$(GEN_COLLATERAL_DIR)
 
 SFC_REPL_SEQ_MEM = --infer-rw --repl-seq-mem -c:$(MODEL):-o:$(SFC_SMEMS_CONF)
+MFC_BASE_LOWERING_OPTIONS = emittedLineLength=2048,noAlwaysComb,disallowLocalVariables,verifLabels,locationInfoStyle=wrapInAtSquareBracket
 
 # DOC include start: FirrtlCompiler
 # There are two possible cases for this step. In the first case, SFC
@@ -172,7 +176,7 @@ SFC_REPL_SEQ_MEM = --infer-rw --repl-seq-mem -c:$(MODEL):-o:$(SFC_SMEMS_CONF)
 # hack: lower to low firrtl if Fixed types are found
 # hack: when using dontTouch, io.cpu annotations are not removed by SFC,
 # hence we remove them manually by using jq before passing them to firtool
-$(SFC_LEVEL) $(EXTRA_FIRRTL_OPTIONS) $(FINAL_ANNO_FILE) &: $(FIRRTL_FILE) $(EXTRA_ANNO_FILE) $(SFC_EXTRA_ANNO_FILE)
+$(SFC_LEVEL) $(EXTRA_FIRRTL_OPTIONS) $(FINAL_ANNO_FILE) $(MFC_LOWERING_OPTIONS) &: $(FIRRTL_FILE) $(EXTRA_ANNO_FILE) $(SFC_EXTRA_ANNO_FILE) $(VLOG_SOURCES)
 ifeq (,$(ENABLE_CUSTOM_FIRRTL_PASS))
 	$(eval SFC_LEVEL := $(if $(shell grep "Fixed<" $(FIRRTL_FILE)), low, none))
 	$(eval EXTRA_FIRRTL_OPTIONS += $(if $(shell grep "Fixed<" $(FIRRTL_FILE)), $(SFC_REPL_SEQ_MEM),))
@@ -180,10 +184,16 @@ else
 	$(eval SFC_LEVEL := low)
 	$(eval EXTRA_FIRRTL_OPTIONS += $(SFC_REPL_SEQ_MEM))
 endif
+ifeq (,$(ENABLE_YOSYS_FLOW))
+	$(eval MFC_LOWERING_OPTIONS = $(MFC_BASE_LOWERING_OPTIONS))
+else
+	$(eval MFC_LOWERING_OPTIONS = $(MFC_BASE_LOWERING_OPTIONS),disallowPackedArrays)
+endif
 	if [ $(SFC_LEVEL) = low ]; then jq -s '[.[][]]' $(EXTRA_ANNO_FILE) $(SFC_EXTRA_ANNO_FILE) > $(FINAL_ANNO_FILE); fi
 	if [ $(SFC_LEVEL) = none ]; then cat $(EXTRA_ANNO_FILE) > $(FINAL_ANNO_FILE); fi
 
-$(SFC_MFC_TARGETS) &: $(FIRRTL_FILE) $(FINAL_ANNO_FILE) $(VLOG_SOURCES) $(SFC_LEVEL) $(EXTRA_FIRRTL_OPTIONS)
+$(SFC_MFC_TARGETS) &: private TMP_DIR := $(shell mktemp -d -t cy-XXXXXXXX)
+$(SFC_MFC_TARGETS) &: $(FIRRTL_FILE) $(FINAL_ANNO_FILE) $(SFC_LEVEL) $(EXTRA_FIRRTL_OPTIONS)
 	rm -rf $(GEN_COLLATERAL_DIR)
 	$(call run_scala_main,tapeout,barstools.tapeout.transforms.GenerateModelStageMain,\
 		--no-dedup \
@@ -196,10 +206,10 @@ $(SFC_MFC_TARGETS) &: $(FIRRTL_FILE) $(FINAL_ANNO_FILE) $(VLOG_SOURCES) $(SFC_LE
 		--allow-unrecognized-annotations \
 		-X $(SFC_LEVEL) \
 		$(EXTRA_FIRRTL_OPTIONS))
-	-mv $(SFC_FIRRTL_BASENAME).lo.fir $(SFC_FIRRTL_FILE) # Optionally change file type when SFC generates LowFIRRTL
-	@if [ $(SFC_LEVEL) = low ]; then cat $(SFC_ANNO_FILE) | jq 'del(.[] | select(.target | test("io.cpu"))?)' > /tmp/unnec-anno-deleted.sfc.anno.json; fi
-	@if [ $(SFC_LEVEL) = low ]; then cat /tmp/unnec-anno-deleted.sfc.anno.json | jq 'del(.[] | select(.class | test("SRAMAnnotation"))?)' > /tmp/unnec-anno-deleted2.sfc.anno.json; fi
-	@if [ $(SFC_LEVEL) = low ]; then cat /tmp/unnec-anno-deleted2.sfc.anno.json > $(SFC_ANNO_FILE) && rm /tmp/unnec-anno-deleted.sfc.anno.json && rm /tmp/unnec-anno-deleted2.sfc.anno.json; fi
+	-mv $(SFC_FIRRTL_BASENAME).lo.fir $(SFC_FIRRTL_FILE) 2> /dev/null # Optionally change file type when SFC generates LowFIRRTL
+	@if [ $(SFC_LEVEL) = low ]; then cat $(SFC_ANNO_FILE) | jq 'del(.[] | select(.target | test("io.cpu"))?)' > $(TMP_DIR)/unnec-anno-deleted.sfc.anno.json; fi
+	@if [ $(SFC_LEVEL) = low ]; then cat $(TMP_DIR)/unnec-anno-deleted.sfc.anno.json | jq 'del(.[] | select(.class | test("SRAMAnnotation"))?)' > $(TMP_DIR)/unnec-anno-deleted2.sfc.anno.json; fi
+	@if [ $(SFC_LEVEL) = low ]; then cat $(TMP_DIR)/unnec-anno-deleted2.sfc.anno.json > $(SFC_ANNO_FILE) && rm $(TMP_DIR)/unnec-anno-deleted.sfc.anno.json && rm $(TMP_DIR)/unnec-anno-deleted2.sfc.anno.json; fi
 	firtool \
 		--format=fir \
 		--dedup \
@@ -210,7 +220,7 @@ $(SFC_MFC_TARGETS) &: $(FIRRTL_FILE) $(FINAL_ANNO_FILE) $(VLOG_SOURCES) $(SFC_LE
 		--disable-annotation-classless \
 		--disable-annotation-unknown \
 		--mlir-timing \
-		--lowering-options=emittedLineLength=2048,noAlwaysComb,disallowLocalVariables,verifLabels,locationInfoStyle=wrapInAtSquareBracket \
+		--lowering-options=$(MFC_LOWERING_OPTIONS) \
 		--repl-seq-mem \
 		--repl-seq-mem-file=$(MFC_SMEMS_CONF) \
 		--repl-seq-mem-circuit=$(MODEL) \
@@ -218,7 +228,7 @@ $(SFC_MFC_TARGETS) &: $(FIRRTL_FILE) $(FINAL_ANNO_FILE) $(VLOG_SOURCES) $(SFC_LE
 		--split-verilog \
 		-o $(GEN_COLLATERAL_DIR) \
 		$(SFC_FIRRTL_FILE)
-	-mv $(SFC_SMEMS_CONF) $(MFC_SMEMS_CONF)
+	-mv $(SFC_SMEMS_CONF) $(MFC_SMEMS_CONF) 2> /dev/null
 	$(SED) -i 's/.*/& /' $(MFC_SMEMS_CONF) # need trailing space for SFC macrocompiler
 # DOC include end: FirrtlCompiler
 
@@ -397,13 +407,9 @@ define \n
 
 endef
 
-CONFIG_FRAG_LEVELS ?= 3
 .PHONY: find-config-fragments
-find-config-fragments: private IN_F := $(shell mktemp -d -t cy-XXXXXXXX)/scala_files.f
-find-config-fragments: $(SCALA_SOURCES)
-	@$(foreach file,$(SCALA_SOURCES),echo $(file) >> $(IN_F)${\n})
-	$(base_dir)/scripts/config-finder.py -l $(CONFIG_FRAG_LEVELS) $(IN_F)
-	@rm -rf $(dir $(IN_F))
+find-config-fragments:
+	$(call run_scala_main,chipyard,chipyard.ConfigFinder,)
 
 .PHONY: help
 help:
