@@ -23,7 +23,7 @@ object UPFGenerator {
         val node = g.get(pd)
         val children = node.diSuccessors.map(x => x.toOuter).toList
         val pdList = g.nodes.map(x => x.toOuter).toList
-        val filePath = "/scratch/s.sridhar/upf8"
+        val filePath = UPFFunc.UPFPath
         val fileName = s"${pd.name}.upf"
         writeFile(filePath, fileName, createMessage(pd, children, pdList))
     }
