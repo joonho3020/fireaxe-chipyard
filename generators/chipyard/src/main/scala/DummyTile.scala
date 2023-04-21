@@ -20,6 +20,7 @@ import chipyard.iobinders._
 import chipyard.clocking._
 import barstools.iocell.chisel._
 import chipyard.{BuildTop}
+import firesim.bridges._
 
 
 case object IsFireChip extends Field[Boolean](false)
@@ -129,18 +130,18 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
 
 
   if (p(IsFireChip)) {
-    val tile_bridge = Module(new TileCoreSideBridge())
+    val tile_bridge = Module(new TileBusSideBridge())
     tile_bridge.io.clock := clock
     tile_bridge.io.reset := reset.asBool
 
-    tile_bridge.io.debug := int_bundle.debug
-    tile_bridge.io.mtip := int_bundle.mtip
-    tile_bridge.io.msip := int_bundle.msip
-    tile_bridge.io.meip := int_bundle.meip
-    tile_bridge.io.seip := int_bundle.seip.get
+    tile_bridge.io.in.debug := int_bundle.debug
+    tile_bridge.io.in.mtip := int_bundle.mtip
+    tile_bridge.io.in.msip := int_bundle.msip
+    tile_bridge.io.in.meip := int_bundle.meip
+    tile_bridge.io.in.seip := int_bundle.seip.get
     dontTouch(int_bundle)
 
-    tile_bridge.io.hartid := outer.hartIdSinkNode.bundle
+    tile_bridge.io.in.hartid := outer.hartIdSinkNode.bundle
 
     val tlmaster = outer.nodeWrapper.masterPunchThroughIO.head
     tile_bridge.io.in.tlmaster_a_ready := tlmaster.a.ready
@@ -166,7 +167,7 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     tile_bridge.io.in.tlmaster_e_ready := tlmaster.e.ready
 
     val (wfi, _) = outer.wfiNode.out(0)
-    wfi(0) := RegNext(tile_bridge.io.wfi)
+    wfi(0) := RegNext(tile_bridge.io.out.wfi)
     tlmaster.a.valid := tile_bridge.io.out.tlmaster_a_valid
     tlmaster.a.bits.opcode := tile_bridge.io.out.tlmaster_a_bits_opcode
     tlmaster.a.bits.param := tile_bridge.io.out.tlmaster_a_bits_param
@@ -287,6 +288,16 @@ class WithDummyTile(n: Int = 1, tileParams: DummyTileParams = DummyTileParams(),
 })
 
 class DummyTileConfig extends Config(
+  new chipyard.WithDummyTile ++
+  new chipyard.config.AbstractConfig
+)
+
+class WithDummyTileFireSimBridges extends Config((site, here, up) => {
+  case IsFireChip => true
+})
+
+class FireSimDummyTileConfig extends Config(
+  new chipyard.WithDummyTileFireSimBridges ++
   new chipyard.WithDummyTile ++
   new chipyard.config.AbstractConfig
 )
