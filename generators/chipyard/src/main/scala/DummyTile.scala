@@ -123,14 +123,14 @@ class DummyTile (val dummyParams: DummyTileParams,
 
 class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
 {
-  // TODO : instantiate bridges here
-
   val int_bundle = Wire(new TileInterrupts)
   outer.decodeCoreInterrupts(int_bundle)
 
 
   if (p(IsFireChip)) {
     val tile_bridge = Module(new TileBusSideBridge())
+// dontTouch(tile_bridge.io)
+
     tile_bridge.io.clock := clock
     tile_bridge.io.reset := reset.asBool
 
@@ -142,6 +142,7 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     dontTouch(int_bundle)
 
     tile_bridge.io.in.hartid := outer.hartIdSinkNode.bundle
+    dontTouch(outer.hartIdSinkNode.bundle)
 
     val tlmaster = outer.nodeWrapper.masterPunchThroughIO.head
     tile_bridge.io.in.tlmaster_a_ready := tlmaster.a.ready
@@ -168,6 +169,7 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
 
     val (wfi, _) = outer.wfiNode.out(0)
     wfi(0) := RegNext(tile_bridge.io.out.wfi)
+    dontTouch(wfi(0))
     tlmaster.a.valid := tile_bridge.io.out.tlmaster_a_valid
     tlmaster.a.bits.opcode := tile_bridge.io.out.tlmaster_a_bits_opcode
     tlmaster.a.bits.param := tile_bridge.io.out.tlmaster_a_bits_param
@@ -193,6 +195,12 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     val bridge_emulator_blackbox = Module(new BridgeEmulatorBlackBox)
     bridge_emulator_blackbox.io.clock := clock
     bridge_emulator_blackbox.io.reset := reset.asBool
+
+    val (wfi, _) = outer.wfiNode.out(0)
+    wfi(0) := RegInit(0.U)
+
+    dontTouch(wfi(0))
+    dontTouch(outer.hartIdSinkNode.bundle)
   }
 }
 
