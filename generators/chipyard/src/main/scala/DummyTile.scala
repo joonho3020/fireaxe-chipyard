@@ -2,6 +2,7 @@ package chipyard
 
 import chisel3._
 import chisel3.util._
+import chisel3.Printable
 import chisel3.experimental.{Analog, BaseModule, DataMirror, Direction}
 import freechips.rocketchip.tile._
 import org.chipsalliance.cde.config._
@@ -191,6 +192,27 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     tlmaster.d.ready := tile_bridge.io.out.tlmaster_d_ready
     tlmaster.e.valid := tile_bridge.io.out.tlmaster_e_valid
     tlmaster.e.bits.sink := tile_bridge.io.out.tlmaster_e_bits_sink
+
+
+    when (tlmaster.a.fire) {
+      Logger.printChannelA(tlmaster.a.bits)
+    }
+
+    when (tlmaster.b.fire) {
+      Logger.printChannelB(tlmaster.b.bits)
+    }
+
+    when (tlmaster.c.fire) {
+      Logger.printChannelC(tlmaster.c.bits)
+    }
+
+    when (tlmaster.d.fire) {
+      Logger.printChannelD(tlmaster.d.bits)
+    }
+
+    when (tlmaster.e.fire) {
+      Logger.printChannelE(tlmaster.e.bits)
+    }
   } else {
     val bridge_emulator_blackbox = Module(new BridgeEmulatorBlackBox)
     bridge_emulator_blackbox.io.clock := clock
@@ -309,3 +331,80 @@ class FireSimDummyTileConfig extends Config(
   new chipyard.WithDummyTile ++
   new chipyard.config.AbstractConfig
 )
+
+
+
+object Logger {
+  def logInfo(format: String, args: Bits*) {
+    val loginfo_cycles = RegInit(0.U(64.W))
+    loginfo_cycles := loginfo_cycles + 1.U
+
+    printf("cy: %d, ", loginfo_cycles)
+    printf(Printable.pack(format, args:_*))
+  }
+
+  def printChannelA(a: TLBundleA) {
+    val a_echo = Cat(a.echo.fields.map(_.data.asUInt).toSeq)
+    val a_user = Cat(a.user.fields.map(_.data.asUInt).toSeq)
+    logInfo("[A] op %x param %x size %x source %x addr %x usr %x echo %x mask %x data %x cor %d\n",
+      a.opcode,
+      a.param,
+      a.size,
+      a.source,
+      a.address,
+      a_user,
+      a_echo,
+      a.mask,
+      a.data,
+      a.corrupt)
+  }
+
+  def printChannelD(d: TLBundleD) {
+    val d_echo = Cat(d.echo.fields.map(_.data.asUInt).toSeq)
+    val d_user = Cat(d.user.fields.map(_.data.asUInt).toSeq)
+    logInfo("[D] op %x param %x size %x source %x sink %x denied %d user %x echo %x data %x cor %d\n",
+      d.opcode,
+      d.param,
+      d.size,
+      d.source,
+      d.sink,
+      d.denied,
+      d_user,
+      d_echo,
+      d.data,
+      d.corrupt)
+  }
+
+  def printChannelB(b: TLBundleB) {
+    logInfo("[B] op %x param %x size %x source %x addr %x mask %x data %x cor %d\n",
+      b.opcode,
+      b.param,
+      b.size,
+      b.source,
+      b.address,
+      b.mask,
+      b.data,
+      b.corrupt)
+  }
+
+
+  def printChannelC(c: TLBundleC) {
+    val c_echo = Cat(c.echo.fields.map(_.data.asUInt).toSeq)
+    val c_user = Cat(c.user.fields.map(_.data.asUInt).toSeq)
+    logInfo("[C] op %x param %x size %x source %x addr %x user %x echo %x data %x cor %d\n",
+      c.opcode,
+      c.param,
+      c.size,
+      c.source,
+      c.address,
+      c_user,
+      c_echo,
+      c.data,
+      c.corrupt)
+  }
+
+  def printChannelE(e: TLBundleE) {
+    logInfo("[E] sink %x\n",
+      e.sink)
+  }
+}
