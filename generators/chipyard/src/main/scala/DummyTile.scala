@@ -25,6 +25,7 @@ import firesim.bridges._
 
 
 case object IsFireChip extends Field[Boolean](false)
+case object LatencyBetweenPartitions extends Field[Int](32)
 
 
 case class DummyTileAttachParams(
@@ -145,8 +146,17 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     tile_bridge.io.in.hartid := outer.hartIdSinkNode.bundle
     dontTouch(outer.hartIdSinkNode.bundle)
 
+
     val tlmaster = outer.nodeWrapper.masterPunchThroughIO.head
-    tile_bridge.io.in.tlmaster_a_ready := tlmaster.a.ready
+
+    val latencyToEndure = p(LatencyBetweenPartitions)
+    val tileAChannelSkidBuffer = Module(new SkidBuffer(data=DataMirror.internal.chiselTypeClone[TLBundleA](tlmaster.a.bits), latencyToEndure=latencyToEndure))
+    val tileCChannelSkidBuffer = Module(new SkidBuffer(data=DataMirror.internal.chiselTypeClone[TLBundleC](tlmaster.c.bits), latencyToEndure=latencyToEndure))
+    val tileEChannelSkidBuffer = Module(new SkidBuffer(data=DataMirror.internal.chiselTypeClone[TLBundleE](tlmaster.e.bits), latencyToEndure=latencyToEndure))
+
+
+    tile_bridge.io.in.tlmaster_a_ready := tileAChannelSkidBuffer.io.readyPropagate
+
     tile_bridge.io.in.tlmaster_b_valid := tlmaster.b.valid
     tile_bridge.io.in.tlmaster_b_bits_opcode := tlmaster.b.bits.opcode
     tile_bridge.io.in.tlmaster_b_bits_param := tlmaster.b.bits.param
@@ -156,7 +166,9 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     tile_bridge.io.in.tlmaster_b_bits_data := tlmaster.b.bits.data
     tile_bridge.io.in.tlmaster_b_bits_mask := tlmaster.b.bits.mask
     tile_bridge.io.in.tlmaster_b_bits_corrupt := tlmaster.b.bits.corrupt
-    tile_bridge.io.in.tlmaster_c_ready := tlmaster.c.ready
+
+    tile_bridge.io.in.tlmaster_c_ready := tileCChannelSkidBuffer.io.readyPropagate
+
     tile_bridge.io.in.tlmaster_d_valid := tlmaster.d.valid
     tile_bridge.io.in.tlmaster_d_bits_opcode := tlmaster.d.bits.opcode
     tile_bridge.io.in.tlmaster_d_bits_param := tlmaster.d.bits.param
@@ -166,32 +178,44 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     tile_bridge.io.in.tlmaster_d_bits_denied := tlmaster.d.bits.denied
     tile_bridge.io.in.tlmaster_d_bits_data := tlmaster.d.bits.data
     tile_bridge.io.in.tlmaster_d_bits_corrupt := tlmaster.d.bits.corrupt
-    tile_bridge.io.in.tlmaster_e_ready := tlmaster.e.ready
+
+    tile_bridge.io.in.tlmaster_e_ready := tileEChannelSkidBuffer.io.readyPropagate
 
     val (wfi, _) = outer.wfiNode.out(0)
     wfi(0) := RegNext(tile_bridge.io.out.wfi)
     dontTouch(wfi(0))
-    tlmaster.a.valid := tile_bridge.io.out.tlmaster_a_valid
-    tlmaster.a.bits.opcode := tile_bridge.io.out.tlmaster_a_bits_opcode
-    tlmaster.a.bits.param := tile_bridge.io.out.tlmaster_a_bits_param
-    tlmaster.a.bits.size := tile_bridge.io.out.tlmaster_a_bits_size
-    tlmaster.a.bits.source := tile_bridge.io.out.tlmaster_a_bits_source
-    tlmaster.a.bits.address := tile_bridge.io.out.tlmaster_a_bits_address
-    tlmaster.a.bits.mask := tile_bridge.io.out.tlmaster_a_bits_mask
-    tlmaster.a.bits.data := tile_bridge.io.out.tlmaster_a_bits_data
-    tlmaster.a.bits.corrupt := tile_bridge.io.out.tlmaster_a_bits_corrupt
+
+    tileAChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_a_valid
+    assert(tileAChannelSkidBuffer.io.enq.ready === true.B, "tileAChannelSkidBuffer full")
+    tileAChannelSkidBuffer.io.enq.bits.opcode := tile_bridge.io.out.tlmaster_a_bits_opcode
+    tileAChannelSkidBuffer.io.enq.bits.param := tile_bridge.io.out.tlmaster_a_bits_param
+    tileAChannelSkidBuffer.io.enq.bits.size := tile_bridge.io.out.tlmaster_a_bits_size
+    tileAChannelSkidBuffer.io.enq.bits.source := tile_bridge.io.out.tlmaster_a_bits_source
+    tileAChannelSkidBuffer.io.enq.bits.address := tile_bridge.io.out.tlmaster_a_bits_address
+    tileAChannelSkidBuffer.io.enq.bits.mask := tile_bridge.io.out.tlmaster_a_bits_mask
+    tileAChannelSkidBuffer.io.enq.bits.data := tile_bridge.io.out.tlmaster_a_bits_data
+    tileAChannelSkidBuffer.io.enq.bits.corrupt := tile_bridge.io.out.tlmaster_a_bits_corrupt
+    tlmaster.a <> tileAChannelSkidBuffer.io.deq
+
     tlmaster.b.ready := tile_bridge.io.out.tlmaster_b_ready
-    tlmaster.c.valid := tile_bridge.io.out.tlmaster_c_valid
-    tlmaster.c.bits.opcode := tile_bridge.io.out.tlmaster_c_bits_opcode
-    tlmaster.c.bits.param := tile_bridge.io.out.tlmaster_c_bits_param
-    tlmaster.c.bits.size := tile_bridge.io.out.tlmaster_c_bits_size
-    tlmaster.c.bits.source := tile_bridge.io.out.tlmaster_c_bits_source
-    tlmaster.c.bits.address := tile_bridge.io.out.tlmaster_c_bits_address
-    tlmaster.c.bits.data := tile_bridge.io.out.tlmaster_c_bits_data
-    tlmaster.c.bits.corrupt := tile_bridge.io.out.tlmaster_c_bits_corrupt
+
+    tileCChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_c_valid
+    assert(tileCChannelSkidBuffer.io.enq.ready === true.B, "tileCChannelSkidBuffer full")
+    tileCChannelSkidBuffer.io.enq.bits.opcode := tile_bridge.io.out.tlmaster_c_bits_opcode
+    tileCChannelSkidBuffer.io.enq.bits.param := tile_bridge.io.out.tlmaster_c_bits_param
+    tileCChannelSkidBuffer.io.enq.bits.size := tile_bridge.io.out.tlmaster_c_bits_size
+    tileCChannelSkidBuffer.io.enq.bits.source := tile_bridge.io.out.tlmaster_c_bits_source
+    tileCChannelSkidBuffer.io.enq.bits.address := tile_bridge.io.out.tlmaster_c_bits_address
+    tileCChannelSkidBuffer.io.enq.bits.data := tile_bridge.io.out.tlmaster_c_bits_data
+    tileCChannelSkidBuffer.io.enq.bits.corrupt := tile_bridge.io.out.tlmaster_c_bits_corrupt
+    tlmaster.c <> tileCChannelSkidBuffer.io.deq
+
     tlmaster.d.ready := tile_bridge.io.out.tlmaster_d_ready
-    tlmaster.e.valid := tile_bridge.io.out.tlmaster_e_valid
-    tlmaster.e.bits.sink := tile_bridge.io.out.tlmaster_e_bits_sink
+
+    tileEChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_e_valid
+    tileEChannelSkidBuffer.io.enq.bits.sink := tile_bridge.io.out.tlmaster_e_bits_sink
+    assert(tileEChannelSkidBuffer.io.enq.ready === true.B, "tileEChannelSkidBuffer full")
+    tlmaster.e <> tileEChannelSkidBuffer.io.deq
 
 
     when (tlmaster.a.fire) {
@@ -309,12 +333,17 @@ class WithDummyTile(n: Int = 1, tileParams: DummyTileParams = DummyTileParams(),
     (0 until n).map { i =>
       DummyTileAttachParams(
         tileParams = tileParams.copy(
-          hartId = i + idOffset
+          hartId = i + idOffset,
+          boundaryBuffers = true
         ),
         crossingParams = RocketCrossingParams()
       )
     } ++ prev
   }
+})
+
+class WithPartitionLatency(cycles: Int) extends Config((site, here, up) => {
+  case LatencyBetweenPartitions => cycles
 })
 
 class DummyTileConfig extends Config(
@@ -327,6 +356,7 @@ class WithDummyTileFireSimBridges extends Config((site, here, up) => {
 })
 
 class FireSimDummyTileConfig extends Config(
+  new chipyard.WithPartitionLatency(32) ++
   new chipyard.WithDummyTileFireSimBridges ++
   new chipyard.WithDummyTile ++
   new chipyard.config.AbstractConfig

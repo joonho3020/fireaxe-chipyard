@@ -128,6 +128,30 @@ class RocketTilePRCIDomainIO extends Bundle {
   val auto_tl_other_masters_out_e_bits_sink =    Output(UInt(3.W))
 }
 
+// FIXME : having to hard-code the blackbox IOs lead to a bunch of repetition
+// is there a way to use bundles within bundles for blackbox IOs?
+class TLBundleBFixed extends Bundle {
+  val opcode  = UInt(3.W)
+  val param   = UInt(2.W)
+  val size    = UInt(4.W)
+  val source  = UInt(2.W)
+  val address = UInt(32.W)
+  val mask    = UInt(8.W)
+  val data    = UInt(64.W)
+  val corrupt = Bool()
+}
+
+class TLBundleDFixed extends Bundle {
+  val opcode  = UInt(3.W)
+  val param   = UInt(2.W)
+  val size    = UInt(4.W)
+  val source  = UInt(2.W)
+  val sink    = UInt(3.W)
+  val denied  = Bool()
+  val data    = UInt(64.W)
+  val corrupt = Bool()
+}
+
 
 class TilePRCIDomain(implicit p: Parameters) extends LazyModule {
   override lazy val module = Module(new TilePRCIDomainImp(this))
@@ -137,6 +161,10 @@ class TilePRCIDomainImp(outer: TilePRCIDomain)(implicit p: Parameters) extends L
   val io = IO(new RocketTilePRCIDomainIO)
 
   dontTouch(io)
+
+  val latencyToEndure = p(LatencyBetweenPartitions)
+  val tileBChannelSkidBuffer = Module(new SkidBuffer(data=new TLBundleBFixed, latencyToEndure=latencyToEndure))
+  val tileDChannelSkidBuffer = Module(new SkidBuffer(data=new TLBundleDFixed, latencyToEndure=latencyToEndure))
 
   val tile = Module(new RocketTile_BLACKBOX())
   tile.io.clock :=                                    clock
@@ -148,49 +176,77 @@ class TilePRCIDomainImp(outer: TilePRCIDomain)(implicit p: Parameters) extends L
   tile.io.auto_int_local_in_0_0 :=                    io.auto_int_local_in_0_0
   tile.io.auto_hartid_in :=                           io.auto_hartid_in
   tile.io.auto_tl_other_masters_out_a_ready :=        io.auto_tl_other_masters_out_a_ready
-  tile.io.auto_tl_other_masters_out_b_valid :=        io.auto_tl_other_masters_out_b_valid
-  tile.io.auto_tl_other_masters_out_b_bits_opcode :=  io.auto_tl_other_masters_out_b_bits_opcode
-  tile.io.auto_tl_other_masters_out_b_bits_param :=   io.auto_tl_other_masters_out_b_bits_param
-  tile.io.auto_tl_other_masters_out_b_bits_size :=    io.auto_tl_other_masters_out_b_bits_size
-  tile.io.auto_tl_other_masters_out_b_bits_source :=  io.auto_tl_other_masters_out_b_bits_source
-  tile.io.auto_tl_other_masters_out_b_bits_address := io.auto_tl_other_masters_out_b_bits_address
-  tile.io.auto_tl_other_masters_out_b_bits_mask :=    io.auto_tl_other_masters_out_b_bits_mask
-  tile.io.auto_tl_other_masters_out_b_bits_data :=    io.auto_tl_other_masters_out_b_bits_data
-  tile.io.auto_tl_other_masters_out_b_bits_corrupt := io.auto_tl_other_masters_out_b_bits_corrupt
-  tile.io.auto_tl_other_masters_out_c_ready :=        io.auto_tl_other_masters_out_c_ready
-  tile.io.auto_tl_other_masters_out_d_valid :=        io.auto_tl_other_masters_out_d_valid
-  tile.io.auto_tl_other_masters_out_d_bits_opcode :=  io.auto_tl_other_masters_out_d_bits_opcode
-  tile.io.auto_tl_other_masters_out_d_bits_param :=   io.auto_tl_other_masters_out_d_bits_param
-  tile.io.auto_tl_other_masters_out_d_bits_size :=    io.auto_tl_other_masters_out_d_bits_size
-  tile.io.auto_tl_other_masters_out_d_bits_source :=  io.auto_tl_other_masters_out_d_bits_source
-  tile.io.auto_tl_other_masters_out_d_bits_sink :=    io.auto_tl_other_masters_out_d_bits_sink
-  tile.io.auto_tl_other_masters_out_d_bits_denied :=  io.auto_tl_other_masters_out_d_bits_denied
-  tile.io.auto_tl_other_masters_out_d_bits_data :=    io.auto_tl_other_masters_out_d_bits_data
-  tile.io.auto_tl_other_masters_out_d_bits_corrupt := io.auto_tl_other_masters_out_d_bits_corrupt
-  tile.io.auto_tl_other_masters_out_e_ready :=        io.auto_tl_other_masters_out_e_ready
 
-  io.auto_wfi_out_0 :=                                tile.io.auto_wfi_out_0
-  io.auto_tl_other_masters_out_a_valid :=             tile.io.auto_tl_other_masters_out_a_valid
-  io.auto_tl_other_masters_out_a_bits_opcode :=       tile.io.auto_tl_other_masters_out_a_bits_opcode
-  io.auto_tl_other_masters_out_a_bits_param :=        tile.io.auto_tl_other_masters_out_a_bits_param
-  io.auto_tl_other_masters_out_a_bits_size :=         tile.io.auto_tl_other_masters_out_a_bits_size
-  io.auto_tl_other_masters_out_a_bits_source :=       tile.io.auto_tl_other_masters_out_a_bits_source
-  io.auto_tl_other_masters_out_a_bits_address :=      tile.io.auto_tl_other_masters_out_a_bits_address
-  io.auto_tl_other_masters_out_a_bits_mask :=         tile.io.auto_tl_other_masters_out_a_bits_mask
-  io.auto_tl_other_masters_out_a_bits_data :=         tile.io.auto_tl_other_masters_out_a_bits_data
-  io.auto_tl_other_masters_out_a_bits_corrupt :=      tile.io.auto_tl_other_masters_out_a_bits_corrupt
-  io.auto_tl_other_masters_out_b_ready :=             tile.io.auto_tl_other_masters_out_b_ready
-  io.auto_tl_other_masters_out_c_valid :=             tile.io.auto_tl_other_masters_out_c_valid
-  io.auto_tl_other_masters_out_c_bits_opcode :=       tile.io.auto_tl_other_masters_out_c_bits_opcode
-  io.auto_tl_other_masters_out_c_bits_param :=        tile.io.auto_tl_other_masters_out_c_bits_param
-  io.auto_tl_other_masters_out_c_bits_size :=         tile.io.auto_tl_other_masters_out_c_bits_size
-  io.auto_tl_other_masters_out_c_bits_source :=       tile.io.auto_tl_other_masters_out_c_bits_source
-  io.auto_tl_other_masters_out_c_bits_address :=      tile.io.auto_tl_other_masters_out_c_bits_address
-  io.auto_tl_other_masters_out_c_bits_data :=         tile.io.auto_tl_other_masters_out_c_bits_data
-  io.auto_tl_other_masters_out_c_bits_corrupt :=      tile.io.auto_tl_other_masters_out_c_bits_corrupt
-  io.auto_tl_other_masters_out_d_ready :=             tile.io.auto_tl_other_masters_out_d_ready
-  io.auto_tl_other_masters_out_e_valid :=             tile.io.auto_tl_other_masters_out_e_valid
-  io.auto_tl_other_masters_out_e_bits_sink :=         tile.io.auto_tl_other_masters_out_e_bits_sink
+  tileBChannelSkidBuffer.io.deq.ready := tile.io.auto_tl_other_masters_out_b_ready
+  tile.io.auto_tl_other_masters_out_b_valid        := tileBChannelSkidBuffer.io.deq.valid
+  tile.io.auto_tl_other_masters_out_b_bits_opcode  := tileBChannelSkidBuffer.io.deq.bits.opcode
+  tile.io.auto_tl_other_masters_out_b_bits_param   := tileBChannelSkidBuffer.io.deq.bits.param
+  tile.io.auto_tl_other_masters_out_b_bits_size    := tileBChannelSkidBuffer.io.deq.bits.size
+  tile.io.auto_tl_other_masters_out_b_bits_source  := tileBChannelSkidBuffer.io.deq.bits.source
+  tile.io.auto_tl_other_masters_out_b_bits_address := tileBChannelSkidBuffer.io.deq.bits.address
+  tile.io.auto_tl_other_masters_out_b_bits_mask    := tileBChannelSkidBuffer.io.deq.bits.mask
+  tile.io.auto_tl_other_masters_out_b_bits_data    := tileBChannelSkidBuffer.io.deq.bits.data
+  tile.io.auto_tl_other_masters_out_b_bits_corrupt := tileBChannelSkidBuffer.io.deq.bits.corrupt
+
+  tileBChannelSkidBuffer.io.enq.valid        := io.auto_tl_other_masters_out_b_valid
+  assert(tileBChannelSkidBuffer.io.enq.ready === true.B, "tileBChannelSkidBuffer full")
+  tileBChannelSkidBuffer.io.enq.bits.opcode  := io.auto_tl_other_masters_out_b_bits_opcode
+  tileBChannelSkidBuffer.io.enq.bits.param   := io.auto_tl_other_masters_out_b_bits_param
+  tileBChannelSkidBuffer.io.enq.bits.size    := io.auto_tl_other_masters_out_b_bits_size
+  tileBChannelSkidBuffer.io.enq.bits.source  := io.auto_tl_other_masters_out_b_bits_source
+  tileBChannelSkidBuffer.io.enq.bits.address := io.auto_tl_other_masters_out_b_bits_address
+  tileBChannelSkidBuffer.io.enq.bits.mask    := io.auto_tl_other_masters_out_b_bits_mask
+  tileBChannelSkidBuffer.io.enq.bits.data    := io.auto_tl_other_masters_out_b_bits_data
+  tileBChannelSkidBuffer.io.enq.bits.corrupt := io.auto_tl_other_masters_out_b_bits_corrupt
+
+  tile.io.auto_tl_other_masters_out_c_ready :=        io.auto_tl_other_masters_out_c_ready
+
+  tileDChannelSkidBuffer.io.deq.ready := tile.io.auto_tl_other_masters_out_d_ready
+  tile.io.auto_tl_other_masters_out_d_valid        := tileDChannelSkidBuffer.io.deq.valid
+  tile.io.auto_tl_other_masters_out_d_bits_opcode  := tileDChannelSkidBuffer.io.deq.bits.opcode
+  tile.io.auto_tl_other_masters_out_d_bits_param   := tileDChannelSkidBuffer.io.deq.bits.param
+  tile.io.auto_tl_other_masters_out_d_bits_size    := tileDChannelSkidBuffer.io.deq.bits.size
+  tile.io.auto_tl_other_masters_out_d_bits_source  := tileDChannelSkidBuffer.io.deq.bits.source
+  tile.io.auto_tl_other_masters_out_d_bits_sink    := tileDChannelSkidBuffer.io.deq.bits.sink
+  tile.io.auto_tl_other_masters_out_d_bits_denied  := tileDChannelSkidBuffer.io.deq.bits.denied
+  tile.io.auto_tl_other_masters_out_d_bits_data    := tileDChannelSkidBuffer.io.deq.bits.data
+  tile.io.auto_tl_other_masters_out_d_bits_corrupt := tileDChannelSkidBuffer.io.deq.bits.corrupt
+
+  tileDChannelSkidBuffer.io.enq.valid := io.auto_tl_other_masters_out_d_valid
+  assert(tileDChannelSkidBuffer.io.enq.ready === true.B, "tileDChannelSkidBuffer full")
+  tileDChannelSkidBuffer.io.enq.bits.opcode  := io.auto_tl_other_masters_out_d_bits_opcode
+  tileDChannelSkidBuffer.io.enq.bits.param   := io.auto_tl_other_masters_out_d_bits_param
+  tileDChannelSkidBuffer.io.enq.bits.size    := io.auto_tl_other_masters_out_d_bits_size
+  tileDChannelSkidBuffer.io.enq.bits.source  := io.auto_tl_other_masters_out_d_bits_source
+  tileDChannelSkidBuffer.io.enq.bits.sink    := io.auto_tl_other_masters_out_d_bits_sink
+  tileDChannelSkidBuffer.io.enq.bits.denied  := io.auto_tl_other_masters_out_d_bits_denied
+  tileDChannelSkidBuffer.io.enq.bits.data    := io.auto_tl_other_masters_out_d_bits_data
+  tileDChannelSkidBuffer.io.enq.bits.corrupt := io.auto_tl_other_masters_out_d_bits_corrupt
+
+  tile.io.auto_tl_other_masters_out_e_ready   := io.auto_tl_other_masters_out_e_ready
+
+  io.auto_wfi_out_0                           := tile.io.auto_wfi_out_0
+  io.auto_tl_other_masters_out_a_valid        := tile.io.auto_tl_other_masters_out_a_valid
+  io.auto_tl_other_masters_out_a_bits_opcode  := tile.io.auto_tl_other_masters_out_a_bits_opcode
+  io.auto_tl_other_masters_out_a_bits_param   := tile.io.auto_tl_other_masters_out_a_bits_param
+  io.auto_tl_other_masters_out_a_bits_size    := tile.io.auto_tl_other_masters_out_a_bits_size
+  io.auto_tl_other_masters_out_a_bits_source  := tile.io.auto_tl_other_masters_out_a_bits_source
+  io.auto_tl_other_masters_out_a_bits_address := tile.io.auto_tl_other_masters_out_a_bits_address
+  io.auto_tl_other_masters_out_a_bits_mask    := tile.io.auto_tl_other_masters_out_a_bits_mask
+  io.auto_tl_other_masters_out_a_bits_data    := tile.io.auto_tl_other_masters_out_a_bits_data
+  io.auto_tl_other_masters_out_a_bits_corrupt := tile.io.auto_tl_other_masters_out_a_bits_corrupt
+  io.auto_tl_other_masters_out_b_ready        := tileBChannelSkidBuffer.io.readyPropagate
+  io.auto_tl_other_masters_out_c_valid        := tile.io.auto_tl_other_masters_out_c_valid
+  io.auto_tl_other_masters_out_c_bits_opcode  := tile.io.auto_tl_other_masters_out_c_bits_opcode
+  io.auto_tl_other_masters_out_c_bits_param   := tile.io.auto_tl_other_masters_out_c_bits_param
+  io.auto_tl_other_masters_out_c_bits_size    := tile.io.auto_tl_other_masters_out_c_bits_size
+  io.auto_tl_other_masters_out_c_bits_source  := tile.io.auto_tl_other_masters_out_c_bits_source
+  io.auto_tl_other_masters_out_c_bits_address := tile.io.auto_tl_other_masters_out_c_bits_address
+  io.auto_tl_other_masters_out_c_bits_data    := tile.io.auto_tl_other_masters_out_c_bits_data
+  io.auto_tl_other_masters_out_c_bits_corrupt := tile.io.auto_tl_other_masters_out_c_bits_corrupt
+  io.auto_tl_other_masters_out_d_ready        := tileDChannelSkidBuffer.io.readyPropagate
+  io.auto_tl_other_masters_out_e_valid        := tile.io.auto_tl_other_masters_out_e_valid
+  io.auto_tl_other_masters_out_e_bits_sink    := tile.io.auto_tl_other_masters_out_e_bits_sink
 }
 
 class TileOnlyChipTop(implicit p: Parameters) extends LazyModule {
@@ -231,6 +287,7 @@ class WithTileOnlyFireSimBridges extends Config((site, here, up) => {
 })
 
 class FireSimRocketTileConfig extends Config(
+  new chipyard.WithPartitionLatency(32) ++
   new chipyard.WithTileOnlyConfig ++
   new chipyard.WithTileOnlyFireSimBridges
 )
