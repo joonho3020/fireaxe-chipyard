@@ -365,15 +365,20 @@ class FireSimDummyTileConfig extends Config(
 
 
 object Logger {
-  def logInfo(format: String, args: Bits*) {
+  def logInfo(format: String, args: Bits*)(implicit p: Parameters) {
     val loginfo_cycles = RegInit(0.U(64.W))
     loginfo_cycles := loginfo_cycles + 1.U
 
-    printf("cy: %d, ", loginfo_cycles)
-    printf(Printable.pack(format, args:_*))
+    if (p(IsFireChip)) {
+      printf(midas.targetutils.SynthesizePrintf("cy: %d, ", loginfo_cycles))
+      printf(midas.targetutils.SynthesizePrintf(format, args:_*))
+    } else {
+      printf("cy: %d, ", loginfo_cycles)
+      printf(Printable.pack(format, args:_*))
+    }
   }
 
-  def printChannelA(a: TLBundleA) {
+  def printChannelA(a: TLBundleA)(implicit p: Parameters) {
     val a_echo = Cat(a.echo.fields.map(_.data.asUInt).toSeq)
     val a_user = Cat(a.user.fields.map(_.data.asUInt).toSeq)
     logInfo("[A] op %x param %x size %x source %x addr %x usr %x echo %x mask %x data %x cor %d\n",
@@ -389,7 +394,7 @@ object Logger {
       a.corrupt)
   }
 
-  def printChannelD(d: TLBundleD) {
+  def printChannelD(d: TLBundleD)(implicit p: Parameters) {
     val d_echo = Cat(d.echo.fields.map(_.data.asUInt).toSeq)
     val d_user = Cat(d.user.fields.map(_.data.asUInt).toSeq)
     logInfo("[D] op %x param %x size %x source %x sink %x denied %d user %x echo %x data %x cor %d\n",
@@ -405,7 +410,7 @@ object Logger {
       d.corrupt)
   }
 
-  def printChannelB(b: TLBundleB) {
+  def printChannelB(b: TLBundleB)(implicit p: Parameters) {
     logInfo("[B] op %x param %x size %x source %x addr %x mask %x data %x cor %d\n",
       b.opcode,
       b.param,
@@ -418,7 +423,7 @@ object Logger {
   }
 
 
-  def printChannelC(c: TLBundleC) {
+  def printChannelC(c: TLBundleC)(implicit p: Parameters) {
     val c_echo = Cat(c.echo.fields.map(_.data.asUInt).toSeq)
     val c_user = Cat(c.user.fields.map(_.data.asUInt).toSeq)
     logInfo("[C] op %x param %x size %x source %x addr %x user %x echo %x data %x cor %d\n",
@@ -433,7 +438,7 @@ object Logger {
       c.corrupt)
   }
 
-  def printChannelE(e: TLBundleE) {
+  def printChannelE(e: TLBundleE)(implicit p: Parameters) {
     logInfo("[E] sink %x\n",
       e.sink)
   }
