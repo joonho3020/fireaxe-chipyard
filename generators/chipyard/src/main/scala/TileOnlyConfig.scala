@@ -46,6 +46,14 @@ class RocketTileBlackBoxIO extends Bundle {
   val auto_tl_other_masters_out_d_bits_data =    Input(UInt(64.W))
   val auto_tl_other_masters_out_d_bits_corrupt = Input(Bool())
   val auto_tl_other_masters_out_e_ready =        Input(Bool())
+  val auto_broadcast_out_1_0_valid =             Output(Bool())
+  val auto_broadcast_out_1_0_iaddr =             Output(UInt(40.W))
+  val auto_broadcast_out_1_0_insn =              Output(UInt(32.W))
+  val auto_broadcast_out_1_0_priv =              Output(UInt(3.W))
+  val auto_broadcast_out_1_0_exception =         Output(UInt(1.W))
+  val auto_broadcast_out_1_0_interrupt =         Output(UInt(1.W))
+  val auto_broadcast_out_1_0_cause =             Output(UInt(64.W))
+  val auto_broadcast_out_1_0_tval =              Output(UInt(40.W))
   val auto_wfi_out_0 =                           Output(Bool())
   val auto_tl_other_masters_out_a_valid =        Output(Bool())
   val auto_tl_other_masters_out_a_bits_opcode =  Output(UInt(3.W))
@@ -104,6 +112,14 @@ class RocketTilePRCIDomainIO extends Bundle {
   val auto_tl_other_masters_out_d_bits_corrupt = Input(Bool())
   val auto_tl_other_masters_out_e_ready =        Input(Bool())
 
+  val auto_broadcast_out_1_0_valid =             Output(Bool())
+  val auto_broadcast_out_1_0_iaddr =             Output(UInt(40.W))
+  val auto_broadcast_out_1_0_insn =              Output(UInt(32.W))
+  val auto_broadcast_out_1_0_priv =              Output(UInt(3.W))
+  val auto_broadcast_out_1_0_exception =         Output(UInt(1.W))
+  val auto_broadcast_out_1_0_interrupt =         Output(UInt(1.W))
+  val auto_broadcast_out_1_0_cause =             Output(UInt(64.W))
+  val auto_broadcast_out_1_0_tval =              Output(UInt(40.W))
   val auto_wfi_out_0 =                           Output(Bool())
   val auto_tl_other_masters_out_a_valid =        Output(Bool())
   val auto_tl_other_masters_out_a_bits_opcode =  Output(UInt(3.W))
@@ -224,6 +240,15 @@ class TilePRCIDomainImp(outer: TilePRCIDomain)(implicit p: Parameters) extends L
   tileDChannelSkidBuffer.io.enq.bits.corrupt := io.auto_tl_other_masters_out_d_bits_corrupt
 
   tile.io.auto_tl_other_masters_out_e_ready   := io.auto_tl_other_masters_out_e_ready
+
+  io.auto_broadcast_out_1_0_valid             := tile.io.auto_broadcast_out_1_0_valid
+  io.auto_broadcast_out_1_0_iaddr             := tile.io.auto_broadcast_out_1_0_iaddr
+  io.auto_broadcast_out_1_0_insn              := tile.io.auto_broadcast_out_1_0_insn
+  io.auto_broadcast_out_1_0_priv              := tile.io.auto_broadcast_out_1_0_priv
+  io.auto_broadcast_out_1_0_exception         := tile.io.auto_broadcast_out_1_0_exception
+  io.auto_broadcast_out_1_0_interrupt         := tile.io.auto_broadcast_out_1_0_interrupt
+  io.auto_broadcast_out_1_0_cause             := tile.io.auto_broadcast_out_1_0_cause
+  io.auto_broadcast_out_1_0_tval              := tile.io.auto_broadcast_out_1_0_tval
 
   io.auto_wfi_out_0                           := tile.io.auto_wfi_out_0
   io.auto_tl_other_masters_out_a_valid        := tile.io.auto_tl_other_masters_out_a_valid
