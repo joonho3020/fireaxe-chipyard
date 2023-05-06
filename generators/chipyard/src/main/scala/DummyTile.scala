@@ -369,13 +369,13 @@ object Logger {
     val loginfo_cycles = RegInit(0.U(64.W))
     loginfo_cycles := loginfo_cycles + 1.U
 
-    if (p(IsFireChip)) {
-      printf(midas.targetutils.SynthesizePrintf("cy: %d, ", loginfo_cycles))
-      printf(midas.targetutils.SynthesizePrintf(format, args:_*))
-    } else {
+// if (p(IsFireChip)) {
+// printf(midas.targetutils.SynthesizePrintf("cy: %d, ", loginfo_cycles))
+// printf(midas.targetutils.SynthesizePrintf(format, args:_*))
+// } else {
       printf("cy: %d, ", loginfo_cycles)
       printf(Printable.pack(format, args:_*))
-    }
+// }
   }
 
   def printChannelA(a: TLBundleA)(implicit p: Parameters) {
