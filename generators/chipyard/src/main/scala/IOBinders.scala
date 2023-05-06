@@ -397,7 +397,6 @@ class WithTraceIOPunchthrough extends OverrideIOBinder({
     val ports: Option[TraceOutputTop] = system.traceIO.map { t =>
       val trace = IO(DataMirror.internal.chiselTypeClone[TraceOutputTop](t)).suggestName("trace")
       trace <> t
-      dontTouch(trace)
       trace
     }
     (ports.toSeq, Nil)
