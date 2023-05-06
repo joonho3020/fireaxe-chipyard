@@ -13,7 +13,6 @@ import freechips.rocketchip.tilelink._
 import freechips.rocketchip.rocket._
 import firesim.bridges._
 import midas.widgets.{Bridge, PeekPokeBridge, RationalClockBridge, RationalClock, ResetPulseBridge, ResetPulseBridgeParameters}
-import testchipip._
 import chipyard._
 
 
@@ -99,24 +98,5 @@ class FireSimRocketTileOnly(implicit p: Parameters) extends RawModule {
       core_bridge.io.out.tlmaster_d_ready        := dut.tileIO.auto_tl_other_masters_out_d_ready
       core_bridge.io.out.tlmaster_e_valid        := dut.tileIO.auto_tl_other_masters_out_e_valid
       core_bridge.io.out.tlmaster_e_bits_sink    := dut.tileIO.auto_tl_other_masters_out_e_bits_sink
-
-      // hard-coded values from the generated RTL
-      val tracerv_params = TracedInstructionWidths(iaddr=40, insn=32, wdata=None, cause=64, tval=40)
-
-      val tracerv_bridge = withClockAndReset(buildtopClock, buildtopReset) {
-        val tracerv = Module(new TracerVBridge(tracerv_params, 1))
-        tracerv.generateTriggerAnnotations()
-        tracerv.io.trace.clock := buildtopClock
-        tracerv.io.trace.reset := buildtopReset
-        tracerv
-      }
-      tracerv_bridge.io.trace.insns(0).valid     := dut.tileIO.auto_broadcast_out_1_0_valid
-      tracerv_bridge.io.trace.insns(0).iaddr     := dut.tileIO.auto_broadcast_out_1_0_iaddr
-      tracerv_bridge.io.trace.insns(0).insn      := dut.tileIO.auto_broadcast_out_1_0_insn
-      tracerv_bridge.io.trace.insns(0).priv      := dut.tileIO.auto_broadcast_out_1_0_priv
-      tracerv_bridge.io.trace.insns(0).exception := dut.tileIO.auto_broadcast_out_1_0_exception
-      tracerv_bridge.io.trace.insns(0).interrupt := dut.tileIO.auto_broadcast_out_1_0_interrupt
-      tracerv_bridge.io.trace.insns(0).cause     := dut.tileIO.auto_broadcast_out_1_0_cause
-      tracerv_bridge.io.trace.insns(0).tval      := dut.tileIO.auto_broadcast_out_1_0_tval
   }
 }
