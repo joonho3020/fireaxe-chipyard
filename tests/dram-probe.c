@@ -13,10 +13,12 @@ int main(void) {
   addr_t end   = start + range;
 
   for (addr_t addr = start; addr < end; addr += PAGESIZE_BYTES * 4096) {
-    printf("ACCESSING addr 0x%" PRIx64 "\n", addr);
-
     uint64_t wdata = addr + 0x5LL;
+
+    printf("WRITING addr 0x%" PRIx64 "\n", addr);
     reg_write64(addr, wdata);
+
+    printf("READING addr 0x%" PRIx64 "\n", addr);
     uint64_t rdata = reg_read64(addr);
 
     if (rdata != wdata) {
