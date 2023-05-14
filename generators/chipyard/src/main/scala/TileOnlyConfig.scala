@@ -16,142 +16,99 @@ import midas.widgets.{Bridge, PeekPokeBridge, RationalClockBridge, RationalClock
 import chipyard.{IsFireChip}
 
 
-class RocketTileBlackBoxIO extends Bundle {
-  val clock =                                    Input(Clock())
-  val reset =                                    Input(Bool())
-  val auto_int_local_in_3_0 =                    Input(Bool())
-  val auto_int_local_in_2_0 =                    Input(Bool())
-  val auto_int_local_in_1_0 =                    Input(Bool())
-  val auto_int_local_in_1_1 =                    Input(Bool())
-  val auto_int_local_in_0_0 =                    Input(Bool())
-  val auto_hartid_in =                           Input(UInt(1.W))
-  val auto_tl_other_masters_out_a_ready =        Input(Bool())
-  val auto_tl_other_masters_out_b_valid =        Input(Bool())
-  val auto_tl_other_masters_out_b_bits_opcode =  Input(UInt(3.W))
-  val auto_tl_other_masters_out_b_bits_param =   Input(UInt(2.W))
-  val auto_tl_other_masters_out_b_bits_size =    Input(UInt(4.W))
-  val auto_tl_other_masters_out_b_bits_source =  Input(UInt(2.W))
-  val auto_tl_other_masters_out_b_bits_address = Input(UInt(32.W))
-  val auto_tl_other_masters_out_b_bits_mask =    Input(UInt(8.W))
-  val auto_tl_other_masters_out_b_bits_data =    Input(UInt(64.W))
-  val auto_tl_other_masters_out_b_bits_corrupt = Input(Bool())
-  val auto_tl_other_masters_out_c_ready =        Input(Bool())
-  val auto_tl_other_masters_out_d_valid =        Input(Bool())
-  val auto_tl_other_masters_out_d_bits_opcode =  Input(UInt(3.W))
-  val auto_tl_other_masters_out_d_bits_param =   Input(UInt(2.W))
-  val auto_tl_other_masters_out_d_bits_size =    Input(UInt(4.W))
-  val auto_tl_other_masters_out_d_bits_source =  Input(UInt(2.W))
-  val auto_tl_other_masters_out_d_bits_sink =    Input(UInt(3.W))
-  val auto_tl_other_masters_out_d_bits_denied =  Input(Bool())
-  val auto_tl_other_masters_out_d_bits_data =    Input(UInt(64.W))
-  val auto_tl_other_masters_out_d_bits_corrupt = Input(Bool())
-  val auto_tl_other_masters_out_e_ready =        Input(Bool())
-  val auto_wfi_out_0 =                           Output(Bool())
-  val auto_tl_other_masters_out_a_valid =        Output(Bool())
-  val auto_tl_other_masters_out_a_bits_opcode =  Output(UInt(3.W))
-  val auto_tl_other_masters_out_a_bits_param =   Output(UInt(3.W))
-  val auto_tl_other_masters_out_a_bits_size =    Output(UInt(4.W))
-  val auto_tl_other_masters_out_a_bits_source =  Output(UInt(2.W))
-  val auto_tl_other_masters_out_a_bits_address = Output(UInt(32.W))
-  val auto_tl_other_masters_out_a_bits_mask =    Output(UInt(8.W))
-  val auto_tl_other_masters_out_a_bits_data =    Output(UInt(64.W))
-  val auto_tl_other_masters_out_a_bits_corrupt = Output(Bool())
-  val auto_tl_other_masters_out_b_ready =        Output(Bool())
-  val auto_tl_other_masters_out_c_valid =        Output(Bool())
-  val auto_tl_other_masters_out_c_bits_opcode =  Output(UInt(3.W))
-  val auto_tl_other_masters_out_c_bits_param =   Output(UInt(3.W))
-  val auto_tl_other_masters_out_c_bits_size =    Output(UInt(4.W))
-  val auto_tl_other_masters_out_c_bits_source =  Output(UInt(2.W))
-  val auto_tl_other_masters_out_c_bits_address = Output(UInt(32.W))
-  val auto_tl_other_masters_out_c_bits_data =    Output(UInt(64.W))
-  val auto_tl_other_masters_out_c_bits_corrupt = Output(Bool())
-  val auto_tl_other_masters_out_d_ready =        Output(Bool())
-  val auto_tl_other_masters_out_e_valid =        Output(Bool())
-  val auto_tl_other_masters_out_e_bits_sink =    Output(UInt(3.W))
+class TracerVBundle extends Bundle {
+  val valid     = Bool()
+  val iaddr     = UInt(39.W)
+  val insn      = UInt(32.W)
+  val priv      = UInt(3.W)
+  val exception = Bool()
+  val interrupt = Bool()
+  val cause     = UInt(64.W)
+  val tval      = UInt(40.W)
 }
 
-class RocketTile_BLACKBOX extends BlackBox with HasBlackBoxResource {
-  val io = IO(new RocketTileBlackBoxIO)
-  addResource("/vsrc/RocketTileBlackBoxCopy.sv")
+class InterruptBundle extends Bundle {
+  val in_3_0 = Bool()
+  val in_2_0 = Bool()
+  val in_1_0 = Bool()
+  val in_1_1 = Bool()
 }
 
-class RocketTilePRCIDomainIO extends Bundle {
-  val auto_int_local_in_3_0 =                    Input(Bool())
-  val auto_int_local_in_2_0 =                    Input(Bool())
-  val auto_int_local_in_1_0 =                    Input(Bool())
-  val auto_int_local_in_1_1 =                    Input(Bool())
-  val auto_int_local_in_0_0 =                    Input(Bool())
-  val auto_hartid_in =                           Input(UInt(1.W))
-  val auto_tl_other_masters_out_a_ready =        Input(Bool())
-  val auto_tl_other_masters_out_b_valid =        Input(Bool())
-  val auto_tl_other_masters_out_b_bits_opcode =  Input(UInt(3.W))
-  val auto_tl_other_masters_out_b_bits_param =   Input(UInt(2.W))
-  val auto_tl_other_masters_out_b_bits_size =    Input(UInt(4.W))
-  val auto_tl_other_masters_out_b_bits_source =  Input(UInt(2.W))
-  val auto_tl_other_masters_out_b_bits_address = Input(UInt(32.W))
-  val auto_tl_other_masters_out_b_bits_mask =    Input(UInt(8.W))
-  val auto_tl_other_masters_out_b_bits_data =    Input(UInt(64.W))
-  val auto_tl_other_masters_out_b_bits_corrupt = Input(Bool())
-  val auto_tl_other_masters_out_c_ready =        Input(Bool())
-  val auto_tl_other_masters_out_d_valid =        Input(Bool())
-  val auto_tl_other_masters_out_d_bits_opcode =  Input(UInt(3.W))
-  val auto_tl_other_masters_out_d_bits_param =   Input(UInt(2.W))
-  val auto_tl_other_masters_out_d_bits_size =    Input(UInt(4.W))
-  val auto_tl_other_masters_out_d_bits_source =  Input(UInt(2.W))
-  val auto_tl_other_masters_out_d_bits_sink =    Input(UInt(3.W))
-  val auto_tl_other_masters_out_d_bits_denied =  Input(Bool())
-  val auto_tl_other_masters_out_d_bits_data =    Input(UInt(64.W))
-  val auto_tl_other_masters_out_d_bits_corrupt = Input(Bool())
-  val auto_tl_other_masters_out_e_ready =        Input(Bool())
-
-  val auto_wfi_out_0 =                           Output(Bool())
-  val auto_tl_other_masters_out_a_valid =        Output(Bool())
-  val auto_tl_other_masters_out_a_bits_opcode =  Output(UInt(3.W))
-  val auto_tl_other_masters_out_a_bits_param =   Output(UInt(3.W))
-  val auto_tl_other_masters_out_a_bits_size =    Output(UInt(4.W))
-  val auto_tl_other_masters_out_a_bits_source =  Output(UInt(2.W))
-  val auto_tl_other_masters_out_a_bits_address = Output(UInt(32.W))
-  val auto_tl_other_masters_out_a_bits_mask =    Output(UInt(8.W))
-  val auto_tl_other_masters_out_a_bits_data =    Output(UInt(64.W))
-  val auto_tl_other_masters_out_a_bits_corrupt = Output(Bool())
-  val auto_tl_other_masters_out_b_ready =        Output(Bool())
-  val auto_tl_other_masters_out_c_valid =        Output(Bool())
-  val auto_tl_other_masters_out_c_bits_opcode =  Output(UInt(3.W))
-  val auto_tl_other_masters_out_c_bits_param =   Output(UInt(3.W))
-  val auto_tl_other_masters_out_c_bits_size =    Output(UInt(4.W))
-  val auto_tl_other_masters_out_c_bits_source =  Output(UInt(2.W))
-  val auto_tl_other_masters_out_c_bits_address = Output(UInt(32.W))
-  val auto_tl_other_masters_out_c_bits_data =    Output(UInt(64.W))
-  val auto_tl_other_masters_out_c_bits_corrupt = Output(Bool())
-  val auto_tl_other_masters_out_d_ready =        Output(Bool())
-  val auto_tl_other_masters_out_e_valid =        Output(Bool())
-  val auto_tl_other_masters_out_e_bits_sink =    Output(UInt(3.W))
+class TLAChannel extends Bundle {
+  val opcode  = UInt(3.W )
+  val param   = UInt(3.W )
+  val size    = UInt(4.W )
+  val source  = UInt(2.W )
+  val address = UInt(35.W)
+  val mask    = UInt(8.W )
+  val data    = UInt(64.W)
 }
 
-// FIXME : having to hard-code the blackbox IOs lead to a bunch of repetition
-// is there a way to use bundles within bundles for blackbox IOs?
-class TLBundleBFixed extends Bundle {
-  val opcode  = UInt(3.W)
-  val param   = UInt(2.W)
-  val size    = UInt(4.W)
-  val source  = UInt(2.W)
-  val address = UInt(32.W)
-  val mask    = UInt(8.W)
+class TLBChannel extends Bundle {
+  val opcode  = UInt(3.W )
+  val param   = UInt(2.W )
+  val size    = UInt(4.W )
+  val source  = UInt(2.W )
+  val address = UInt(35.W)
+  val mask    = UInt(8.W )
   val data    = UInt(64.W)
   val corrupt = Bool()
 }
 
-class TLBundleDFixed extends Bundle {
-  val opcode  = UInt(3.W)
-  val param   = UInt(2.W)
-  val size    = UInt(4.W)
-  val source  = UInt(2.W)
-  val sink    = UInt(3.W)
+class TLCChannel extends Bundle {
+  val opcode  = UInt(3.W )
+  val param   = UInt(3.W )
+  val size    = UInt(4.W )
+  val source  = UInt(2.W )
+  val address = UInt(35.W)
+  val data    = UInt(64.W)
+}
+
+class TLDChannel extends Bundle {
+  val opcode  = UInt(3.W )
+  val param   = UInt(2.W )
+  val size    = UInt(4.W )
+  val source  = UInt(2.W )
+  val sink    = UInt(3.W )
   val denied  = Bool()
   val data    = UInt(64.W)
   val corrupt = Bool()
 }
 
+class TLEChannel extends Bundle {
+  val sink = UInt(3.W)
+}
+
+class TLChannelBundle extends Bundle {
+  val a = Decoupled(new TLAChannel)
+  val b = Flipped(Decoupled(new TLBChannel))
+  val c = Decoupled(new TLCChannel)
+  val d = Flipped(Decoupled(new TLDChannel))
+  val e = Decoupled(new TLEChannel)
+}
+
+
+class RocketTileBlackBoxIO extends Bundle {
+  val clock                     = Input(Clock())
+  val reset                     = Input(Reset())
+  val auto_broadcast_out_1_0    = Output(new TracerVBundle)
+  val auto_int_local            = Input(new InterruptBundle)
+  val auto_hartid_in            = Input(UInt(1.W))
+  val auto_tl_other_masters_out = new TLChannelBundle
+}
+
+class RocketTile_BLACKBOX extends BlackBox with HasBlackBoxResource {
+  val io = IO(new RocketTileBlackBoxIO)
+  addResource("/vsrc/RocketTileBlackBox.sv")
+}
+
+class RocketTilePRCIDomainIO extends Bundle {
+// TODO : optionally enable tracing
+// val trace      = Output(new TracerVBundle)
+  val interrupts = Input (new InterruptBundle)
+  val hartid     = Input (UInt(1.W))
+  val tlmaster   = new TLChannelBundle
+}
 
 class TilePRCIDomain(implicit p: Parameters) extends LazyModule {
   override lazy val module = Module(new TilePRCIDomainImp(this))
@@ -163,90 +120,32 @@ class TilePRCIDomainImp(outer: TilePRCIDomain)(implicit p: Parameters) extends L
   dontTouch(io)
 
   val latencyToEndure = p(LatencyBetweenPartitions)
-  val tileBChannelSkidBuffer = Module(new SkidBuffer(data=new TLBundleBFixed, latencyToEndure=latencyToEndure))
-  val tileDChannelSkidBuffer = Module(new SkidBuffer(data=new TLBundleDFixed, latencyToEndure=latencyToEndure))
+  val tileBChannelSkidBuffer = Module(new SkidBuffer(data=new TLBChannel, latencyToEndure=latencyToEndure))
+  val tileDChannelSkidBuffer = Module(new SkidBuffer(data=new TLDChannel, latencyToEndure=latencyToEndure))
 
   val tile = Module(new RocketTile_BLACKBOX())
-  tile.io.clock :=                                    clock
-  tile.io.reset :=                                    reset.asBool
-  tile.io.auto_int_local_in_3_0 :=                    io.auto_int_local_in_3_0
-  tile.io.auto_int_local_in_2_0 :=                    io.auto_int_local_in_2_0
-  tile.io.auto_int_local_in_1_0 :=                    io.auto_int_local_in_1_0
-  tile.io.auto_int_local_in_1_1 :=                    io.auto_int_local_in_1_1
-  tile.io.auto_int_local_in_0_0 :=                    io.auto_int_local_in_0_0
-  tile.io.auto_hartid_in :=                           io.auto_hartid_in
-  tile.io.auto_tl_other_masters_out_a_ready :=        io.auto_tl_other_masters_out_a_ready
+  tile.io.clock := clock
+  tile.io.reset := reset.asBool
+  tile.io.auto_int_local := io.interrupts
+  tile.io.auto_hartid_in := io.hartid
 
-  tileBChannelSkidBuffer.io.deq.ready := tile.io.auto_tl_other_masters_out_b_ready
-  tile.io.auto_tl_other_masters_out_b_valid        := tileBChannelSkidBuffer.io.deq.valid
-  tile.io.auto_tl_other_masters_out_b_bits_opcode  := tileBChannelSkidBuffer.io.deq.bits.opcode
-  tile.io.auto_tl_other_masters_out_b_bits_param   := tileBChannelSkidBuffer.io.deq.bits.param
-  tile.io.auto_tl_other_masters_out_b_bits_size    := tileBChannelSkidBuffer.io.deq.bits.size
-  tile.io.auto_tl_other_masters_out_b_bits_source  := tileBChannelSkidBuffer.io.deq.bits.source
-  tile.io.auto_tl_other_masters_out_b_bits_address := tileBChannelSkidBuffer.io.deq.bits.address
-  tile.io.auto_tl_other_masters_out_b_bits_mask    := tileBChannelSkidBuffer.io.deq.bits.mask
-  tile.io.auto_tl_other_masters_out_b_bits_data    := tileBChannelSkidBuffer.io.deq.bits.data
-  tile.io.auto_tl_other_masters_out_b_bits_corrupt := tileBChannelSkidBuffer.io.deq.bits.corrupt
+  io.tlmaster.a <> tile.io.auto_tl_other_masters_out.a
+  io.tlmaster.c <> tile.io.auto_tl_other_masters_out.c
+  io.tlmaster.e <> tile.io.auto_tl_other_masters_out.e
 
-  tileBChannelSkidBuffer.io.enq.valid        := io.auto_tl_other_masters_out_b_valid
+  tile.io.auto_tl_other_masters_out.b <> tileBChannelSkidBuffer.io.deq
+  tile.io.auto_tl_other_masters_out.d <> tileDChannelSkidBuffer.io.deq
+
+  tileBChannelSkidBuffer.io.enq.valid := io.tlmaster.b.valid
+  tileBChannelSkidBuffer.io.enq.bits  := io.tlmaster.b.bits
+  io.tlmaster.b.ready := tileBChannelSkidBuffer.io.readyPropagate
+
+  tileDChannelSkidBuffer.io.enq.valid := io.tlmaster.d.valid
+  tileDChannelSkidBuffer.io.enq.bits  := io.tlmaster.d.bits
+  io.tlmaster.d.ready := tileDChannelSkidBuffer.io.readyPropagate
+
   assert(tileBChannelSkidBuffer.io.enq.ready === true.B, "tileBChannelSkidBuffer full")
-  tileBChannelSkidBuffer.io.enq.bits.opcode  := io.auto_tl_other_masters_out_b_bits_opcode
-  tileBChannelSkidBuffer.io.enq.bits.param   := io.auto_tl_other_masters_out_b_bits_param
-  tileBChannelSkidBuffer.io.enq.bits.size    := io.auto_tl_other_masters_out_b_bits_size
-  tileBChannelSkidBuffer.io.enq.bits.source  := io.auto_tl_other_masters_out_b_bits_source
-  tileBChannelSkidBuffer.io.enq.bits.address := io.auto_tl_other_masters_out_b_bits_address
-  tileBChannelSkidBuffer.io.enq.bits.mask    := io.auto_tl_other_masters_out_b_bits_mask
-  tileBChannelSkidBuffer.io.enq.bits.data    := io.auto_tl_other_masters_out_b_bits_data
-  tileBChannelSkidBuffer.io.enq.bits.corrupt := io.auto_tl_other_masters_out_b_bits_corrupt
-
-  tile.io.auto_tl_other_masters_out_c_ready :=        io.auto_tl_other_masters_out_c_ready
-
-  tileDChannelSkidBuffer.io.deq.ready := tile.io.auto_tl_other_masters_out_d_ready
-  tile.io.auto_tl_other_masters_out_d_valid        := tileDChannelSkidBuffer.io.deq.valid
-  tile.io.auto_tl_other_masters_out_d_bits_opcode  := tileDChannelSkidBuffer.io.deq.bits.opcode
-  tile.io.auto_tl_other_masters_out_d_bits_param   := tileDChannelSkidBuffer.io.deq.bits.param
-  tile.io.auto_tl_other_masters_out_d_bits_size    := tileDChannelSkidBuffer.io.deq.bits.size
-  tile.io.auto_tl_other_masters_out_d_bits_source  := tileDChannelSkidBuffer.io.deq.bits.source
-  tile.io.auto_tl_other_masters_out_d_bits_sink    := tileDChannelSkidBuffer.io.deq.bits.sink
-  tile.io.auto_tl_other_masters_out_d_bits_denied  := tileDChannelSkidBuffer.io.deq.bits.denied
-  tile.io.auto_tl_other_masters_out_d_bits_data    := tileDChannelSkidBuffer.io.deq.bits.data
-  tile.io.auto_tl_other_masters_out_d_bits_corrupt := tileDChannelSkidBuffer.io.deq.bits.corrupt
-
-  tileDChannelSkidBuffer.io.enq.valid := io.auto_tl_other_masters_out_d_valid
   assert(tileDChannelSkidBuffer.io.enq.ready === true.B, "tileDChannelSkidBuffer full")
-  tileDChannelSkidBuffer.io.enq.bits.opcode  := io.auto_tl_other_masters_out_d_bits_opcode
-  tileDChannelSkidBuffer.io.enq.bits.param   := io.auto_tl_other_masters_out_d_bits_param
-  tileDChannelSkidBuffer.io.enq.bits.size    := io.auto_tl_other_masters_out_d_bits_size
-  tileDChannelSkidBuffer.io.enq.bits.source  := io.auto_tl_other_masters_out_d_bits_source
-  tileDChannelSkidBuffer.io.enq.bits.sink    := io.auto_tl_other_masters_out_d_bits_sink
-  tileDChannelSkidBuffer.io.enq.bits.denied  := io.auto_tl_other_masters_out_d_bits_denied
-  tileDChannelSkidBuffer.io.enq.bits.data    := io.auto_tl_other_masters_out_d_bits_data
-  tileDChannelSkidBuffer.io.enq.bits.corrupt := io.auto_tl_other_masters_out_d_bits_corrupt
-
-  tile.io.auto_tl_other_masters_out_e_ready   := io.auto_tl_other_masters_out_e_ready
-
-  io.auto_wfi_out_0                           := tile.io.auto_wfi_out_0
-  io.auto_tl_other_masters_out_a_valid        := tile.io.auto_tl_other_masters_out_a_valid
-  io.auto_tl_other_masters_out_a_bits_opcode  := tile.io.auto_tl_other_masters_out_a_bits_opcode
-  io.auto_tl_other_masters_out_a_bits_param   := tile.io.auto_tl_other_masters_out_a_bits_param
-  io.auto_tl_other_masters_out_a_bits_size    := tile.io.auto_tl_other_masters_out_a_bits_size
-  io.auto_tl_other_masters_out_a_bits_source  := tile.io.auto_tl_other_masters_out_a_bits_source
-  io.auto_tl_other_masters_out_a_bits_address := tile.io.auto_tl_other_masters_out_a_bits_address
-  io.auto_tl_other_masters_out_a_bits_mask    := tile.io.auto_tl_other_masters_out_a_bits_mask
-  io.auto_tl_other_masters_out_a_bits_data    := tile.io.auto_tl_other_masters_out_a_bits_data
-  io.auto_tl_other_masters_out_a_bits_corrupt := tile.io.auto_tl_other_masters_out_a_bits_corrupt
-  io.auto_tl_other_masters_out_b_ready        := tileBChannelSkidBuffer.io.readyPropagate
-  io.auto_tl_other_masters_out_c_valid        := tile.io.auto_tl_other_masters_out_c_valid
-  io.auto_tl_other_masters_out_c_bits_opcode  := tile.io.auto_tl_other_masters_out_c_bits_opcode
-  io.auto_tl_other_masters_out_c_bits_param   := tile.io.auto_tl_other_masters_out_c_bits_param
-  io.auto_tl_other_masters_out_c_bits_size    := tile.io.auto_tl_other_masters_out_c_bits_size
-  io.auto_tl_other_masters_out_c_bits_source  := tile.io.auto_tl_other_masters_out_c_bits_source
-  io.auto_tl_other_masters_out_c_bits_address := tile.io.auto_tl_other_masters_out_c_bits_address
-  io.auto_tl_other_masters_out_c_bits_data    := tile.io.auto_tl_other_masters_out_c_bits_data
-  io.auto_tl_other_masters_out_c_bits_corrupt := tile.io.auto_tl_other_masters_out_c_bits_corrupt
-  io.auto_tl_other_masters_out_d_ready        := tileDChannelSkidBuffer.io.readyPropagate
-  io.auto_tl_other_masters_out_e_valid        := tile.io.auto_tl_other_masters_out_e_valid
-  io.auto_tl_other_masters_out_e_bits_sink    := tile.io.auto_tl_other_masters_out_e_bits_sink
 }
 
 class TileOnlyChipTop(implicit p: Parameters) extends LazyModule {
