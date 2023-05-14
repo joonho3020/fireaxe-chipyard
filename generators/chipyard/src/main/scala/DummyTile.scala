@@ -24,6 +24,24 @@ import chipyard.{BuildTop}
 import firesim.bridges._
 
 
+// List(TLEdgeParameters(
+// TLMasterPortParameters(
+// List(
+// TLMasterParameters(Core 0 DCache, IdRange(0,1), List(), List(AddressSet(0x0, ~0x0)), Set(), false, false, P, TBALGFPH, false),
+// TLMasterParameters(Core 0 DCache MMIO, IdRange(1,2), List(), List(AddressSet(0x0, ~0x0)), Set(), false, true, , TBALGFPH, false),
+// TLMasterParameters(Core 0 ICache, IdRange(2,3), List(), List(AddressSet(0x0, ~0x0)), Set(), false, false, , TBALGFPH, false)
+// ),
+// TLChannelBeatBytes(None,None,None,None), 0, List(), List(), List()
+// ),
+// TLSlavePortParameters(
+// List(
+// TLSlaveParameters(error, List(AddressSet(0x3000, 0xfff)), List(Resource(freechips.rocketchip.diplomacy.SimpleDevice@1efb3184,reg)), VOLATILE, true, Some(0), ALGFPH, PALGFPH,        false, true, true),
+// TLSlaveParameters(l2, List(AddressSet(0x2010000, 0xfff)), List(Resource(sifive.blocks.inclusivecache.InclusiveCache$$anon$1@5df06166,reg/control)), GET_EFFECTS, false, Some(0), ALGFP, PALGFPH, false, false, false),
+// TLSlaveParameters(subsystem_pbus, List(AddressSet(0x4000, 0xfff)), List(Resource(freechips.rocketchip.diplomacy.SimpleDevice@54b9ec77,reg/control)),        GET_EFFECTS, false, Some(0), ALGFP, PALGFPH, false, false, false),
+// TLSlaveParameters(frontend, List(AddressSet(0x10015000, 0xfff       )), List(Resource(freechips.rocketchip.tilelink.TLRegisterRouterBase$$anon$1@13f693d2,reg/control)), GET_EFFECTS, false, Some(0)       , ALGFP, PALGFPH, false, false, false),
+// TLSlaveParameters(uart_0, List(AddressSet(0x54000000, 0xfff)), List(Resource(freechips.rocketchip.regmapper.RegisterRouter$$anon$1@5446e739,reg/control)), GET_EFFECTS, false, Some(0), ALGFP, PALGFPH, false, false, fa       lse),
+// TLSlaveParameters(plic, List(AddressSet(0xc000000, 0x3ffffff)), List(Resource(freechips.rocketchip.devices.tilelink.TLPLIC       $$anon$2@ae34786,reg/control)), GET_EFFECTS, false, Some(0), ALGFP, PALGFPH, false, false, false), TLSlaveParameters(clint, List       (AddressSet(0x2000000, 0xffff)), List(Resource(freechips.rocketchip.devices.tilelink.CLINT$$anon$1@1122c8f9,reg/control)), GET_E       FFECTS, false, Some(0), ALGFP, PALGFPH, false, false, false), TLSlaveParameters(bootrom, List(AddressSet(0x10000, 0xffff)), List       (Resource(freechips.rocketchip.diplomacy.SimpleDevice@366da10c,reg/mem)), UNCACHED, true, Some(0), G, PALGFPH, false, false, fal       se), TLSlaveParameters(tileClockGater, List(AddressSet(0x100000, 0xfff)), List(Resource(freechips.rocketchip.diplomacy.SimpleDev       ice@5571f7d7,reg/control)), GET_EFFECTS, false, Some(0), ALGFP, PALGFPH, false, false, false), TLSlaveParameters(tileResetSetter       , List(AddressSet(0x110000, 0xfff)), List(Resource(freechips.rocketchip.diplomacy.SimpleDevice@45be5588,reg/control)), GET_EFFEC       TS, false, Some(0), ALGFP, PALGFPH, false, false, false), TLSlaveParameters(system, List(AddressSet(0x80000000, 0x7fffffff), Add       ressSet(0x100000000, 0xffffffff), AddressSet(0x200000000, 0x1ffffffff), AddressSet(0x400000000, 0x7fffffff)), List(Resource(sifi       ve.blocks.inclusivecache.InclusiveCache$$anon$1@5df06166,caches), Resource(freechips.rocketchip.diplomacy.MemoryDevice@42dc38c6,       reg)), CACHED, true, None, TBALGFPH, PALGFPH, false, true, true), TLSlaveParameters(serdesser, List(AddressSet(0x10000000, 0xfff       )), List(Resource(sifive.blocks.inclusivecache.InclusiveCache$$anon$1@5df06166,caches), Resource(freechips.rocketchip.diplomacy.       SimpleDevice@19e29450,reg)), CACHED, true, None, TBALGFPH, PALGFPH, false, false, false), TLSlaveParameters(serdesser, List(Addr       essSet(0x20000, 0xffff)), List(Resource(sifive.blocks.inclusivecache.InclusiveCache$$anon$1@5df06166,caches), Resource(freechips       .rocketchip.diplomacy.SimpleDevice@43f717f4,reg)), CACHED, true, None, BGH, PALGFPH, false, false, false)), TLChannelBeatBytes(S       ome(8),Some(8),Some(8),Some(8)), 8, 4, List(), List()),org.chipsalliance.cde.config$ChainParameters@74520817,SourceLine(RocketTi       le.scala,80,14))
+
 case object IsFireChip extends Field[Boolean](false)
 case object LatencyBetweenPartitions extends Field[Int](32)
 
@@ -57,11 +75,26 @@ case class DummyTileParams(
 }
 
 class TileNodeWrapperModule(dummyParams: DummyTileParams, xBytes: Int, masterPortBeatBytes: Int)(implicit p: Parameters) extends LazyModule {
-  val placeholderMasterNode = TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLClientParameters(
-    name = "placeholder-master-node",
-    sourceId = IdRange(0, 3),
-    supportsProbe = TransferSizes(64, 64)
-  )))))
+
+
+  def dummyDCacheMasterParams = Seq(TLMasterParameters.v1(
+    name = "Dummy-DCache",
+    sourceId = IdRange(0, 1),
+    supportsProbe = TransferSizes(64, 64)))
+
+  def dummyMMIOMasterParams = Seq(TLMasterParameters.v1(
+    name = "Dummy-MMIO",
+    sourceId = IdRange(1, 2),
+    requestFifo = true))
+
+  def dummyICacheMasterParams = Seq(TLMasterParameters.v1(
+    name = "Dummy-ICache",
+    sourceId = IdRange(2, 3)))
+
+  val placeholderMasterNode = TLClientNode(
+    Seq(TLMasterPortParameters.v1(
+        clients = dummyDCacheMasterParams ++ dummyMMIOMasterParams ++ dummyICacheMasterParams
+    )))
 
 
   override lazy val module = new TileNodeWrapperModuleImp(this)
@@ -131,21 +164,18 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
 
   if (p(IsFireChip)) {
     val tile_bridge = Module(new TileBusSideBridge())
-// dontTouch(tile_bridge.io)
 
     tile_bridge.io.clock := clock
     tile_bridge.io.reset := reset.asBool
 
-    tile_bridge.io.in.debug := int_bundle.debug
-    tile_bridge.io.in.mtip := int_bundle.mtip
-    tile_bridge.io.in.msip := int_bundle.msip
-    tile_bridge.io.in.meip := int_bundle.meip
-    tile_bridge.io.in.seip := int_bundle.seip.get
+    tile_bridge.io.in.interrupts.in_3_0 := int_bundle.seip.get
+    tile_bridge.io.in.interrupts.in_2_0 := int_bundle.meip
+    tile_bridge.io.in.interrupts.in_1_1 := int_bundle.mtip
+    tile_bridge.io.in.interrupts.in_1_0 := int_bundle.msip
     dontTouch(int_bundle)
 
     tile_bridge.io.in.hartid := outer.hartIdSinkNode.bundle
     dontTouch(outer.hartIdSinkNode.bundle)
-
 
     val tlmaster = outer.nodeWrapper.masterPunchThroughIO.head
 
@@ -154,68 +184,52 @@ class DummyTileModuleImp(outer: DummyTile) extends BaseTileModuleImp(outer)
     val tileCChannelSkidBuffer = Module(new SkidBuffer(data=DataMirror.internal.chiselTypeClone[TLBundleC](tlmaster.c.bits), latencyToEndure=latencyToEndure))
     val tileEChannelSkidBuffer = Module(new SkidBuffer(data=DataMirror.internal.chiselTypeClone[TLBundleE](tlmaster.e.bits), latencyToEndure=latencyToEndure))
 
-
-    tile_bridge.io.in.tlmaster_a_ready := tileAChannelSkidBuffer.io.readyPropagate
-
     tile_bridge.io.in.tlmaster_b_valid := tlmaster.b.valid
-    tile_bridge.io.in.tlmaster_b_bits_opcode := tlmaster.b.bits.opcode
-    tile_bridge.io.in.tlmaster_b_bits_param := tlmaster.b.bits.param
-    tile_bridge.io.in.tlmaster_b_bits_size := tlmaster.b.bits.size
-    tile_bridge.io.in.tlmaster_b_bits_source := tlmaster.b.bits.source
-    tile_bridge.io.in.tlmaster_b_bits_address := tlmaster.b.bits.address
-    tile_bridge.io.in.tlmaster_b_bits_data := tlmaster.b.bits.data
-    tile_bridge.io.in.tlmaster_b_bits_mask := tlmaster.b.bits.mask
-    tile_bridge.io.in.tlmaster_b_bits_corrupt := tlmaster.b.bits.corrupt
-
-    tile_bridge.io.in.tlmaster_c_ready := tileCChannelSkidBuffer.io.readyPropagate
-
-    tile_bridge.io.in.tlmaster_d_valid := tlmaster.d.valid
-    tile_bridge.io.in.tlmaster_d_bits_opcode := tlmaster.d.bits.opcode
-    tile_bridge.io.in.tlmaster_d_bits_param := tlmaster.d.bits.param
-    tile_bridge.io.in.tlmaster_d_bits_size := tlmaster.d.bits.size
-    tile_bridge.io.in.tlmaster_d_bits_source := tlmaster.d.bits.source
-    tile_bridge.io.in.tlmaster_d_bits_sink := tlmaster.d.bits.sink
-    tile_bridge.io.in.tlmaster_d_bits_denied := tlmaster.d.bits.denied
-    tile_bridge.io.in.tlmaster_d_bits_data := tlmaster.d.bits.data
-    tile_bridge.io.in.tlmaster_d_bits_corrupt := tlmaster.d.bits.corrupt
-
-    tile_bridge.io.in.tlmaster_e_ready := tileEChannelSkidBuffer.io.readyPropagate
-
-    val (wfi, _) = outer.wfiNode.out(0)
-    wfi(0) := RegNext(tile_bridge.io.out.wfi)
-    dontTouch(wfi(0))
-
-    tileAChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_a_valid
-    assert(tileAChannelSkidBuffer.io.enq.ready === true.B, "tileAChannelSkidBuffer full")
-    tileAChannelSkidBuffer.io.enq.bits.opcode := tile_bridge.io.out.tlmaster_a_bits_opcode
-    tileAChannelSkidBuffer.io.enq.bits.param := tile_bridge.io.out.tlmaster_a_bits_param
-    tileAChannelSkidBuffer.io.enq.bits.size := tile_bridge.io.out.tlmaster_a_bits_size
-    tileAChannelSkidBuffer.io.enq.bits.source := tile_bridge.io.out.tlmaster_a_bits_source
-    tileAChannelSkidBuffer.io.enq.bits.address := tile_bridge.io.out.tlmaster_a_bits_address
-    tileAChannelSkidBuffer.io.enq.bits.mask := tile_bridge.io.out.tlmaster_a_bits_mask
-    tileAChannelSkidBuffer.io.enq.bits.data := tile_bridge.io.out.tlmaster_a_bits_data
-    tileAChannelSkidBuffer.io.enq.bits.corrupt := tile_bridge.io.out.tlmaster_a_bits_corrupt
-    tlmaster.a <> tileAChannelSkidBuffer.io.deq
-
+    tile_bridge.io.in.tlmaster_b_bits  := tlmaster.b.bits
     tlmaster.b.ready := tile_bridge.io.out.tlmaster_b_ready
 
-    tileCChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_c_valid
-    assert(tileCChannelSkidBuffer.io.enq.ready === true.B, "tileCChannelSkidBuffer full")
-    tileCChannelSkidBuffer.io.enq.bits.opcode := tile_bridge.io.out.tlmaster_c_bits_opcode
-    tileCChannelSkidBuffer.io.enq.bits.param := tile_bridge.io.out.tlmaster_c_bits_param
-    tileCChannelSkidBuffer.io.enq.bits.size := tile_bridge.io.out.tlmaster_c_bits_size
-    tileCChannelSkidBuffer.io.enq.bits.source := tile_bridge.io.out.tlmaster_c_bits_source
-    tileCChannelSkidBuffer.io.enq.bits.address := tile_bridge.io.out.tlmaster_c_bits_address
-    tileCChannelSkidBuffer.io.enq.bits.data := tile_bridge.io.out.tlmaster_c_bits_data
-    tileCChannelSkidBuffer.io.enq.bits.corrupt := tile_bridge.io.out.tlmaster_c_bits_corrupt
-    tlmaster.c <> tileCChannelSkidBuffer.io.deq
-
+    tile_bridge.io.in.tlmaster_d_valid := tlmaster.d.valid
+    tile_bridge.io.in.tlmaster_d_bits  := tlmaster.d.bits
     tlmaster.d.ready := tile_bridge.io.out.tlmaster_d_ready
 
-    tileEChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_e_valid
-    tileEChannelSkidBuffer.io.enq.bits.sink := tile_bridge.io.out.tlmaster_e_bits_sink
-    assert(tileEChannelSkidBuffer.io.enq.ready === true.B, "tileEChannelSkidBuffer full")
+
+    tlmaster.a <> tileAChannelSkidBuffer.io.deq
+
+    tileAChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_a_valid
+    tileAChannelSkidBuffer.io.enq.bits.opcode   := tile_bridge.io.out.tlmaster_a_bits.opcode
+    tileAChannelSkidBuffer.io.enq.bits.param    := tile_bridge.io.out.tlmaster_a_bits.param
+    tileAChannelSkidBuffer.io.enq.bits.size     := tile_bridge.io.out.tlmaster_a_bits.size
+    tileAChannelSkidBuffer.io.enq.bits.source   := tile_bridge.io.out.tlmaster_a_bits.source
+    tileAChannelSkidBuffer.io.enq.bits.address  := tile_bridge.io.out.tlmaster_a_bits.address
+    tileAChannelSkidBuffer.io.enq.bits.mask     := tile_bridge.io.out.tlmaster_a_bits.mask
+    tileAChannelSkidBuffer.io.enq.bits.data     := tile_bridge.io.out.tlmaster_a_bits.data
+    tileAChannelSkidBuffer.io.enq.bits.corrupt  := false.B
+
+    tile_bridge.io.in.tlmaster_a_ready  := tileAChannelSkidBuffer.io.readyPropagate
+    assert(tileAChannelSkidBuffer.io.enq.ready === true.B, "tileAChannelSkidBuffer full")
+
+
+    tlmaster.c <> tileCChannelSkidBuffer.io.deq
+
+    tileCChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_c_valid
+    tileCChannelSkidBuffer.io.enq.bits.opcode  := tile_bridge.io.out.tlmaster_c_bits.opcode
+    tileCChannelSkidBuffer.io.enq.bits.param   := tile_bridge.io.out.tlmaster_c_bits.param
+    tileCChannelSkidBuffer.io.enq.bits.size    := tile_bridge.io.out.tlmaster_c_bits.size
+    tileCChannelSkidBuffer.io.enq.bits.source  := tile_bridge.io.out.tlmaster_c_bits.source
+    tileCChannelSkidBuffer.io.enq.bits.address := tile_bridge.io.out.tlmaster_c_bits.address
+    tileCChannelSkidBuffer.io.enq.bits.data    := tile_bridge.io.out.tlmaster_c_bits.data
+    tileCChannelSkidBuffer.io.enq.bits.corrupt := false.B
+
+    tile_bridge.io.in.tlmaster_c_ready  := tileCChannelSkidBuffer.io.readyPropagate
+    assert(tileCChannelSkidBuffer.io.enq.ready === true.B, "tileCChannelSkidBuffer full")
+
+
     tlmaster.e <> tileEChannelSkidBuffer.io.deq
+
+    tileEChannelSkidBuffer.io.enq.valid := tile_bridge.io.out.tlmaster_e_valid
+    tileEChannelSkidBuffer.io.enq.bits.sink := tile_bridge.io.out.tlmaster_e_bits.sink
+    tile_bridge.io.in.tlmaster_e_ready := tileEChannelSkidBuffer.io.readyPropagate
+    assert(tileEChannelSkidBuffer.io.enq.ready === true.B, "tileEChannelSkidBuffer full")
 
 
     when (tlmaster.a.fire) {
