@@ -14,6 +14,7 @@ import freechips.rocketchip.rocket._
 import firesim.bridges._
 import midas.widgets.{Bridge, PeekPokeBridge, RationalClockBridge, RationalClock, ResetPulseBridge, ResetPulseBridgeParameters}
 import chipyard._
+import chipyard.harness._
 
 
 
