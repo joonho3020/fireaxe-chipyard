@@ -16,11 +16,11 @@ import freechips.rocketchip.util._
 import freechips.rocketchip.prci._
 import freechips.rocketchip.devices.debug._
 import freechips.rocketchip.jtag.{JTAGIO}
-import testchipip.{SerialTLKey, SerialAdapter, UARTAdapter, SimDRAM}
+import testchipip.{SerialTLKey, UARTAdapter, SimDRAM}
 import chipyard.iobinders._
 import chipyard.clocking._
 import barstools.iocell.chisel._
-import chipyard.{BuildTop}
+import chipyard.harness.{BuildTop}
 import firesim.bridges._
 
 
