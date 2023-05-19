@@ -139,3 +139,8 @@ class TLBackingMemoryRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++         // single rocket-core
   new chipyard.config.WithSerialTLBackingMemory ++ // remove axi4 mem port in favor of SerialTL memory
   new chipyard.config.AbstractConfig)
+
+
+class LatencyInjectionRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCoresWithLatencyInjection(n=1, latency=32) ++
+  new chipyard.config.AbstractConfig)
