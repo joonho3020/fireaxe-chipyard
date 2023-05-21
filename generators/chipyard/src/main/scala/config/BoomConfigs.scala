@@ -68,3 +68,7 @@ class dmiMediumBoomCosimConfig extends Config(
   new boom.common.WithNMediumBooms(1) ++
   new chipyard.config.AbstractConfig)
 
+
+class LatencyInjectionMediumBoomConfig extends Config(
+  new boom.common.WithNMediumBooms(1, 32) ++                         // medium boom config
+  new chipyard.config.AbstractConfig)

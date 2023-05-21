@@ -340,3 +340,32 @@ class WithNoTraceFireSimConfigTweaks extends Config(
   new chipyard.config.WithMemoryBusFrequency(1000.0) ++
   new WithNoTraceFireSimDesignTweaks
 )
+
+class WithNoTrace1GDRAMFireSimDesignTweaks extends Config(
+  new WithMinimalFireSimDesignTweaks ++
+  new WithDefaultMemModel ++
+  new testchipip.WithSerialTLWidth(4) ++
+  new chipyard.config.WithUART(BigInt(3686400L)) ++
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new testchipip.WithBlockDevice
+)
+
+class WithNiteFuryFireSimConfigTweaks extends Config(
+  new chipyard.config.WithSystemBusFrequency(1000.0) ++
+  new chipyard.config.WithSystemBusFrequencyAsDefault ++ // All unspecified clock frequencies, notably the implicit clock, will use the sbus freq (1000 MHz)
+  new chipyard.config.WithPeripheryBusFrequency(1000.0) ++
+  new chipyard.config.WithMemoryBusFrequency(1000.0) ++
+  new WithNoTrace1GDRAMFireSimDesignTweaks
+)
+
+class FireSimNiteFurySplitRocketConfig extends Config(
+  new WithDefaultFireSimBridges ++
+  new WithNiteFuryFireSimConfigTweaks ++
+  new chipyard.LatencyInjectionRocketConfig
+  )
+
+class FireSimNiteFurySplitBoomConfig extends Config(
+  new WithDefaultFireSimBridges ++
+  new WithNiteFuryFireSimConfigTweaks ++
+  new chipyard.LatencyInjectionMediumBoomConfig
+  )
