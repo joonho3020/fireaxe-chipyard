@@ -364,7 +364,7 @@ class FireSimNiteFurySplitRocketConfig extends Config(
   new chipyard.LatencyInjectionRocketConfig
   )
 
-class FireSimNiteFurySplitBoomConfig extends Config(
+class FireSimNiteFurySplitMediumBoomConfig extends Config(
   new WithDefaultFireSimBridges ++
   new WithNiteFuryFireSimConfigTweaks ++
   new chipyard.LatencyInjectionMediumBoomConfig
