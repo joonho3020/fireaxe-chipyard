@@ -322,3 +322,21 @@ class FireSimLeanGemminiRocketMMIOOnlyConfig extends Config(
   new WithDefaultMemModel ++
   new WithFireSimConfigTweaks ++
   new chipyard.LeanGemminiRocketConfig)
+
+
+class WithNoTraceFireSimDesignTweaks extends Config(
+  new WithMinimalFireSimDesignTweaks ++
+  new WithDefaultMemModel ++
+  new testchipip.WithSerialTLWidth(4) ++
+  new chipyard.config.WithUART(BigInt(3686400L)) ++
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 16L) ++
+  new testchipip.WithBlockDevice
+  )
+
+class WithNoTraceFireSimConfigTweaks extends Config(
+  new chipyard.config.WithSystemBusFrequency(1000.0) ++
+  new chipyard.config.WithSystemBusFrequencyAsDefault ++ // All unspecified clock frequencies, notably the implicit clock, will use the sbus freq (1000 MHz)
+  new chipyard.config.WithPeripheryBusFrequency(1000.0) ++
+  new chipyard.config.WithMemoryBusFrequency(1000.0) ++
+  new WithNoTraceFireSimDesignTweaks
+)
