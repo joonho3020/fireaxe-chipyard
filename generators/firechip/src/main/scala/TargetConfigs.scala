@@ -357,7 +357,6 @@ class WithNoTraceFireSimDesignTweaks extends Config(
 
 class WithNoTraceFireSimConfigTweaks extends Config(
   new chipyard.config.WithSystemBusFrequency(1000.0) ++
-  new chipyard.config.WithSystemBusFrequencyAsDefault ++ // All unspecified clock frequencies, notably the implicit clock, will use the sbus freq (1000 MHz)
   new chipyard.config.WithPeripheryBusFrequency(1000.0) ++
   new chipyard.config.WithMemoryBusFrequency(1000.0) ++
   new WithNoTraceFireSimDesignTweaks
