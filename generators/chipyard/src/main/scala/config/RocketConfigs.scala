@@ -126,8 +126,3 @@ class CustomIOChipTopRocketConfig extends Config(
   new chipyard.example.WithCustomIOCells ++
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)
-
-class TLBackingMemoryRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNBigCores(1) ++         // single rocket-core
-  new chipyard.config.WithSerialTLBackingMemory ++ // remove axi4 mem port in favor of SerialTL memory
-  new chipyard.config.AbstractConfig)
