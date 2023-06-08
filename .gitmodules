@@ -34,7 +34,8 @@
 	url = https://github.com/ucb-bar/dsptools.git
 [submodule "generators/sha3"]
 	path = generators/sha3
-	url = https://github.com/ucb-bar/sha3.git
+	url = https://github.com/joey0320/sha3-private.git
+  branch = multi-fpga-main
 [submodule "vlsi/hammer-mentor-plugins"]
 	path = vlsi/hammer-mentor-plugins
 	url = https://github.com/ucb-bar/hammer-mentor-plugins.git
