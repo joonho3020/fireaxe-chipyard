@@ -50,7 +50,8 @@
 	url = https://github.com/ucb-bar/coremark-workload.git
 [submodule "generators/gemmini"]
 	path = generators/gemmini
-	url = https://github.com/ucb-bar/gemmini
+	url = https://github.com/joey0320/gemmini-private.git
+  branch = multi-fpga-main
 [submodule "software/firemarshal"]
 	path = software/firemarshal
 	url = https://github.com/firesim/FireMarshal.git
