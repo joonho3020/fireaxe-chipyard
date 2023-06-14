@@ -26,3 +26,12 @@ class DualSha3RocketConfig extends Config(
   new sha3.WithSha3Accel(fastMem = false) ++
   new freechips.rocketchip.subsystem.WithNBigCores(2) ++
   new chipyard.config.AbstractConfig)
+
+class QuadCoreRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(4) ++
+  new chipyard.config.AbstractConfig)
+
+class QuadSha3RocketConfig extends Config(
+  new sha3.WithSha3Accel(fastMem = false) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(4) ++
+  new chipyard.config.AbstractConfig)
