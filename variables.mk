@@ -264,7 +264,7 @@ MFC_LOWERING_OPTIONS ?= $(build_dir)/.mfc_lowering_options
 #########################################################################################
 JAVA_HEAP_SIZE ?= 64G
 JAVA_TMP_DIR ?= $(base_dir)/.java_tmp
-export JAVA_TOOL_OPTIONS ?= -Xmx$(JAVA_HEAP_SIZE) -Xss8M -Djava.io.tmpdir=$(JAVA_TMP_DIR)
+export JAVA_TOOL_OPTIONS ?= -Xmx$(JAVA_HEAP_SIZE) -Xss1G -Djava.io.tmpdir=$(JAVA_TMP_DIR)
 
 #########################################################################################
 # default sbt launch command
