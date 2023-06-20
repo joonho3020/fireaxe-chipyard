@@ -35,3 +35,8 @@ class QuadSha3RocketConfig extends Config(
   new sha3.WithSha3Accel(fastMem = false) ++
   new freechips.rocketchip.subsystem.WithNBigCores(4) ++
   new chipyard.config.AbstractConfig)
+
+class MegaBoom128MBVCacheAnd4MemChan extends Config(
+  new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=32, capacityKB=131072) ++
+  new chipyard.MegaBoomConfig)
