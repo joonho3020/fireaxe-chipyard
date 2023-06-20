@@ -38,7 +38,7 @@ class QuadSha3RocketConfig extends Config(
 
 class MegaBoom128MBVCacheAnd4MemChan extends Config(
   new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
-  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=32, capacityKB=131072) ++
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=1024, capacityKB=131072) ++
   new chipyard.MegaBoomConfig)
 
 
