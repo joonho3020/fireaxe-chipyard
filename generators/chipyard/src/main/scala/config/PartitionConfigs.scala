@@ -40,3 +40,10 @@ class MegaBoom128MBVCacheAnd4MemChan extends Config(
   new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=32, capacityKB=131072) ++
   new chipyard.MegaBoomConfig)
+
+
+class DualMempressRocketConfig extends Config(
+  new mempress.WithMemPress(singleL2 = false, maxStreams = 4) ++                                    // use Mempress (memory traffic generation) accelerator
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(2) ++
+  new chipyard.config.AbstractConfig)
