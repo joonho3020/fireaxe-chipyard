@@ -22,6 +22,21 @@ class DualCoreBoomConfig extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
+class QuadCoreBoomConfig extends Config(
+  new boom.common.WithNLargeBooms(4) ++                          // large boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class OctaCoreBoomConfig extends Config(
+  new boom.common.WithNLargeBooms(8) ++                          // large boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class HexadecaCoreBoomConfig extends Config(
+  new boom.common.WithNLargeBooms(16) ++                          // large boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
 class DualSha3RocketConfig extends Config(
   new sha3.WithSha3Accel(fastMem = false) ++
   new freechips.rocketchip.subsystem.WithNBigCores(2) ++
@@ -29,6 +44,10 @@ class DualSha3RocketConfig extends Config(
 
 class QuadCoreRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(4) ++
+  new chipyard.config.AbstractConfig)
+
+class OctaCoreRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new chipyard.config.AbstractConfig)
 
 class QuadSha3RocketConfig extends Config(
