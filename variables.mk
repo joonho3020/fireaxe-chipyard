@@ -262,7 +262,7 @@ MFC_LOWERING_OPTIONS ?= $(build_dir)/.mfc_lowering_options
 #########################################################################################
 # java arguments used in sbt
 #########################################################################################
-JAVA_HEAP_SIZE ?= 64G
+JAVA_HEAP_SIZE ?= 16G
 JAVA_TMP_DIR ?= $(base_dir)/.java_tmp
 export JAVA_TOOL_OPTIONS ?= -Xmx$(JAVA_HEAP_SIZE) -Xss1G -Djava.io.tmpdir=$(JAVA_TMP_DIR)
 
