@@ -121,6 +121,9 @@
 [submodule "generators/mempress"]
 	path = generators/mempress
 	url = https://github.com/ucb-bar/mempress.git
+[submodule "generators/compress-acc"]
+	path = generators/compress-acc
+	url = https://github.com/ucb-bar/compress-acc.git
 [submodule "tools/cde"]
 	path = tools/cde
 	url = https://github.com/chipsalliance/cde.git
