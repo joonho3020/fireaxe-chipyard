@@ -24,6 +24,7 @@ import testchipip._
 import chipyard._
 import chipyard.clocking.{HasChipyardPRCI, ClockWithFreq}
 import chipyard.iobinders.{GetSystemParameters, JTAGChipIO}
+import chipyard.CanHaveMasterAXI4MemPortMaxFlight1
 
 import tracegen.{TraceGenSystemModuleImp}
 import icenet.{CanHavePeripheryIceNIC, SimNetwork, NicLoopback, NICKey, NICIOvonly}
@@ -124,7 +125,7 @@ class WithSimNetwork extends OverrideHarnessBinder({
 })
 
 class WithSimAXIMem extends OverrideHarnessBinder({
-  (system: CanHaveMasterAXI4MemPort, th: HasHarnessInstantiators, ports: Seq[ClockedAndResetIO[AXI4Bundle]]) => {
+  (system: CanHaveMasterAXI4MemPortMaxFlight1, th: HasHarnessInstantiators, ports: Seq[ClockedAndResetIO[AXI4Bundle]]) => {
     val p: Parameters = chipyard.iobinders.GetSystemParameters(system)
     (ports zip system.memAXI4Node.edges.in).map { case (port, edge) =>
       val mem = LazyModule(new SimAXIMem(edge, size=p(ExtMem).get.master.size)(p))
@@ -175,7 +176,7 @@ class WithSimAXIMemOverSerialTL extends OverrideHarnessBinder({
 })
 
 class WithBlackBoxSimMem(additionalLatency: Int = 0) extends OverrideHarnessBinder({
-  (system: CanHaveMasterAXI4MemPort, th: HasHarnessInstantiators, ports: Seq[ClockedAndResetIO[AXI4Bundle]]) => {
+  (system: CanHaveMasterAXI4MemPortMaxFlight1, th: HasHarnessInstantiators, ports: Seq[ClockedAndResetIO[AXI4Bundle]]) => {
     val p: Parameters = chipyard.iobinders.GetSystemParameters(system)
     (ports zip system.memAXI4Node.edges.in).map { case (port, edge) =>
       // TODO FIX: This currently makes each SimDRAM contain the entire memory space
