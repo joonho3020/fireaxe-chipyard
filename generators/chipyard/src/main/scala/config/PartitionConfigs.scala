@@ -105,14 +105,14 @@ class HyperscaleZstdDecompressor32Config extends Config(
 
 
 
-class CrossBarConfig extends Config(
+class DualRocket4MemChanConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
   new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
   new chipyard.config.AbstractConfig
 )
 
-class MinimalNoCConfig extends Config(
+class DualRocket4MemChanNoCConfig extends Config(
   new constellation.soc.WithCbusNoC(constellation.protocol.TLNoCParams(
     constellation.protocol.DiplomaticNetworkNodeMapping(
       inNodeMapping = ListMap(
@@ -151,8 +151,5 @@ class MinimalNoCConfig extends Config(
       channelParamGen = (a, b) => UserChannelParams(Seq.fill(8) { UserVirtualChannelParams(4) }),
       routingRelation = BlockingVirtualSubnetworksRouting(TerminalRouterRouting(Mesh2DEscapeRouting()), 5, 1))
   )) ++
-  new freechips.rocketchip.subsystem.WithNBigCores(2) ++
-  new freechips.rocketchip.subsystem.WithNBanks(4) ++
-  new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
-  new chipyard.config.AbstractConfig
+  new chipyard.DualRocket4MemChanConfig
 )
