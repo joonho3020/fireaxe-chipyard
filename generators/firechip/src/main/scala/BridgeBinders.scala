@@ -204,7 +204,6 @@ class WithFireSimMultiCycleRegfile extends ComposeIOBinder({
         if (core.fp_pipeline != null) core.fp_pipeline.fregfile match {
           case frf: boom.exu.RegisterFileSynthesizable => annotate(MemModelAnnotation(frf.regfile))
         }
-        core.rob.rob_fflags.foreach(m => annotate(MemModelAnnotation(m)))
       }
       case _ =>
     }
