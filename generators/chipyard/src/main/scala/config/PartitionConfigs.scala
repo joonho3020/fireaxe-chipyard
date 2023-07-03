@@ -50,6 +50,12 @@ class HexadecaCoreBoomConfig extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
+
+class ThirtyTwoCoreBoomConfig extends Config(
+  new boom.common.WithNLargeBooms(32) ++                          // large boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
 class DualSha3RocketConfig extends Config(
   new sha3.WithSha3Accel(fastMem = false) ++
   new freechips.rocketchip.subsystem.WithNBigCores(2) ++
