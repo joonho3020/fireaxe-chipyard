@@ -35,8 +35,29 @@ class DualCoreBoomConfig extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
+class QuadSmallCoreBoomConfig extends Config(
+  new boom.common.WithNSmallBooms(4) ++
+  new chipyard.config.AbstractConfig)
+
+class HexaSmallCoreBoomConfig extends Config(
+  new boom.common.WithNSmallBooms(6) ++
+  new chipyard.config.AbstractConfig)
+
+class OctaSmallCoreBoomConfig extends Config(
+  new boom.common.WithNSmallBooms(8) ++
+  new chipyard.config.AbstractConfig)
+
+class DecaSmallCoreBoomConfig extends Config(
+  new boom.common.WithNSmallBooms(10) ++
+  new chipyard.config.AbstractConfig)
+
 class QuadCoreBoomConfig extends Config(
   new boom.common.WithNLargeBooms(4) ++                          // large boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class HexaCoreBoomConfig extends Config(
+  new boom.common.WithNLargeBooms(6) ++                          // large boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
