@@ -51,6 +51,18 @@ class DecaSmallCoreBoomConfig extends Config(
   new boom.common.WithNSmallBooms(10) ++
   new chipyard.config.AbstractConfig)
 
+class TwelveSmallCoreBoomConfig extends Config(
+  new boom.common.WithNSmallBooms(12) ++
+  new chipyard.config.AbstractConfig)
+
+class FourteenSmallCoreBoomConfig extends Config(
+  new boom.common.WithNSmallBooms(14) ++
+  new chipyard.config.AbstractConfig)
+
+class SixteenSmallCoreBoomConfig extends Config(
+  new boom.common.WithNSmallBooms(16) ++
+  new chipyard.config.AbstractConfig)
+
 class QuadCoreBoomConfig extends Config(
   new boom.common.WithNLargeBooms(4) ++                          // large boom config
   new chipyard.config.WithSystemBusWidth(128) ++
