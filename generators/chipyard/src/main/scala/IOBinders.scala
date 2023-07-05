@@ -25,6 +25,7 @@ import barstools.iocell.chisel._
 import testchipip._
 import icenet.{CanHavePeripheryIceNIC, SimNetwork, NicLoopback, NICKey, NICIOvonly}
 import chipyard.{CanHaveMasterTLMemPort}
+import chipyard.CanHaveMasterAXI4MemPortMaxFlight1
 
 import scala.reflect.{ClassTag}
 
@@ -103,7 +104,7 @@ abstract trait HasIOBinders { this: LazyModule =>
 
 // Note: The parameters instance is accessible only through LazyModule
 // or LazyModuleImpLike. The self-type requirement in traits like
-// CanHaveMasterAXI4MemPort is insufficient to make it accessible to the IOBinder
+// CanHaveMasterAXI4MemPortMaxFlight1 is insufficient to make it accessible to the IOBinder
 // As a result, IOBinders only work on Modules which inherit LazyModule or
 // or LazyModuleImpLike
 object GetSystemParameters {
@@ -304,7 +305,7 @@ class WithSerialTLIOCells extends OverrideIOBinder({
 })
 
 class WithAXI4MemPunchthrough extends OverrideLazyIOBinder({
-  (system: CanHaveMasterAXI4MemPort) => {
+  (system: CanHaveMasterAXI4MemPortMaxFlight1) => {
     implicit val p: Parameters = GetSystemParameters(system)
     val clockSinkNode = p(ExtMem).map(_ => ClockSinkNode(Seq(ClockSinkParameters())))
     clockSinkNode.map(_ := system.asInstanceOf[HasTileLinkLocations].locateTLBusWrapper(MBUS).fixedClockNode)

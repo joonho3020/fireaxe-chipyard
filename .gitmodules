@@ -130,3 +130,6 @@
 [submodule "generators/bar-fetchers"]
 	path = generators/bar-fetchers
 	url = https://github.com/ucb-bar/bar-fetchers.git
+[submodule "generators/compress-acc"]
+	path = generators/compress-acc
+	url = git@bwrcrepo.eecs.berkeley.edu:hyperscale-soc-tapeout/compress-acc-tapeout.git
