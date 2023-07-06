@@ -18,10 +18,17 @@ class HyperscaleSoCBaseConfig extends Config(
   }) ++
   new RocketConfig)
 
-class HyperscaleSoCWithAccelsConfig extends Config(
+class HyperscaleSoCClientNodeConfig extends Config(
   new compressacc.AcceleratorPlacementRoCC ++
-  // TODO: switch to non-firesim version
   new compressacc.WithSnappyCompleteASIC ++
+  new protoacc.WithProtoAccelSerOnly ++
+  new protoacc.WithProtoAccelDeserOnly ++
+  new HyperscaleSoCBaseConfig)
+
+class HyperscaleSoCServerNodeConfig extends Config(
+  new compressacc.AcceleratorPlacementRoCC ++
+  new compressacc.WithMergedCompressorLatencyInjection ++
+  new compressacc.WithMergedDecompressor16Spec ++
   new protoacc.WithProtoAccelSerOnly ++
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleSoCBaseConfig)
