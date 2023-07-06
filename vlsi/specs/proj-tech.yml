@@ -1,0 +1,16 @@
+# ------------------------------
+# Last updated: 03/29/23
+# Created By: Ken H
+# Intel Tech Configuration File
+# ------------------------------
+
+# Sets core tooling
+vlsi.core.technology: "hammer.intech22"
+vlsi.core.max_threads: 32
+vlsi.core.build_system: make
+vlsi.core.drc_tool: "hammer.drc.icv"
+vlsi.core.lvs_tool: "hammer.lvs.icv"
+
+# Sets tech tooling
+technology.intech22.ndr: "no shield"
+

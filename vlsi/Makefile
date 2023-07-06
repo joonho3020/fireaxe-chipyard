@@ -7,6 +7,7 @@
 #########################################################################################
 base_dir=$(abspath ..)
 vlsi_dir=$(abspath .)
+specs_dir=$(vlsi_dir)/specs
 sim_dir=$(abspath .)
 
 #########################################################################################
@@ -19,7 +20,7 @@ include $(base_dir)/variables.mk
 # vlsi types and rules
 #########################################################################################
 sim_name           ?= vcs # needed for GenerateSimFiles, but is unused
-tech_name          ?= asap7
+tech_name          ?= intech22
 tech_dir           ?= $(if $(filter $(tech_name),sky130 asap7 nangate45),\
                         $(shell python3 -c "import os, hammer.technology.$(tech_name);\
 						print(os.path.dirname(hammer.technology.$(tech_name).__file__))"),\
@@ -34,10 +35,10 @@ else
 	TOP_MACROCOMPILER_MODE ?= -l $(SMEMS_CACHE) -hir $(SMEMS_HAMMER) --mode strict
 endif
 
-ENV_YML            ?= $(vlsi_dir)/env.yml
-TECH_CONF          ?= example-$(tech_name).yml
-TOOLS_CONF         ?= example-tools.yml
-INPUT_CONFS        ?= $(TOOLS_CONF) $(TECH_CONF)
+ENV_YML            ?= $(specs_dir)/proj-env.yml
+TECH_CONF          ?= $(specs_dir)/proj-tech.yml
+CHIP_A_CONF        ?= $(specs_dir)/proj-design.yml
+INPUT_CONFS        ?= $(TECH_CONF) $(CHIP_A_CONF)
 HAMMER_EXEC        ?= $(if $(filter $(tech_name),sky130),\
                         ./example-vlsi-sky130,\
                         ./example-vlsi)
@@ -46,9 +47,9 @@ VLSI_MODEL_DUT_NAME ?= chiptop
 # If overriding, this should be relative to $(vlsi_dir)
 VLSI_OBJ_DIR       ?= build
 ifneq ($(CUSTOM_VLOG),)
-	OBJ_DIR          ?= $(vlsi_dir)/$(VLSI_OBJ_DIR)/$(VLSI_TOP)
+	OBJ_DIR          ?= $(vlsi_dir)/$(VLSI_OBJ_DIR)/custom-$(VLSI_TOP)
 else
-	OBJ_DIR          ?= $(vlsi_dir)/$(VLSI_OBJ_DIR)/$(long_name)-$(TOP)
+	OBJ_DIR          ?= $(vlsi_dir)/$(VLSI_OBJ_DIR)/$(long_name)-$(VLSI_TOP)
 endif
 
 #########################################################################################
@@ -72,7 +73,7 @@ VLSI_RTL = $(build_dir)/syn.f
 ifneq ($(CUSTOM_VLOG), )
 	RTL_DEPS = $(CUSTOM_VLOG)
 else
-	RTL_DEPS = $(TOP_MODS_FILELIST) $(TOP_SMEMS_FILE)
+	RTL_DEPS = $(TOP_MODS_FILELIST) $(TOP_BB_MODS_FILELIST) $(TOP_SMEMS_FILE)
 endif
 
 $(VLSI_RTL): $(RTL_DEPS)
@@ -80,7 +81,7 @@ ifneq ($(CUSTOM_VLOG), )
 	> $(VLSI_RTL)
 	$(foreach file,$^,echo $(file) >> $(VLSI_RTL))
 else
-	cat $(TOP_MODS_FILELIST) | sort -u > $(VLSI_RTL)
+	cat $(TOP_MODS_FILELIST) $(TOP_BB_MODS_FILELIST) | sort -u > $(VLSI_RTL)
 	echo $(TOP_SMEMS_FILE) >> $(VLSI_RTL)
 endif
 
@@ -172,3 +173,7 @@ $(OBJ_DIR)/hammer.d: $(HAMMER_D_DEPS)
 .PHONY: clean
 clean:
 	rm -rf $(VLSI_OBJ_DIR) hammer-vlsi*.log __pycache__ output.json $(GENERATED_CONFS) $(CLASSPATH_CACHE) $(gen_dir) $(SIM_CONF) $(SIM_DEBUG_CONF) $(SIM_TIMING_CONF) $(POWER_CONF)
+
+# include icv.mk for finishing step
+include $(vlsi_dir)/hammer-intech22-plugin/hammer/intech22/signoff/icv.mk
+

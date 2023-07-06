@@ -1,0 +1,302 @@
+# -----------------------------------------------------------------------
+# Last updated: 03/29/23
+# Created By: Ken H
+# Design Configuration File
+# Comments: 
+# 1) The Intel GPIO libraries are still incomplete for the TT analysis.
+#    Final integrator must remember to obtain the real TT libraries.
+#    Examine all comments with WARNING as a result.
+# 2) Top/bottom margin is potentially very inefficient if Q1/Q2 are not
+#    fully utilized.
+# -----------------------------------------------------------------------
+
+# Set generic namespace values.
+
+# Set hierarchical settings
+vlsi.inputs.hierarchical:
+  mode: hierarchical
+  top_module: ChipTop
+  config_source: manual
+  manual_modules:
+    - ChipTop:
+      - RocketTile
+
+  # Constrain ChipTop
+  constraints:
+    - RocketTile:
+      - vlsi.inputs.pin_mode: generated
+      - vlsi.inputs.pin.generate_mode: auto
+      - vlsi.inputs.pin.assignments: [{pins: "*", layers: ["m3"], side: "top"}]
+      - vlsi.inputs.power_spec_mode: "manual"
+      - vlsi.inputs.power_spec_type: "cpf"
+      - vlsi.inputs.power_spec_contents: "specs/cpf/ChipTop.cpf"
+      - vlsi.inputs.power_spec_contents_meta: transclude 
+      - vlsi.inputs.supplies.power: [{name: "VCC", pin: "VDD"}]
+      - vlsi.inputs.clocks:
+        - {name: "clock", period: "10ns", uncertainty: "0.2ns"} 
+      ## Copy everything under ChipTop here - done
+    - ChipTop:
+      - vlsi.inputs.power_spec_mode: "manual"
+      - vlsi.inputs.power_spec_type: "cpf"
+      - vlsi.inputs.power_spec_contents: "specs/cpf/ChipTop.cpf"
+      - vlsi.inputs.power_spec_contents_meta: transclude
+      ## Check the name of VDD and VSS with the intel process names (if it is vcc, ...)
+      ## --> VDD and GND (vlsi/hammer-intech22-plugin/hammer/intech22/intech22.tech.json)
+      ## Later, add real pins (in cpf)
+      - vlsi.inputs.supplies.power: [{name: "VCC", pin: "VDD"}]
+      - vlsi.inputs.supplies.ground: [{name: "VSS", pin: "GND"}]
+      - vlsi.inputs.clocks:
+        ## 1 uncore clock, 2 per-tile clock, 1 serial TL clock
+        ## Add JTAG tck clock (path)
+        ## If jtag doesn't work, remove hpin and ChipTop
+        - {name: "jtag_clock", path: "[get_pins hpin: ChipTop/jtag_TCK]", period: "200ns", uncertainty: "0.2ns"}
+        ## Receive serial_tl_clock as an input signal from the FPGA (port)
+        - {name: "serial_tl_clock", port: "get_pins hpin ChipTop/system/serial_tl_clock", period: "5ns", uncertainty: "0.2ns"}
+        - {name: "uncore_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_uncore_clock "], period: "5ns", uncertainty: "0.2ns"}
+        - {name: "tile_0_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock "], period: "5ns", uncertainty: "0.2ns"}
+        - {name: "tile_1_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_1_clock "], period: "5ns", uncertainty: "0.2ns"}
+        - {name: "clock_clock", port: "clock_clock", period: "5ns", uncertainty: "0.2ns"} #Previous period: *CORECLOCK
+      - vlsi.inputs.pin_mode: none
+
+# Set hierarchical manual placements  
+  manual_placement_constraints_meta: append
+  manual_placement_constraints: 
+    # Set top-level
+    - RocketTile:
+      ## Margins are only useful for toplevel
+      ## Place all SRAMs and RocketTiles
+      - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 250, height: 720, margins: {left: 0, right: 0, top: 0, bottom: 0}}
+      ## Margin between SRAMs is 11.97 (minimum 11.52, but add some buffer)
+      
+      # I-Cache
+      ### Tag
+      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_0, type: hardmacro, x: 0, y: 0, width: 51.452, height: 85.14}
+      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_1, type: hardmacro, x: 0, y: 97.11, width: 51.452, height: 85.14}
+      ### Data Banks
+      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 0, y: 194.22, width: 51.452, height: 117.54}
+      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 0, y: 323.73, width: 51.452, height: 117.54}
+      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 0, y: 453.24, width: 51.452, height: 117.54}
+      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 0, y: 582.75, width: 51.452, height: 117.54}
+      # Minimum height for I-Cache = 712.26
+
+      # D-Cache
+      ### Tag
+      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_0, type: hardmacro, x: 198.548, y: 0, width: 51.452, height: 88.38}
+      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_1, type: hardmacro, x: 198.548, y: 100.35, width: 51.452, height: 88.38}
+      ### Data Banks
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 198.548, y: 200.70, width: 51.452, height: 117.54}
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 198.548, y: 330.21, width: 51.452, height: 117.54}
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 198.548, y: 459.72, width: 51.452, height: 117.54}
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 198.548, y: 589.23, width: 51.452, height: 117.54} 
+      # Minimum height for D-Cache = 718.74
+    
+    - ChipTop: 
+      ## Specify RocketTile placement
+      - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, type: hardmacro, x: 1700, y: 2400, width: 250, height: 720}
+      # If we have a second rocket tile in one digital top, uncomment the line below.
+      - {path: ChipTop/system/tile_prci_domain_1/tile_reset_domain_tile, type: hardmacro, x: 1700, y: 800, width: 250, height: 720}
+
+      # ChipTop
+      - {path: ChipTop, type: toplevel, x: 0, y: 0, width: 3924.72, height: 4084.92, margins: {left: 177.12, right: 16.2, top: 379.26, bottom: 379.26}}
+      # ChipTop SRAMs (L2)
+      ### Cache-Coherence Directory banks (min margin=23.04)
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 100, y: 1980, width: 79.1, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 202.14, y: 1980, width: 79.1, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 304.28, y: 1980, width: 79.1, height: 117.54}
+      ### cc banks (min margin=92.16)
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 100, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_0/cc_banks_0_ext/mem_1_0, type: hardmacro, x: 408.588, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_0/cc_banks_0_ext/mem_2_0, type: hardmacro, x: 717.176, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_0/cc_banks_0_ext/mem_3_0, type: hardmacro, x: 1025.764, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1334.352, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_1/cc_banks_0_ext/mem_1_0, type: hardmacro, x: 1642.94, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_1/cc_banks_0_ext/mem_2_0, type: hardmacro, x: 2034.632, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_1/cc_banks_0_ext/mem_3_0, type: hardmacro, x: 2343.22, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 2651.808, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_2/cc_banks_0_ext/mem_1_0, type: hardmacro, x: 3268.984, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_2/cc_banks_0_ext/mem_2_0, type: hardmacro, x: 3577.572, y: 1890, width: 247.148, height: 117.54}
+      - {path: ChipTop/system/subsystem_mbus/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/cc_banks_2/cc_banks_0_ext/mem_3_0, type: hardmacro, x: 3886.16, y: 1890, width: 247.148, height: 117.54}
+      # Set DR construct
+      - {path: ChipTop/die_ring, type: overlap, master: "uni2_4x4_c4_er_edm_prs_top_layout", x: 0, y: 0, create_physical: true}
+      # Set IO constructs for Q3
+      - {path: ChipTop/corner_q3_io, type: hardmacro, master: "hl_corner_io", x: 17.28, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_0, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 595.98, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_1, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 752.22, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_2, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 908.46, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_3, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 1064.7, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_4, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 1220.94, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_5, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 1377.18, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_6, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 1533.42, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_7, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 1689.66, top_layer: gmb}
+      - {path: ChipTop/west_io_q3_8, type: hardmacro, master: "hl_4slice_west_io", x: 17.28, y: 1845.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_0, type: hardmacro, master: "hl_8slice_south_io", x: 518.832, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_1, type: hardmacro, master: "hl_8slice_south_io", x: 674.784, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_2, type: hardmacro, master: "hl_8slice_south_io", x: 830.736, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_3, type: hardmacro, master: "hl_8slice_south_io", x: 986.688, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_4, type: hardmacro, master: "hl_8slice_south_io", x: 1142.64, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_5, type: hardmacro, master: "hl_8slice_south_io", x: 1298.59, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_6, type: hardmacro, master: "hl_8slice_south_io", x: 1454.54, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_7, type: hardmacro, master: "hl_8slice_south_io", x: 1610.5, y: 18.9, top_layer: gmb}
+      - {path: ChipTop/south_io_q3_8, type: hardmacro, master: "hl_8slice_south_io", x: 1766.45, y: 18.9, top_layer: gmb}
+
+## Drop-in Collateral
+## 4 pairs of these 2 blocks
+## Y coordinate has to be a multiple of 90(nm)
+      - {path: ChipTop/DICCD1, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 969.3,   y: 1021.86, top_layer: m6}
+      - {path: ChipTop/DICREG1, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1023.3,   y: 1021.86, top_layer: m6}
+
+## Deleted power strap related stuffs
+
+# Include extra libraries
+vlsi.technology.extra_libraries:
+  # 4x4 Die Ring
+  - library: 
+      gds file: "/tools/intech22/local/shared_resources/frame_4x4/uni2_4x4_c4_er_edm_prs_top.gds"
+      lef file: "/tools/intech22/local/shared_resources/frame_4x4/uni2_4x4_c4_er_edm_prs_top.lef" 
+
+  # hl_4slice_west_io
+  # Analyzed at corner: psss_0p765_1p080_max.PS_125.prcs
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lib/hl_4slice_west_io.max.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lef/hl_4slice_west_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/rtl/hl_4slice_west_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/rtl/hl_4slice_west_io.v"
+      corner: 
+        nmos: slow
+        pmos: slow
+        temperature: "125 C"
+      supplies: 
+        VDD: "0.765 V"
+        GND: "0 V"
+  # Analyzed at corner: pfff_1p050_1p320_min.PF_m40.prcf
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lib/hl_4slice_west_io.min.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lef/hl_4slice_west_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/rtl/hl_4slice_west_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/rtl/hl_4slice_west_io.v"
+      corner: 
+        nmos: fast
+        pmos: fast
+        temperature: "-40 C"
+      supplies: 
+        VDD: "0.890 V"
+        GND: "0 V"
+  # WARNING: This is a repurposed lib for TT. 
+  # This is merely to get MMMC to function.
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lib/hl_4slice_west_io.min.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lef/hl_4slice_west_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/rtl/hl_4slice_west_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/rtl/hl_4slice_west_io.v"
+      corner: 
+        nmos: typical
+        pmos: typical
+        temperature: "25 C"
+      supplies: 
+        VDD: "0.850 V"
+        GND: "0 V"
+
+  # hl_8slice_south_io 
+  # Analyzed at corner: psss_0p765_1p080_max.PS_125.prcs
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_8slice_south_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lib/hl_8slice_south_io.max.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lef/hl_8slice_south_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/spice_netlist/hl_8slice_south_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_south_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/rtl/hl_8slice_south_io.v"
+      corner: 
+        nmos: slow
+        pmos: slow
+        temperature: "125 C"
+      supplies: 
+        VDD: "0.765 V"
+        GND: "0 V"
+  # Analyzed at corner: pfff_1p050_1p320_min.PF_m40.prcf
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_8slice_south_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lib/hl_8slice_south_io.min.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lef/hl_8slice_south_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/spice_netlist/hl_8slice_south_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_south_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/rtl/hl_8slice_south_io.v"
+      corner: 
+        nmos: fast
+        pmos: fast
+        temperature: "-40 C"
+      supplies: 
+        "VDD": "0.89 V"
+        "GND": "0 V"
+  # WARNING: This is a repurposed lib for TT. 
+  # This is merely to get MMMC to function.
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_8slice_south_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lib/hl_8slice_south_io.min.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lef/hl_8slice_south_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/spice_netlist/hl_8slice_south_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_south_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/rtl/hl_8slice_south_io.v"
+      corner: 
+        nmos: typical
+        pmos: typical
+        temperature: "25 C"
+      supplies: 
+        VDD: "0.850 V"
+        GND: "0 V"
+
+  # hl_corner_io 
+  # Analyzed at corner: psss_0p765_1p080_max.PS_125.prcs
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lib/hl_corner_io.max.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lef/hl_corner_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/spice_netlist/hl_corner_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/rtl/hl_corner_io.v"
+      corner: 
+        nmos: "slow"
+        pmos: "slow"
+        temperature: "125 C"
+      supplies: 
+        VDD: "0.765 V"
+        GND: "0 V"
+  # Analyzed at corner: pfff_1p050_1p320_min.PF_m40.prcf
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lib/hl_corner_io.max.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lef/hl_corner_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/spice_netlist/hl_corner_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/rtl/hl_corner_io.v"
+      corner: 
+        nmos: "fast"
+        pmos: "fast"
+        temperature: "-40 C"
+      supplies: 
+        VDD: "0.89 V"
+        GND: "0 V"
+  # WARNING: This is a repurposed lib for TT. 
+  # This is merely to get MMMC to function.
+  - library: 
+      gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io.gds"
+      nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lib/hl_corner_io.max.etm.lib.lib"
+      lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lef/hl_corner_io.fill.lef"
+      spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/spice_netlist/hl_corner_io.sp"
+      verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io_container.v"
+      verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/rtl/hl_corner_io.v"
+      corner: 
+        nmos: typical
+        pmos: typical
+        temperature: "25 C"
+      supplies: 
+        VDD: "0.850 V"
+        GND: "0 V"
+
+
+
