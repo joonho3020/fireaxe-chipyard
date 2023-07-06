@@ -152,7 +152,7 @@ lazy val chipyard = (project in file("generators/chipyard"))
   .dependsOn(testchipip, rocketchip, boom, hwacha, sifive_blocks, sifive_cache, iocell,
     sha3, // On separate line to allow for cleaner tutorial-setup patches
     dsptools, `rocket-dsp-utils`,
-    compressacc,
+    compressacc, protoacc,
     gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
     constellation, mempress, barf, shuttle)
   .settings(libraryDependencies ++= rocketLibDeps.value)
@@ -164,6 +164,12 @@ lazy val chipyard = (project in file("generators/chipyard"))
  .settings(commonSettings)
 
 lazy val compressacc = (project in file("generators/compress-acc"))
+  .dependsOn(rocketchip, midasTargetUtils)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(chiselTestSettings)
+  .settings(commonSettings)
+
+lazy val protoacc = (project in file("generators/protoacc"))
   .dependsOn(rocketchip, midasTargetUtils)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(chiselTestSettings)

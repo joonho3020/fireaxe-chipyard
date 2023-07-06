@@ -133,3 +133,6 @@
 [submodule "generators/compress-acc"]
 	path = generators/compress-acc
 	url = git@bwrcrepo.eecs.berkeley.edu:hyperscale-soc-tapeout/compress-acc-tapeout.git
+[submodule "generators/protoacc"]
+	path = generators/protoacc
+	url = git@bwrcrepo.eecs.berkeley.edu:hyperscale-soc-tapeout/protoacc-tapeout.git
