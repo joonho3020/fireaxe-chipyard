@@ -1,8 +1,11 @@
 package chipyard
 
-import org.chipsalliance.cde.config.{Config}
+import org.chipsalliance.cde.config._
 import freechips.rocketchip.subsystem.{ExtMem}
-import freechips.rocketchip.diplomacy.{AsynchronousCrossing}
+import freechips.rocketchip.diplomacy._
+import freechips.rocketchip.tile._
+import freechips.rocketchip.tilelink._
+import freechips.rocketchip.rocket._
 import freechips.rocketchip.subsystem.{SBUS, MBUS}
 
 import constellation.channel._
@@ -13,6 +16,8 @@ import constellation.soc.{GlobalNoCParams}
 
 import scala.collection.immutable.ListMap
 
+import compressacc._
+import protoacc._
 
 
 class SBUS16MempressRocketConfig extends Config(

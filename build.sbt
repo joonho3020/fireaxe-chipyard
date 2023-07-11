@@ -162,7 +162,7 @@ lazy val chipyard = (project in file("generators/chipyard"))
   )
  .settings(commonSettings)
 
-lazy val proto_acc = (project in file("generators/proto-acc"))
+lazy val proto_acc = (project in file("generators/protoacc"))
   .dependsOn(rocketchip, midasTargetUtils)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(chiselTestSettings)
