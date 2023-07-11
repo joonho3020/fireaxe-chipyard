@@ -136,3 +136,6 @@
 [submodule "generators/bar-fetchers"]
 	path = generators/bar-fetchers
 	url = https://github.com/ucb-bar/bar-fetchers.git
+[submodule "generators/protoacc"]
+	path = generators/protoacc
+	url = https://github.com/ucb-bar/protoacc.git

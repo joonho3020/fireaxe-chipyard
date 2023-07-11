@@ -153,7 +153,7 @@ lazy val chipyard = (project in file("generators/chipyard"))
     sha3, // On separate line to allow for cleaner tutorial-setup patches
     dsptools, `rocket-dsp-utils`,
     gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
-    constellation, mempress, compress_acc, barf, shuttle)
+    constellation, mempress, barf, shuttle, compress_acc, proto_acc)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
     libraryDependencies ++= Seq(
@@ -162,6 +162,11 @@ lazy val chipyard = (project in file("generators/chipyard"))
   )
  .settings(commonSettings)
 
+lazy val proto_acc = (project in file("generators/proto-acc"))
+  .dependsOn(rocketchip, midasTargetUtils)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(chiselTestSettings)
+  .settings(commonSettings)
 
 lazy val compress_acc = (project in file("generators/compress-acc"))
   .dependsOn(rocketchip, midasTargetUtils)
