@@ -263,7 +263,7 @@ class WithHyperscaleAccels extends Config ((site, here, up) => {
   )
 })
 
-class HyperscaleSoCRocketProtoCompressAccConfig extends Config(
+class HyperscaleRocketAccelsConfig extends Config(
   new WithHyperscaleAccels ++
   new HyperscaleRocketBaseConfig
   )
