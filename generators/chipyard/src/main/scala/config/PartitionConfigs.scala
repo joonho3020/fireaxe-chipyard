@@ -225,3 +225,45 @@ class QuadRocketSbusRingNoCConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
   new chipyard.config.AbstractConfig
 )
+
+
+class WithHyperscaleAccels extends Config ((site, here, up) => {
+  case ProtoTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
+  case CompressAccelTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
+  case ZstdCompressorKey => Some(ZstdCompressorConfig(queDepth = 4))
+  case HufCompressUnrollCnt => 4
+  case HufCompressDicBuilderProcessedStatBytesPerCycle => 4
+  case FSECompressDicBuilderProcessedStatBytesPerCycle => 4
+  case ZstdLiteralLengthMaxAccuracy => 7
+  case ZstdMatchLengthMaxAccuracy => 7
+  case ZstdOffsetMaxAccuracy => 6
+  case RemoveSnappyFromMergedAccelerator => true
+  case CompressAccelPrintfEnable => true
+  case ZstdDecompressorCmdQueDepth => 4
+  case HufDecompressDecompAtOnce => 4
+  case NoSnappy => true
+
+  case BuildRoCC => Seq(
+    (p: Parameters) => {
+      val protoacc = LazyModule(new ProtoAccel(OpcodeSet.custom2)(p))
+      protoacc
+    },
+    (p: Parameters) => {
+      val protoaccser = LazyModule(new ProtoAccelSerializer(OpcodeSet.custom3)(p))
+      protoaccser
+    },
+    (p: Parameters) => {
+      val zstddecomp = LazyModule(new ZstdDecompressor(OpcodeSet.custom0)(p))
+      zstddecomp
+    },
+    (p: Parameters) => {
+      val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
+      zstdcomp
+    }
+  )
+})
+
+class HyperscaleSoCRocketProtoCompressAccConfig extends Config(
+  new WithHyperscaleAccels ++
+  new HyperscaleRocketBaseConfig
+  )
