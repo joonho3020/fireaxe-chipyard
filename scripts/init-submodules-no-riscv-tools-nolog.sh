@@ -101,6 +101,9 @@ cd "$RDIR"
             toolchains/*-tools/* \
             toolchains/libgloss \
             generators/sha3 \
+            generators/compress-acc \
+            generators/protoacc \
+            generators/sha3 \
             generators/gemmini \
             sims/firesim \
             software/nvdla-workload \
@@ -127,6 +130,8 @@ cd "$RDIR"
 (
     # Non-recursive clone to exclude riscv-linux
     git submodule update --init generators/sha3
+    git submodule update --init generators/compress-acc
+    git submodule update --init generators/protoacc
 
     # Non-recursive clone to exclude gemmini-software
     git submodule update --init generators/gemmini
