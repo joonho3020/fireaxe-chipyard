@@ -23,22 +23,6 @@ vlsi.inputs.hierarchical:
 
   # Constrain ChipTop
   constraints:
-    - RocketTile:
-      - vlsi.inputs.pin_mode: generated
-        #- vlsi.inputs.pin.generate_mode: full_auto
-      - vlsi.inputs.pin.generate_mode: full_auto
-      - vlsi.inputs.pin.assignments: [{pins: "*", layers: ["m3"], side: "top"}]
-      - vlsi.inputs.power_spec_mode: "manual"
-      - vlsi.inputs.power_spec_type: "cpf"
-      - vlsi.inputs.power_spec_contents: "specs/cpf/ChipTop.cpf"
-      - vlsi.inputs.power_spec_contents_meta: transclude 
-      - vlsi.inputs.supplies.power: [{name: "VCC", pin: "VDD"}]
-      - vlsi.inputs.clocks:
-        - {name: "clock", period: "10ns", uncertainty: "0.2ns"} 
-      ## Copy everything under ChipTop here - done
-      ## Adding par power strap constraints below
-      - par.generate_power_straps_options.by_tracks.strap_layers: [m3, m4, m5, m6, m7, m8]
-      - par.generate_power_straps_options.by_tracks.pin_layers: [m8]
     - ChipTop:
       - vlsi.inputs.power_spec_mode: "manual"
       - vlsi.inputs.power_spec_type: "cpf"
@@ -62,169 +46,72 @@ vlsi.inputs.hierarchical:
         - {name: "clock_clock", port: "clock_clock", period: "5ns", uncertainty: "0.2ns"} #Previous period: *CORECLOCK
       - vlsi.inputs.pin_mode: none
 
+    - RocketTile:
+      - vlsi.inputs.pin_mode: generated
+      - vlsi.inputs.pin.generate_mode: semi_auto
+      - vlsi.inputs.pin.assignments: [{pins: "*", layers: ["m4", "m6"], side: "left"}]
+      - vlsi.inputs.power_spec_mode: "manual"
+      - vlsi.inputs.power_spec_type: "cpf"
+      - vlsi.inputs.power_spec_contents: "specs/cpf/ChipTop.cpf"
+      - vlsi.inputs.power_spec_contents_meta: transclude 
+      - vlsi.inputs.supplies.power: [{name: "VCC", pin: "VDD"}]
+      - vlsi.inputs.clocks:
+        - {name: "clock", period: "10ns", uncertainty: "0.2ns"} 
+      ## Copy everything under ChipTop here - done
+      ## Adding par power strap constraints below
+      - par.generate_power_straps_options.by_tracks.strap_layers: [m3, m4, m5, m6, m7, m8]
+      - par.generate_power_straps_options.by_tracks.pin_layers: [m8]
+
+
 # Set hierarchical manual placements  
   manual_placement_constraints_meta: append
   manual_placement_constraints: 
     # Set top-level
-    - RocketTile:
-      ## Margins are only useful for toplevel
-      ## Place all SRAMs and RocketTiles
-      - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 1900, height: 2000, margins: {left: 0, right: 0, top: 0, bottom: 0}}
-      ## Margin between SRAMs is 11.97 (minimum 11.52, but add some buffer)
-
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_0, type: hardmacro, x: 0, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_2, type: hardmacro, x: 0, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_1, type: hardmacro, x: 0, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_1, type: hardmacro, x: 170, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_0, type: hardmacro, x: 170, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_2, type: hardmacro, x: 170, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_2, type: hardmacro, x: 340, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_1, type: hardmacro, x: 340, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_0, type: hardmacro, x: 340, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_0, type: hardmacro, x: 510, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_2, type: hardmacro, x: 510, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_1, type: hardmacro, x: 510, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_1, type: hardmacro, x: 680, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_0, type: hardmacro, x: 680, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_2, type: hardmacro, x: 680, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_2, type: hardmacro, x: 850, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_1, type: hardmacro, x: 850, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_0, type: hardmacro, x: 850, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_0, type: hardmacro, x: 1020, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_2, type: hardmacro, x: 1020, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_1, type: hardmacro, x: 1020, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_1, type: hardmacro, x: 1190, y: 0}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_0, type: hardmacro, x: 1190, y: 140}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_2, type: hardmacro, x: 1190, y: 280}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_31/MEM_0_ext/mem_0_0, type: hardmacro, x: 0, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_27/MEM_0_ext/mem_0_0, type: hardmacro, x: 0, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_23/MEM_0_ext/mem_0_0, type: hardmacro, x: 0, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_19/MEM_0_ext/mem_0_0, type: hardmacro, x: 0, y: 570}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_31/MEM_0_ext/mem_1_0, type: hardmacro, x: 170, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_27/MEM_0_ext/mem_1_0, type: hardmacro, x: 170, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_23/MEM_0_ext/mem_1_0, type: hardmacro, x: 170, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_19/MEM_0_ext/mem_1_0, type: hardmacro, x: 170, y: 570}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_30/MEM_0_ext/mem_0_0, type: hardmacro, x: 340, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_26/MEM_0_ext/mem_0_0, type: hardmacro, x: 340, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_22/MEM_0_ext/mem_0_0, type: hardmacro, x: 340, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_18/MEM_0_ext/mem_0_0, type: hardmacro, x: 340, y: 570}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_30/MEM_0_ext/mem_1_0, type: hardmacro, x: 510, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_26/MEM_0_ext/mem_1_0, type: hardmacro, x: 510, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_22/MEM_0_ext/mem_1_0, type: hardmacro, x: 510, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_18/MEM_0_ext/mem_1_0, type: hardmacro, x: 510, y: 570}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_29/MEM_0_ext/mem_0_0, type: hardmacro, x: 680, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_25/MEM_0_ext/mem_0_0, type: hardmacro, x: 680, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_21/MEM_0_ext/mem_0_0, type: hardmacro, x: 680, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_17/MEM_0_ext/mem_0_0, type: hardmacro, x: 680, y: 570}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_29/MEM_0_ext/mem_1_0, type: hardmacro, x: 850, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_25/MEM_0_ext/mem_1_0, type: hardmacro, x: 850, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_21/MEM_0_ext/mem_1_0, type: hardmacro, x: 850, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_17/MEM_0_ext/mem_1_0, type: hardmacro, x: 850, y: 570}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_28/MEM_0_ext/mem_0_0, type: hardmacro, x: 1020, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_24/MEM_0_ext/mem_0_0, type: hardmacro, x: 1020, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_20/MEM_0_ext/mem_0_0, type: hardmacro, x: 1020, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_16/MEM_0_ext/mem_0_0, type: hardmacro, x: 1020, y: 570}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_28/MEM_0_ext/mem_1_0, type: hardmacro, x: 1190, y: 420}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_24/MEM_0_ext/mem_1_0, type: hardmacro, x: 1190, y: 470}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_20/MEM_0_ext/mem_1_0, type: hardmacro, x: 1190, y: 520}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_16/MEM_0_ext/mem_1_0, type: hardmacro, x: 1190, y: 570}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_31/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_23/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_15/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_7/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 770}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_30/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_22/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_14/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_6/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 770}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_29/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_21/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_13/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_5/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 770}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_28/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_20/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_12/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_4/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 770}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_27/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_19/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_11/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_3/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 770}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_26/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_18/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_10/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_2/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 770}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_25/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_17/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_9/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_1/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 770}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_24/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 620}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_16/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 670}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_8/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 720}
-      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 770}
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 0, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 0, y: 970}
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 70, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 70, y: 970}
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 140, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 140, y: 970}
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 210, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 210, y: 970}
-      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_0, type: hardmacro, x: 280, y: 820}
-      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_1, type: hardmacro, x: 280, y: 970}
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 350, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 350, y: 970}
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 420, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 420, y: 970}
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 490, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 490, y: 970}
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 560, y: 820}
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 560, y: 970}
-      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 0, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 0, y: 1270}
-      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 70, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 70, y: 1270}
-      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 140, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 140, y: 1270}
-      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 210, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 210, y: 1270}
-      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_0, type: hardmacro, x: 280, y: 1120}
-      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_1, type: hardmacro, x: 280, y: 1270}
-      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 350, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 350, y: 1270}
-      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 420, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 420, y: 1270}
-      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 490, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 490, y: 1270}
-      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1120}
-      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1270}
-
 
     - ChipTop:
+      # ChipTop
+      # height - (top + bottom) is multiple of 1.26um (and therefore 0.09um)
+      # width (and left / right) are all multiples of 1.08um
+      - {path: ChipTop, type: toplevel, x: 0, y: 0, width: 3924.72, height: 4084.92, margins: {left: 177.12, right: 16.2, top: 379.26, bottom: 379.26}}
+
       ## Specify RocketTile placement
-      - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 2000, y: 0, type: hardmacro}
+      - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 2000, y: 0.09, type: hardmacro}
       # If we have a second rocket tile in one digital top, uncomment the line below.
       #- {path: ChipTop/system/tile_prci_domain_1/tile_reset_domain_tile, x: 2800, y: 1800, type: hardmacro}
 
-      # ChipTop
-      - {path: ChipTop, type: toplevel, x: 0, y: 0, width: 3924.72, height: 4084.92, margins: {left: 177.12, right: 16.2, top: 379.26, bottom: 379.26}}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 100.08}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_7/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 100.08}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 300.06}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_6/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 300.06}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 500.04}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_5/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 500.04}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 700.02}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_4/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 700.02}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 1000, y: 900.09}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 1150, y: 900.09}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 1300, y: 900.09}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_3, type: hardmacro, x: 1450, y: 900.09}
 
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 100}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 300}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 500}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 700}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 1000, y: 900}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1100}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1300}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1500}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1700}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_7/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 100}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_6/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 300}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_5/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 500}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_4/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 700}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 1300, y: 900}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1100}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1300}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1500}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1700}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1100.07}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1100.07}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1300.05}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1300.05}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1500.03}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1500.03}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1700.01}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1700.01}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       # Set DR construct
@@ -250,11 +137,143 @@ vlsi.inputs.hierarchical:
       #- {path: ChipTop/south_io_q3_7, type: hardmacro, master: "hl_8slice_south_io", x: 1610.5, y: 18.9, top_layer: gmb}
       #- {path: ChipTop/south_io_q3_8, type: hardmacro, master: "hl_8slice_south_io", x: 1766.45, y: 18.9, top_layer: gmb}
 
-## Drop-in Collateral
-## 4 pairs of these 2 blocks
-## Y coordinate has to be a multiple of 90(nm)
+      ## Drop-in Collateral
+      ## 4 pairs of these 2 blocks
+      ## Y coordinate has to be a multiple of 90(nm)
       - {path: ChipTop/DICCD1, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 969.3,   y: 1021.86, top_layer: m6}
       - {path: ChipTop/DICREG1, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1023.3,   y: 1021.86, top_layer: m6}
+
+    - RocketTile:
+      ## Margins are only useful for toplevel
+      ## Place all SRAMs and RocketTiles
+      - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 1900, height: 2000.07, margins: {left: 0, right: 0, top: 0, bottom: 0}}
+      ## Margin between SRAMs is 11.97 (minimum 11.52, but add some buffer)
+
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_0, type: hardmacro, x: 0, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_2, type: hardmacro, x: 0, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_1, type: hardmacro, x: 0, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_1, type: hardmacro, x: 170, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_0, type: hardmacro, x: 170, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_2, type: hardmacro, x: 170, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_2, type: hardmacro, x: 340, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_1, type: hardmacro, x: 340, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_0, type: hardmacro, x: 340, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_0, type: hardmacro, x: 510, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_2, type: hardmacro, x: 510, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_1, type: hardmacro, x: 510, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_1, type: hardmacro, x: 680, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_0, type: hardmacro, x: 680, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_2, type: hardmacro, x: 680, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_2, type: hardmacro, x: 850, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_1, type: hardmacro, x: 850, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_0, type: hardmacro, x: 850, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_0, type: hardmacro, x: 1020, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_2, type: hardmacro, x: 1020, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_1, type: hardmacro, x: 1020, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_1, type: hardmacro, x: 1190, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_0, type: hardmacro, x: 1190, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_2, type: hardmacro, x: 1190, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_31/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_23/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_15/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_7/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 570.06}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_30/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_22/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_14/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_6/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 570.06}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_29/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_21/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_13/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_5/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 570.06}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_28/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_20/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_12/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_4/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 570.06}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_27/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_19/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_11/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_3/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 570.06}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_26/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_18/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_10/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_2/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 570.06}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_25/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_17/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_9/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_1/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 570.06}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_24/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 420.03}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_16/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 470.07}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_8/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 520.02}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 570.06}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_31/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_23/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_15/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_7/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 770.04}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_30/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_22/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_14/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_6/MEM_ext/mem_0_0, type: hardmacro, x: 170, y: 770.04}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_29/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_21/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_13/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_5/MEM_ext/mem_0_0, type: hardmacro, x: 340, y: 770.04}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_28/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_20/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_12/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_4/MEM_ext/mem_0_0, type: hardmacro, x: 510, y: 770.04}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_27/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_19/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_11/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_3/MEM_ext/mem_0_0, type: hardmacro, x: 680, y: 770.04}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_26/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_18/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_10/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_2/MEM_ext/mem_0_0, type: hardmacro, x: 850, y: 770.04}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_25/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_17/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_9/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_1/MEM_ext/mem_0_0, type: hardmacro, x: 1020, y: 770.04}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_24/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 620.01}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_16/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 670.05}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_8/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 720.09}
+      - {path: RocketTile/compress_accel_decompressor/command_expander/MEM/MEM_ext/mem_0_0, type: hardmacro, x: 1190, y: 770.04}
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 0, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 0, y: 970.02}
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 70, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 70, y: 970.02}
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 140, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 140, y: 970.02}
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 210, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 210, y: 970.02}
+      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_0, type: hardmacro, x: 280, y: 820.08}
+      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_1, type: hardmacro, x: 280, y: 970.02}
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 350, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 350, y: 970.02}
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 420, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 420, y: 970.02}
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 490, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 490, y: 970.02}
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 560, y: 820.08}
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 560, y: 970.02}
+      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 0, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 0, y: 1270.08}
+      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 70, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 70, y: 1270.08}
+      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 140, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 140, y: 1270.08}
+      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 210, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 210, y: 1270.08}
+      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_0, type: hardmacro, x: 280, y: 1120.05}
+      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_1, type: hardmacro, x: 280, y: 1270.08}
+      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 350, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 350, y: 1270.08}
+      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 420, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 420, y: 1270.08}
+      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 490, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 490, y: 1270.08}
+      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1120.05}
+      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1270.08}
+
 
 ## Deleted power strap related stuffs
 
