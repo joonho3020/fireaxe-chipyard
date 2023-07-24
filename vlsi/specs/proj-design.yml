@@ -28,6 +28,7 @@ vlsi.inputs.hierarchical:
       - vlsi.inputs.power_spec_type: "cpf"
       - vlsi.inputs.power_spec_contents: "specs/cpf/ChipTop.cpf"
       - vlsi.inputs.power_spec_contents_meta: transclude
+      - par.blockage_spacing: 2.7
       ## Check the name of VDD and VSS with the intel process names (if it is vcc, ...)
       ## --> VDD and GND (vlsi/hammer-intech22-plugin/hammer/intech22/intech22.tech.json)
       ## Later, add real pins (in cpf)
@@ -39,11 +40,11 @@ vlsi.inputs.hierarchical:
         ## If jtag doesn't work, remove hpin and ChipTop
         - {name: "jtag_clock", path: "[get_pins hpin: ChipTop/jtag_TCK]", period: "200ns", uncertainty: "0.2ns"}
         ## Receive serial_tl_clock as an input signal from the FPGA (port)
-        - {name: "serial_tl_clock", port: "get_pins hpin ChipTop/system/serial_tl_clock", period: "5ns", uncertainty: "0.2ns"}
-        - {name: "uncore_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_uncore_clock "], period: "5ns", uncertainty: "0.2ns"}
-        - {name: "tile_0_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock "], period: "5ns", uncertainty: "0.2ns"}
+        - {name: "serial_tl_clock", port: "get_pins hpin ChipTop/system/serial_tl_clock", period: "10ns", uncertainty: "0.2ns"}
+        - {name: "uncore_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_uncore_clock "], period: "10ns", uncertainty: "0.2ns"}
+        - {name: "tile_0_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock "], period: "10ns", uncertainty: "0.2ns"}
           #- {name: "tile_1_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_1_clock "], period: "5ns", uncertainty: "0.2ns"}
-        - {name: "clock_clock", port: "clock_clock", period: "5ns", uncertainty: "0.2ns"} #Previous period: *CORECLOCK
+        - {name: "clock_clock", port: "clock_clock", period: "10ns", uncertainty: "0.2ns"} #Previous period: *CORECLOCK
       - vlsi.inputs.pin_mode: none
 
     - RocketTile:
@@ -72,39 +73,43 @@ vlsi.inputs.hierarchical:
       # ChipTop
       # height - (top + bottom) is multiple of 1.26um (and therefore 0.09um)
       # width (and left / right) are all multiples of 1.08um
-      - {path: ChipTop, type: toplevel, x: 0, y: 0, width: 3924.72, height: 4084.92, margins: {left: 177.12, right: 16.2, top: 379.26, bottom: 379.26}}
+      - {path: ChipTop, type: toplevel, x: 0, y: 0, width: 3924.72, height: 4084.92, margins: {left: 17.28, right: 17.28, top: 18.9, bottom: 18.9}}
 
       ## Specify RocketTile placement
-      - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 2000, y: 0.09, type: hardmacro}
+      #
+      #
+      # x-axis needs to be aligned to 0.108 grid
+      #
+      - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 1949.4, y: 20.16, type: hardmacro}
       # If we have a second rocket tile in one digital top, uncomment the line below.
       #- {path: ChipTop/system/tile_prci_domain_1/tile_reset_domain_tile, x: 2800, y: 1800, type: hardmacro}
 
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 100.08}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 100.08}
       - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_7/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 100.08}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 300.06}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 300.06}
       - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_6/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 300.06}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 500.04}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 500.04}
       - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_5/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 500.04}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 700.02}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 700.02}
       - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_4/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 700.02}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 1000, y: 900.09}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 1150, y: 900.09}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 1300, y: 900.09}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_3, type: hardmacro, x: 1450, y: 900.09}
 
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1100.07}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1100.07}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1300.05}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1300.05}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1500.03}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1500.03}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000, y: 1700.01}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1700.01}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 850, y: 954.09}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 1000, y: 954.09}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 1300, y: 954.09}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_3, type: hardmacro, x: 1450, y: 954.09}
 
-
-
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1208.07}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1208.07}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1408.05}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1408.05}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1608.03}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1608.03}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1808.01}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1808.01}
 
 
+      - {path: ChipTop/UROBS, x: 3850.2, y: 4009.3045, width: 57.78, height: 57.42, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
+      - {path: ChipTop/UROBS2, x: 16.74, y: 18.18, width: 57.78, height: 57.4355, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
 
 
 
@@ -140,14 +145,29 @@ vlsi.inputs.hierarchical:
       ## Drop-in Collateral
       ## 4 pairs of these 2 blocks
       ## Y coordinate has to be a multiple of 90(nm)
-      - {path: ChipTop/DICCD1, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 969.3,   y: 1021.86, top_layer: m6}
-      - {path: ChipTop/DICREG1, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1023.3,   y: 1021.86, top_layer: m6}
+      - {path: ChipTop/DICCD1, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1600.02,   y: 1500.03, top_layer: m6}
+      - {path: ChipTop/DICREG1, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1649.7,   y: 1500.03, top_layer: m6}
+
+      - {path: ChipTop/DICCD3, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1500.012,   y: 2500.02, top_layer: m6}
+      - {path: ChipTop/DICREG3, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1549.692,   y: 2500.02, top_layer: m6}
+
+      - {path: ChipTop/DICCD4, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 2500.092,   y: 2500.02, top_layer: m6}
+      - {path: ChipTop/DICREG4, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 2549.772,   y: 2500.02, top_layer: m6}
+
+
+
+
 
     - RocketTile:
       ## Margins are only useful for toplevel
       ## Place all SRAMs and RocketTiles
       - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 1900, height: 2000.07, margins: {left: 0, right: 0, top: 0, bottom: 0}}
       ## Margin between SRAMs is 11.97 (minimum 11.52, but add some buffer)
+
+      # Absolute placement: [2500.092, 1500.03]
+      - {path: RocketTile/DICCD2, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 550.692,   y: 1479.87, top_layer: m6}
+      # Absolute placement: [2549.772, 1500.03]
+      - {path: RocketTile/DICREG2, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 600.372,   y: 1479.87, top_layer: m6}
 
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_0, type: hardmacro, x: 0, y: 0.09}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_2, type: hardmacro, x: 0, y: 140.04}
