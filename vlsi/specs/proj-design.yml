@@ -108,12 +108,38 @@ vlsi.inputs.hierarchical:
       - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1808.01}
 
 
-      - {path: ChipTop/UROBS, x: 3850.2, y: 4009.3045, width: 57.78, height: 57.42, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
-      - {path: ChipTop/UROBS2, x: 16.74, y: 18.18, width: 57.78, height: 57.4355, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
+      - {path: ChipTop/UROBS, x: 3847.5, y: 4009.3045, width: 60.48, height: 57.42, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
+      - {path: ChipTop/UROBS2, x: 16.74, y: 18.18, width: 60.48, height: 57.4355, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
 
-
-
-
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD0, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 300.024,   y: 300.06, top_layer: m6}
+      - {path: ChipTop/DICREG0, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 349.704,   y: 300.06, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD1, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 300.024,   y: 1490.13, top_layer: m6}
+      - {path: ChipTop/DICREG1, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 349.704,   y: 1490.13, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD2, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 300.024,   y: 2680.2, top_layer: m6}
+      - {path: ChipTop/DICREG2, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 349.704,   y: 2680.2, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD3, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 300.024,   y: 3870.27, top_layer: m6}
+      - {path: ChipTop/DICREG3, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 349.704,   y: 3870.27, top_layer: m6}
+      # WARNING: MOVED RIGHT TO AVOID L2. ORIGINAL IDEAL COORDS:  CD: (1410.048, 300.06)
+      # WARNING: MOVED RIGHT TO AVOID L2. ORIGINAL IDEAL COORDS: REG: (1459.728, 300.06)
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD4, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1597.212,   y: 300.06, top_layer: m6}
+      - {path: ChipTop/DICREG4, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1646.892,   y: 300.06, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD5, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1410.048,   y: 3870.27, top_layer: m6}
+      - {path: ChipTop/DICREG5, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1459.728,   y: 3870.27, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD7, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 2520.072,   y: 3870.27, top_layer: m6}
+      - {path: ChipTop/DICREG7, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 2569.752,   y: 3870.27, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD10, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 3630.096,   y: 2680.2, top_layer: m6}
+      - {path: ChipTop/DICREG10, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 3679.776,   y: 2680.2, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop.
+      - {path: ChipTop/DICCD11, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 3630.096,   y: 3870.27, top_layer: m6}
+      - {path: ChipTop/DICREG11, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 3679.776,   y: 3870.27, top_layer: m6}
 
 
 
@@ -142,32 +168,14 @@ vlsi.inputs.hierarchical:
       #- {path: ChipTop/south_io_q3_7, type: hardmacro, master: "hl_8slice_south_io", x: 1610.5, y: 18.9, top_layer: gmb}
       #- {path: ChipTop/south_io_q3_8, type: hardmacro, master: "hl_8slice_south_io", x: 1766.45, y: 18.9, top_layer: gmb}
 
-      ## Drop-in Collateral
-      ## 4 pairs of these 2 blocks
-      ## Y coordinate has to be a multiple of 90(nm)
-      - {path: ChipTop/DICCD1, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1600.02,   y: 1500.03, top_layer: m6}
-      - {path: ChipTop/DICREG1, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1649.7,   y: 1500.03, top_layer: m6}
-
-      - {path: ChipTop/DICCD3, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1500.012,   y: 2500.02, top_layer: m6}
-      - {path: ChipTop/DICREG3, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1549.692,   y: 2500.02, top_layer: m6}
-
-      - {path: ChipTop/DICCD4, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 2500.092,   y: 2500.02, top_layer: m6}
-      - {path: ChipTop/DICREG4, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 2549.772,   y: 2500.02, top_layer: m6}
-
-
 
 
 
     - RocketTile:
       ## Margins are only useful for toplevel
       ## Place all SRAMs and RocketTiles
-      - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 1900, height: 2000.07, margins: {left: 0, right: 0, top: 0, bottom: 0}}
+      - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 1900.044, height: 2000.07, margins: {left: 0, right: 0, top: 0, bottom: 0}}
       ## Margin between SRAMs is 11.97 (minimum 11.52, but add some buffer)
-
-      # Absolute placement: [2500.092, 1500.03]
-      - {path: RocketTile/DICCD2, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 550.692,   y: 1479.87, top_layer: m6}
-      # Absolute placement: [2549.772, 1500.03]
-      - {path: RocketTile/DICREG2, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 600.372,   y: 1479.87, top_layer: m6}
 
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_0, type: hardmacro, x: 0, y: 0.09}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_2, type: hardmacro, x: 0, y: 140.04}
@@ -178,21 +186,23 @@ vlsi.inputs.hierarchical:
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_2, type: hardmacro, x: 340, y: 0.09}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_1, type: hardmacro, x: 340, y: 140.04}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_0, type: hardmacro, x: 340, y: 280.08}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_0, type: hardmacro, x: 510, y: 0.09}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_2, type: hardmacro, x: 510, y: 140.04}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_1, type: hardmacro, x: 510, y: 280.08}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_1, type: hardmacro, x: 680, y: 0.09}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_0, type: hardmacro, x: 680, y: 140.04}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_2, type: hardmacro, x: 680, y: 280.08}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_2, type: hardmacro, x: 850, y: 0.09}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_1, type: hardmacro, x: 850, y: 140.04}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_0, type: hardmacro, x: 850, y: 280.08}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_0, type: hardmacro, x: 1020, y: 0.09}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_2, type: hardmacro, x: 1020, y: 140.04}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_1, type: hardmacro, x: 1020, y: 280.08}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_1, type: hardmacro, x: 1190, y: 0.09}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_0, type: hardmacro, x: 1190, y: 140.04}
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_2, type: hardmacro, x: 1190, y: 280.08}
+
+      # SHIFTED BY 170 to avoid DIC
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_0, type: hardmacro, x: 680, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_3_2, type: hardmacro, x: 680, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_1, type: hardmacro, x: 680, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_1, type: hardmacro, x: 850, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_0, type: hardmacro, x: 850, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_6_2, type: hardmacro, x: 850, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_1_2, type: hardmacro, x: 1020, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_1, type: hardmacro, x: 1020, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_0, type: hardmacro, x: 1020, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_0, type: hardmacro, x: 1190, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_4_2, type: hardmacro, x: 1190, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_1, type: hardmacro, x: 1190, y: 280.08}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_1, type: hardmacro, x: 1360, y: 0.09}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_5_0, type: hardmacro, x: 1360, y: 140.04}
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_7_2, type: hardmacro, x: 1360, y: 280.08}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_31/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 420.03}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_23/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 470.07}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_15/MEM_ext/mem_0_0, type: hardmacro, x: 0, y: 520.02}
@@ -293,6 +303,22 @@ vlsi.inputs.hierarchical:
       - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 490, y: 1270.08}
       - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1120.05}
       - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1270.08}
+
+      # PAIR MUST BE PLACED IN RocketTile (assumed to be at: (1949.4,20.16)).
+      # EXPECTED ABSOLUTE PLACEMENT: CD : (2520.072, 300.06)
+      # EXPECTED ABSOLUTE PLACEMENT: REG: (2569.752, 300.06)
+      - {path: ChipTop/DICCD6, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 570.672,   y: 279.9, top_layer: m6}
+      - {path: ChipTop/DICREG6, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 620.352,   y: 279.9, top_layer: m6}
+      # PAIR MUST BE PLACED IN RocketTile (assumed to be at: (1949.4,20.16)).
+      # EXPECTED ABSOLUTE PLACEMENT: CD : (3630.096, 300.06)
+      # EXPECTED ABSOLUTE PLACEMENT: REG: (3679.776, 300.06)
+      - {path: ChipTop/DICCD8, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1680.696,   y: 279.9, top_layer: m6}
+      - {path: ChipTop/DICREG8, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1730.376,   y: 279.9, top_layer: m6}
+      # PAIR MUST BE PLACED IN RocketTile (assumed to be at: (1949.4,20.16)).
+      # EXPECTED ABSOLUTE PLACEMENT: CD : (3630.096, 1490.13)
+      # EXPECTED ABSOLUTE PLACEMENT: REG: (3679.776, 1490.13)
+      - {path: ChipTop/DICCD9, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1680.696,   y: 1469.97, top_layer: m6}
+      - {path: ChipTop/DICREG9, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1730.376,   y: 1469.97, top_layer: m6}
 
 
 ## Deleted power strap related stuffs

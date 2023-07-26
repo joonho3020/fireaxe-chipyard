@@ -4,7 +4,7 @@ THISDIR="$1"
 DATE=$(date +%Y-%m-%d__%H-%M-%S)
 #CONFIG_TO_RUN=HyperscaleSoCTapeout
 CONFIG_TO_RUN=HyperscaleSoCRocketClientNodeConfig
-MY_BUILD_DIR=build5
+MY_BUILD_DIR=build7_TMA2fix
 
 #TOP_TO_RUN=SnappyDecompressor
 
@@ -36,5 +36,6 @@ make -j32 redo-par-to-drc-ChipTop CONFIG=$CONFIG_TO_RUN VLSI_OBJ_DIR=$MY_BUILD_D
 
 make -j32 fill CONFIG=$CONFIG_TO_RUN HAMMER_LVS_TARGET=lvs-ChipTop HAMMER_DRC_TARGET=drc-ChipTop VLSI_OBJ_DIR=$MY_BUILD_DIR #HAMMER_EXTRA_ARGS="-p /bwrcq/scratch/skarandikar/tapeout/hyperscale-soc-chipyard-tapeout/vlsi/specs/proj-design.yml"
 make -j32 drc-final-drcd CONFIG=$CONFIG_TO_RUN HAMMER_LVS_TARGET=lvs-ChipTop HAMMER_DRC_TARGET=drc-ChipTop VLSI_OBJ_DIR=$MY_BUILD_DIR #HAMMER_EXTRA_ARGS="-p /bwrcq/scratch/skarandikar/tapeout/hyperscale-soc-chipyard-tapeout/vlsi/specs/proj-design.yml"
+make -j32 drc-final-fullchip CONFIG=$CONFIG_TO_RUN HAMMER_LVS_TARGET=lvs-ChipTop HAMMER_DRC_TARGET=drc-ChipTop VLSI_OBJ_DIR=$MY_BUILD_DIR #HAMMER_EXTRA_ARGS="-p /bwrcq/scratch/skarandikar/tapeout/hyperscale-soc-chipyard-tapeout/vlsi/specs/proj-design.yml"
 
 } 2>&1 | tee $THISDIR/bsub-runlog-$DATE.log
