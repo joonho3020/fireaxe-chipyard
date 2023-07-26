@@ -3,11 +3,11 @@
 x_alignment = 0.108
 y_alignment = 0.09
 
-x_base = 300.024
-y_base = 300.06
+x_base = 1308.312
+y_base = 1361.7
 
-x_offset = 1110.024
-y_offset = 1190.07
+x_offset = 1308.312
+y_offset = 1361.7
 
 cd_to_reg_offset_x = 49.68
 
@@ -30,15 +30,15 @@ def pair_edge_check(x, y):
     left_x_dist = x
     right_x_dist = chip_width - x
     min_x_dist = min(left_x_dist, right_x_dist)
-    x_in_range = min_x_dist < 400
+    x_in_range = min_x_dist < 1500
 
     bottom_y_dist = y
     top_y_dist = chip_height - y
     min_y_dist = min(bottom_y_dist, top_y_dist)
-    y_in_range = min_y_dist < 400
+    y_in_range = min_y_dist < 1500
 
     if not (x_in_range or y_in_range):
-        print(f"FAIL. DIC at {x}, {y} is not within 400um of chip edge")
+        print(f"FAIL. DIC at {x}, {y} is not within 1500um of chip edge")
         exit(1)
 
 x_assert(x_base)
@@ -48,18 +48,12 @@ x_assert(cd_to_reg_offset_x)
 y_assert(y_base)
 y_assert(y_offset)
 
-
 pairs_cd = []
 pairs_reg = []
 
-for x in range(4):
-    yvals = []
-    if x == 0 or x == 3:
-        yvals = list(range(4))
-    else:
-        yvals = [0, 3]
+for x in range(2):
+    for y in range(2):
 
-    for y in yvals:
         x_val_cd = round(x_base + x_offset * x, 3)
         y_val_cd = round(y_base + y_offset * y, 3)
 
@@ -72,7 +66,7 @@ for x in range(4):
         print(f"({x_val_cd}, {y_val_cd})")
         pairs_cd.append([x_val_cd, y_val_cd])
 
-        x_val_reg = cd_to_reg_offset_x + x_val_cd
+        x_val_reg = round(cd_to_reg_offset_x + x_val_cd, 3)
         y_val_reg = y_val_cd
 
         x_assert(x_val_reg)
@@ -82,7 +76,6 @@ for x in range(4):
 
         print(f"({x_val_reg}, {y_val_reg})")
         pairs_reg.append([x_val_reg, y_val_reg])
-
 
 rtile_xmin = 1949.4
 rtile_width = 1900.044
