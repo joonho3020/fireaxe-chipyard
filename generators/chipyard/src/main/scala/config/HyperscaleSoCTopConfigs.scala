@@ -3,9 +3,16 @@ package chipyard
 import org.chipsalliance.cde.config.{Config}
 import freechips.rocketchip.diplomacy._
 import freechips.rocketchip.subsystem._
+import freechips.rocketchip.tile._
 
 class WithExtMemIdBits(n: Int) extends Config((site, here, up) => {
   case ExtMem => up(ExtMem, site).map(x => x.copy(master = x.master.copy(idBits = n)))
+})
+
+class WithRocketBoundaryBuffers extends Config((site, here, up) => {
+  case TilesLocated(InSubsystem) => up(TilesLocated(InSubsystem), site) map {
+    case tp: RocketTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(boundaryBuffers=Some(RocketTileBoundaryBufferParams(true))))
+  }
 })
 
 class HyperscaleSoCRocketBaseConfig extends Config(
@@ -23,7 +30,7 @@ class HyperscaleSoCRocketBaseConfig extends Config(
   //==================================
   new chipyard.harness.WithAbsoluteFreqHarnessClockInstantiator ++ // use absolute frequencies for simulations in the harness
                                                                    // NOTE: This only simulates properly in VCS
-
+  new WithRocketBoundaryBuffers ++
   //==================================
   // Set up tiles
   //==================================
