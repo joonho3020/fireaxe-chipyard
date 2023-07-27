@@ -4,7 +4,7 @@ THISDIR="$1"
 DATE=$(date +%Y-%m-%d__%H-%M-%S)
 #CONFIG_TO_RUN=HyperscaleSoCTapeout
 CONFIG_TO_RUN=HyperscaleSoCRocketClientNodeConfig
-MY_BUILD_DIR=build7_TMA2fix
+MY_BUILD_DIR=build11_TMA2fix2
 
 #TOP_TO_RUN=SnappyDecompressor
 
