@@ -42,6 +42,8 @@ tail_lines = 20
 # argument to this file when called should be logfile to track
 filename = sys.argv[1]
 
+buildname = sys.argv[2]
+
 # heartbeat interval
 # every heartbeat_interval_s, send an email even if things have
 # been succeeding
@@ -73,6 +75,12 @@ def current_time_string():
 last_sent_noprogress_notif = False
 last_notif_time_elapsed = 0
 
+
+def lines_body():
+    log_line_prefix_now = f"[{current_time_string()}]:"
+    return log_line_prefix_now + log_line_prefix_now.join(last_check_lines)
+
+
 while True:
     subprocess.call("tail -n " + str(tail_lines) + " " + filename + " > " + tracker_filename, shell=True)
 
@@ -93,34 +101,33 @@ while True:
             last_sent_noprogress_notif = True
             time_since_last_diff += check_interval_s
 
-            log_line_prefix_now = log_line_prefix + f"[{current_time_string()}]:"
             print("-----------------------------------------")
-            failure_body = log_line_prefix_now + log_line_prefix_now.join(last_check_lines)
+            failure_body = lines_body()
             print(failure_body)
             print("-----------------------------------------")
 
-            failure_subject = f"WARNING [{current_time_string()}]: In the last {pstring_time(time_since_last_diff)}, the last {tail_lines} lines of the log have not changed (see above)."
+            failure_subject = f"{buildname}: WARNING [{current_time_string()}]: In the last {pstring_time(time_since_last_diff)}, the last {tail_lines} lines of the log have not changed (see above)."
             print(failure_subject)
             send_wrapper(failure_subject, failure_body)
             last_notif_time_elapsed = time_elapsed
         else:
             time_since_last_diff = 0
-            print(f"INFO [{current_time_string()}]: Log has advanced. Total time: {pstring_time(time_elapsed)}.")
+            print(f"{buildname}: INFO [{current_time_string()}]: Log has advanced. Total time: {pstring_time(time_elapsed)}.")
             if last_sent_noprogress_notif:
                 last_sent_noprogress_notif = False
 
-                success_subject = f"SUCCESS [{current_time_string()}]: Log has returned to advancing. Total time: {pstring_time(time_elapsed)}."
+                success_subject = f"{buildname}: SUCCESS [{current_time_string()}]: Log has returned to advancing. Total time: {pstring_time(time_elapsed)}."
                 print(success_subject)
-                send_wrapper(success_subject, success_subject)
+                send_wrapper(success_subject, lines_body())
                 last_notif_time_elapsed = time_elapsed
             elif (time_elapsed - last_notif_time_elapsed) > heartbeat_interval_s:
-                success_subject = f"SUCCESS [{current_time_string()}]: Heartbeat update. Everything is progressing fine. Total time: {pstring_time(time_elapsed)}."
+                success_subject = f"{buildname}: SUCCESS [{current_time_string()}]: Heartbeat update. Everything is progressing fine. Total time: {pstring_time(time_elapsed)}."
                 print(success_subject)
-                send_wrapper(success_subject, success_subject)
+                send_wrapper(success_subject, lines_body())
                 last_notif_time_elapsed = time_elapsed
 
 
-    print(f"INFO [{current_time_string()}]: Sleeping for {pstring_time(check_interval_s)}")
+    print(f"{buildname}: INFO [{current_time_string()}]: Sleeping for {pstring_time(check_interval_s)}")
     time.sleep(check_interval_s)
     time_elapsed += check_interval_s
 
