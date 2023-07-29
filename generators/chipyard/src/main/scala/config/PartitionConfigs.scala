@@ -272,3 +272,28 @@ class HyperscaleRocketAccelsConfig extends Config(
   new WithHyperscaleAccels ++
   new HyperscaleRocketBaseConfig
   )
+
+class WithZstdComp extends Config ((site, here, up) => {
+  case CompressAccelTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
+  case ZstdCompressorKey => Some(ZstdCompressorConfig(queDepth = 4))
+  case HufCompressUnrollCnt => 4
+  case HufCompressDicBuilderProcessedStatBytesPerCycle => 4
+  case FSECompressDicBuilderProcessedStatBytesPerCycle => 4
+  case ZstdLiteralLengthMaxAccuracy => 7
+  case ZstdMatchLengthMaxAccuracy => 7
+  case ZstdOffsetMaxAccuracy => 6
+  case RemoveSnappyFromMergedAccelerator => true
+  case CompressAccelPrintfEnable => true
+
+  case BuildRoCC => Seq(
+    (p: Parameters) => {
+      val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
+      zstdcomp
+    }
+  )
+})
+
+class HyperscaleZstdCompressorRocketConfig extends Config(
+  new WithZstdComp ++
+  new HyperscaleRocketBaseConfig
+  )
