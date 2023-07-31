@@ -2,7 +2,7 @@
 # Last updated: 03/29/23
 # Created By: Ken H
 # Design Configuration File
-# Comments: 
+# Comments:
 # 1) The Intel GPIO libraries are still incomplete for the TT analysis.
 #    Final integrator must remember to obtain the real TT libraries.
 #    Examine all comments with WARNING as a result.
@@ -38,13 +38,13 @@ vlsi.inputs.hierarchical:
         ## 1 uncore clock, 2 per-tile clock, 1 serial TL clock
         ## Add JTAG tck clock (path)
         ## If jtag doesn't work, remove hpin and ChipTop
-        - {name: "jtag_clock", path: "[get_pins hpin: ChipTop/jtag_TCK]", period: "200ns", uncertainty: "0.2ns"}
+        - {name: "jtag_clock", path: "[get_pins hpin: ChipTop/jtag_TCK]", period: "200ns", uncertainty: "0.1ns"}
         ## Receive serial_tl_clock as an input signal from the FPGA (port)
-        - {name: "serial_tl_clock", port: "get_pins hpin ChipTop/system/serial_tl_clock", period: "10ns", uncertainty: "0.2ns"}
-        - {name: "uncore_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_uncore_clock "], period: "10ns", uncertainty: "0.2ns"}
-        - {name: "tile_0_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock "], period: "10ns", uncertainty: "0.2ns"}
+        - {name: "serial_tl_clock", port: "get_pins hpin ChipTop/system/serial_tl_clock", period: "1.25ns", uncertainty: "0.1ns"}
+        - {name: "uncore_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_uncore_clock "], period: "1.25ns", uncertainty: "0.1ns"}
+        - {name: "tile_0_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock "], period: "1.25ns", uncertainty: "0.1ns"}
           #- {name: "tile_1_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_1_clock "], period: "5ns", uncertainty: "0.2ns"}
-        - {name: "clock_clock", port: "clock_clock", period: "10ns", uncertainty: "0.2ns"} #Previous period: *CORECLOCK
+        - {name: "clock_clock", port: "clock_clock", period: "1.25ns", uncertainty: "0.1ns"} #Previous period: *CORECLOCK
       - vlsi.inputs.pin_mode: none
 
     - RocketTile:
@@ -54,19 +54,42 @@ vlsi.inputs.hierarchical:
       - vlsi.inputs.power_spec_mode: "manual"
       - vlsi.inputs.power_spec_type: "cpf"
       - vlsi.inputs.power_spec_contents: "specs/cpf/ChipTop.cpf"
-      - vlsi.inputs.power_spec_contents_meta: transclude 
+      - vlsi.inputs.power_spec_contents_meta: transclude
       - vlsi.inputs.supplies.power: [{name: "VCC", pin: "VDD"}]
       - vlsi.inputs.clocks:
-        - {name: "clock", period: "10ns", uncertainty: "0.2ns"} 
+        - {name: "clock", period: "1.25ns", uncertainty: "0.1ns"}
       ## Copy everything under ChipTop here - done
       ## Adding par power strap constraints below
       - par.generate_power_straps_options.by_tracks.strap_layers: [m3, m4, m5, m6, m7, m8]
       - par.generate_power_straps_options.by_tracks.pin_layers: [m8]
-
-
-# Set hierarchical manual placements  
+      - vlsi.inputs.delays: [
+        { name: "reset", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_a_ready", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_b_valid", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_b_bits_*", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_c_ready", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_d_valid", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_d_bits_*", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_e_ready", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_int_local_in_3_0", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_int_local_in_2_0", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_int_local_in_1_0", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_int_local_in_1_1", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_int_local_in_0_0", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_hartid_in", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_a_valid", direction: "output", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_a_bits_*", direction: "output", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_b_ready", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_c_valid", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_c_bits_*", direction: "output", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_d_ready", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_e_valid", direction: "input", clock: "clock", delay: "100ps" },
+        { name: "auto_buffer_out_e_bits_*", direction: "output", clock: "clock", delay: "100ps" },
+        { name: "auto_wfi_out_0", direction: "output", clock: "clock", delay: "100ps" }
+      ]
+# Set hierarchical manual placements
   manual_placement_constraints_meta: append
-  manual_placement_constraints: 
+  manual_placement_constraints:
     # Set top-level
 
     - ChipTop:
@@ -293,151 +316,151 @@ vlsi.inputs.hierarchical:
 vlsi.technology.extra_libraries_meta: "append"
 vlsi.technology.extra_libraries:
   # 4x4 Die Ring
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/frame_4x4/uni2_4x4_c4_er_edm_prs_top.gds"
-      lef_file: "/tools/intech22/local/shared_resources/frame_4x4/uni2_4x4_c4_er_edm_prs_top.lef" 
+      lef_file: "/tools/intech22/local/shared_resources/frame_4x4/uni2_4x4_c4_er_edm_prs_top.lef"
 
   # hl_4slice_west_io
   # Analyzed at corner: psss_0p765_1p080_max.PS_125.prcs
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lib/hl_4slice_west_io.max.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lef/hl_4slice_west_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/rtl/hl_4slice_west_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/rtl/hl_4slice_west_io.v"
-      corner: 
+      corner:
         nmos: slow
         pmos: slow
         temperature: "125 C"
-      supplies: 
+      supplies:
         VDD: "0.765 V"
         GND: "0 V"
   # Analyzed at corner: pfff_1p050_1p320_min.PF_m40.prcf
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lib/hl_4slice_west_io.min.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lef/hl_4slice_west_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/rtl/hl_4slice_west_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/rtl/hl_4slice_west_io.v"
-      corner: 
+      corner:
         nmos: fast
         pmos: fast
         temperature: "-40 C"
-      supplies: 
+      supplies:
         VDD: "0.890 V"
         GND: "0 V"
-  # WARNING: This is a repurposed lib for TT. 
+  # WARNING: This is a repurposed lib for TT.
   # This is merely to get MMMC to function.
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lib/hl_4slice_west_io.min.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/lef/hl_4slice_west_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/rtl/hl_4slice_west_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_west_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_4slice_west_io/rtl/hl_4slice_west_io.v"
-      corner: 
+      corner:
         nmos: typical
         pmos: typical
         temperature: "25 C"
-      supplies: 
+      supplies:
         VDD: "0.850 V"
         GND: "0 V"
 
-  # hl_8slice_south_io 
+  # hl_8slice_south_io
   # Analyzed at corner: psss_0p765_1p080_max.PS_125.prcs
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_8slice_south_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lib/hl_8slice_south_io.max.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lef/hl_8slice_south_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/spice_netlist/hl_8slice_south_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_south_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/rtl/hl_8slice_south_io.v"
-      corner: 
+      corner:
         nmos: slow
         pmos: slow
         temperature: "125 C"
-      supplies: 
+      supplies:
         VDD: "0.765 V"
         GND: "0 V"
   # Analyzed at corner: pfff_1p050_1p320_min.PF_m40.prcf
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_8slice_south_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lib/hl_8slice_south_io.min.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lef/hl_8slice_south_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/spice_netlist/hl_8slice_south_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_south_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/rtl/hl_8slice_south_io.v"
-      corner: 
+      corner:
         nmos: fast
         pmos: fast
         temperature: "-40 C"
-      supplies: 
+      supplies:
         "VDD": "0.89 V"
         "GND": "0 V"
-  # WARNING: This is a repurposed lib for TT. 
+  # WARNING: This is a repurposed lib for TT.
   # This is merely to get MMMC to function.
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_8slice_south_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lib/hl_8slice_south_io.min.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/lef/hl_8slice_south_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/spice_netlist/hl_8slice_south_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_4slice_south_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_8slice_south_io/rtl/hl_8slice_south_io.v"
-      corner: 
+      corner:
         nmos: typical
         pmos: typical
         temperature: "25 C"
-      supplies: 
+      supplies:
         VDD: "0.850 V"
         GND: "0 V"
 
-  # hl_corner_io 
+  # hl_corner_io
   # Analyzed at corner: psss_0p765_1p080_max.PS_125.prcs
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lib/hl_corner_io.max.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lef/hl_corner_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/spice_netlist/hl_corner_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/rtl/hl_corner_io.v"
-      corner: 
+      corner:
         nmos: "slow"
         pmos: "slow"
         temperature: "125 C"
-      supplies: 
+      supplies:
         VDD: "0.765 V"
         GND: "0 V"
   # Analyzed at corner: pfff_1p050_1p320_min.PF_m40.prcf
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lib/hl_corner_io.max.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lef/hl_corner_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/spice_netlist/hl_corner_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/rtl/hl_corner_io.v"
-      corner: 
+      corner:
         nmos: "fast"
         pmos: "fast"
         temperature: "-40 C"
-      supplies: 
+      supplies:
         VDD: "0.89 V"
         GND: "0 V"
-  # WARNING: This is a repurposed lib for TT. 
+  # WARNING: This is a repurposed lib for TT.
   # This is merely to get MMMC to function.
-  - library: 
+  - library:
       gds_file: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io.gds"
       nldm_liberty_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lib/hl_corner_io.max.etm.lib.lib"
       lef_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/lef/hl_corner_io.fill.lef"
       spice_file: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/spice_netlist/hl_corner_io.sp"
       verilog_synth: "/tools/intech22/local/shared_resources/gpio_univ/hl_corner_io_container.v"
       verilog_sim: "/tools/intech22/local/UCB1222/USP/design_challenge/Final_2mar2023/USP_IO_HIP/hl_corner_io/rtl/hl_corner_io.v"
-      corner: 
+      corner:
         nmos: typical
         pmos: typical
         temperature: "25 C"
-      supplies: 
+      supplies:
         VDD: "0.850 V"
         GND: "0 V"
 
