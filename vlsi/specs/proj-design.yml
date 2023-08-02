@@ -46,7 +46,12 @@ vlsi.inputs.hierarchical:
           #- {name: "tile_1_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_1_clock "], period: "5ns", uncertainty: "0.2ns"}
         - {name: "clock_clock", port: "clock_clock", period: "1.25ns", uncertainty: "0.1ns"} #Previous period: *CORECLOCK
       - vlsi.inputs.pin_mode: none
-
+      - vlsi.inputs.custom_sdc_constraints: [
+        # false path
+        "set_false_path -from reset",
+        "set_false_path -from uart_0_txd",
+        "set_false_path -from uart_0_rxd"
+      ]
     - RocketTile:
       - vlsi.inputs.pin_mode: generated
       - vlsi.inputs.pin.generate_mode: semi_auto
@@ -63,29 +68,29 @@ vlsi.inputs.hierarchical:
       - par.generate_power_straps_options.by_tracks.strap_layers: [m3, m4, m5, m6, m7, m8]
       - par.generate_power_straps_options.by_tracks.pin_layers: [m8]
       - vlsi.inputs.delays: [
-        { name: "reset", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_a_ready", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_b_valid", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_b_bits_*", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_c_ready", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_d_valid", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_d_bits_*", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_e_ready", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_int_local_in_3_0", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_int_local_in_2_0", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_int_local_in_1_0", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_int_local_in_1_1", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_int_local_in_0_0", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_hartid_in", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_a_valid", direction: "output", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_a_bits_*", direction: "output", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_b_ready", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_c_valid", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_c_bits_*", direction: "output", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_d_ready", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_e_valid", direction: "input", clock: "clock", delay: "100ps" },
-        { name: "auto_buffer_out_e_bits_*", direction: "output", clock: "clock", delay: "100ps" },
-        { name: "auto_wfi_out_0", direction: "output", clock: "clock", delay: "100ps" }
+        { name: "reset", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_a_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_b_valid", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_b_bits_*", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_c_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_d_valid", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_d_bits_*", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_e_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_int_local_in_3_0", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_int_local_in_2_0", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_int_local_in_1_0", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_int_local_in_1_1", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_int_local_in_0_0", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_hartid_in", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_a_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_a_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_b_ready", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_c_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_c_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_d_ready", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_e_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_buffer_out_e_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "auto_wfi_out_0", direction: "output", clock: "clock", delay: "300ps" }
       ]
 # Set hierarchical manual placements
   manual_placement_constraints_meta: append
