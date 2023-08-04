@@ -74,7 +74,12 @@ vlsi.inputs.hierarchical:
           #- {name: "tile_1_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_1_clock "], period: "5ns", uncertainty: "0.13ns"}
 
       - vlsi.inputs.pin_mode: none
-
+      - vlsi.inputs.custom_sdc_constraints: [
+        # false path
+        "set_false_path -from reset",
+        "set_false_path -from uart_0_txd",
+        "set_false_path -from uart_0_rxd"
+      ]
     - RocketTile:
       - vlsi.inputs.pin_mode: generated
       - vlsi.inputs.pin.generate_mode: semi_auto
