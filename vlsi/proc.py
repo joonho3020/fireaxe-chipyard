@@ -23,7 +23,7 @@ with open('ROCKETTILETOP', 'r') as rttop:
             print("ERR")
             exit(1)
 
-        outline = f""" name: "{name}", direction: "{io}", clock: "clock", delay: "100ps" """
-        outline = "        - {" + outline + "},"
+        outline = f""" name: "{name}", direction: "{io}", clock: "clock", delay: "300ps" """
+        outline = "        {" + outline + "},"
         print(outline)
 
