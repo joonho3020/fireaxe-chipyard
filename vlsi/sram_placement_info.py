@@ -183,7 +183,7 @@ decomp_hist_paths, all_paths = filter_out_path(all_paths, f"ChipTop/system/tile_
 
 def map_decomp_hist(decomp_hist):
     x_start = 150
-    y_start = 100
+    y_start = 10
 
     end_x, end_y = map_grid_helper(decomp_hist, x_start=x_start, y_start=y_start, grid_width=8, grid_height=4, path_converter=convert_tile)
 
@@ -202,7 +202,7 @@ comp_hist_paths = list(filter(lambda x: "MEM_0_ext/mem_1_" not in x, comp_hist_p
 
 def map_comp_hist(comp_hist):
     x_start = 600
-    y_start = 100
+    y_start = 10
 
     end_x, end_y = map_grid_helper(comp_hist, x_start=x_start, y_start=y_start, grid_width=8, grid_height=4, path_converter=convert_tile)
 
@@ -212,10 +212,10 @@ map_comp_hist(comp_hist_paths)
 comp_ht_paths, all_paths = filter_out_path(all_paths, f"ChipTop/system/tile_prci_domain/{tile_path_name}/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext")
 
 def map_comp_ht(comp_ht):
-    x_start = 1600
-    y_start = 400
+    x_start = 1690
+    y_start = 300
 
-    end_x, end_y = map_grid_helper(comp_ht, x_start=x_start, y_start=y_start, grid_width=3, grid_height=1, path_converter=convert_tile)
+    end_x, end_y = map_grid_helper(comp_ht, x_start=x_start, y_start=y_start, grid_width=1, grid_height=3, path_converter=convert_tile)
 
 map_comp_ht(comp_ht_paths)
 
@@ -232,8 +232,8 @@ l1_data_tag_paths, all_paths = filter_out_path(all_paths, f"ChipTop/system/tile_
 
 def map_l1_data(l1_data_bank_paths, l1_data_tag_paths):
 
-    x_start = 600 + 700
-    y_start = 1000
+    x_start = 1050
+    y_start = 1600
 
     end_x, end_y = map_grid_helper(l1_data_bank_paths, x_start=x_start, y_start=y_start, grid_width=4, grid_height=4, path_converter=convert_tile)
 
@@ -256,7 +256,7 @@ l1_instruction_tag_paths, all_paths = filter_out_path(all_paths, f"ChipTop/syste
 
 def map_l1_instruction(l1_instruction_bank_paths, l1_instruction_tag_paths):
 
-    x_start = 600 + 800
+    x_start = 1550
     y_start = 1500
 
     end_x, end_y = map_grid_helper(l1_instruction_bank_paths, x_start=x_start, y_start=y_start, grid_width=4, grid_height=4, path_converter=convert_tile)
