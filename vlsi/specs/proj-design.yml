@@ -127,46 +127,41 @@ vlsi.inputs.hierarchical:
     # Set top-level
 
     - ChipTop:
-      # ChipTop
-      # height - (top + bottom) is multiple of 1.26um (and therefore 0.09um)
-      # width (and left / right) are all multiples of 1.08um
       - {path: ChipTop, type: toplevel, x: 0, y: 0, width: 3924.72, height: 4084.92, margins: {left: 17.28, right: 17.28, top: 18.9, bottom: 18.9}}
-
-      ## Specify RocketTile placement
-      #
-      #
-      # x-axis needs to be aligned to 0.108 grid
-      #
-      - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 1949.4, y: 20.16, type: hardmacro}
-      # If we have a second rocket tile in one digital top, uncomment the line below.
-      #- {path: ChipTop/system/tile_prci_domain_1/tile_reset_domain_tile, x: 2800, y: 1800, type: hardmacro}
-
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 100.08}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_7/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 100.08}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 300.06}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_6/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 300.06}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 500.04}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_5/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 500.04}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 700.02}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_4/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 700.02}
-
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 850, y: 954.09}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 1000, y: 954.09}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 1300, y: 954.09}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_3, type: hardmacro, x: 1450, y: 954.09}
-
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1208.07}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1208.07}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1408.05}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1450, y: 1408.05}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1608.03}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1608.03}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 850, y: 1808.01}
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1300, y: 1808.01}
-
 
       - {path: ChipTop/UROBS, x: 3847.5, y: 4009.3045, width: 60.48, height: 57.42, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
       - {path: ChipTop/UROBS2, x: 16.74, y: 18.18, width: 60.48, height: 57.4355, type: obstruction, obs_types: ["place", "route", "power"], layers: [m1, m2, m3, m4, m5, m6, m7, m8]}
+
+      # RocketTile placement
+      # X = 1000.08 (LPDDR) + 1.296 (padding) + 1000.08 (L2) + 1.296 (padding) = 2002.752
+      #   (which then becomes: 2002.752 + 1860.192 (RT width) + 1.296 (padding) + 60.48 (top-right PRS obstruct) = 3924.72 (chip width)
+      # OLD XVAL: 1949.4
+      # Y = 18.9 (die ring bottom) + 1.26 (padding) = 20.16
+      #   (which then becomes: 20.16 + 2002.41 (RT height) + 1.26 (padding) + 2002.41 (another RT height) + 1.26 (padding) + 57.42 (top-right PRS obstruct) = 4084.92
+      - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 2002.752, y: 20.16, type: hardmacro}
+
+
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 100.17} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 217.89
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 217.8} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 335.52
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 335.43} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 453.15
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 453.06} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 570.78
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 570.69} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 688.41
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 688.32} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 806.04
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 805.95} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 923.67
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 923.58} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 1041.3
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_7/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 100.17} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 217.89
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_6/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 217.8} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 335.52
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_5/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 335.43} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 453.15
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_4/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 453.06} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 570.78
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 570.69} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 688.41
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 688.32} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 806.04
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 805.95} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 923.67
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 923.58} # width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 1041.3
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 1544.724, y: 570.78} # width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1623.996, y_end: 659.34
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 1544.724, y: 659.25} # width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1623.996, y_end: 747.81
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 1623.888, y: 570.78} # width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1703.16, y_end: 659.34
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_3, type: hardmacro, x: 1623.888, y: 659.25} # width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1703.16, y_end: 747.81
+
 
       # PAIR MUST BE PLACED IN ChipTop.
       - {path: ChipTop/DICCD0, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1308.312,   y: 1361.7, top_layer: m6}
@@ -207,17 +202,16 @@ vlsi.inputs.hierarchical:
 
     - RocketTile:
 
-      # rocket tile base placement, just for reference:
-      # - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 1949.4, y: 20.16, type: hardmacro}
+      - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 1860.192, height: 2002.41, margins: {left: 0, right: 0, top: 0, bottom: 0}}
 
-      # chiptop
-      # - {path: ChipTop, type: toplevel, x: 0, y: 0, width: 3924.72, height: 4084.92, margins: {left: 17.28, right: 17.28, top: 18.9, bottom: 18.9}}
+      # PAIR MUST BE PLACED IN RocketTile (assumed to be at: (2002.752,20.16)).
+      # EXPECTED ABSOLUTE PLACEMENT: CD : (2616.624, 1361.7)
+      # EXPECTED ABSOLUTE PLACEMENT: REG: (2666.304, 1361.7)
+      - {path: ChipTop/DICCD2, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 613.872,   y: 1341.54, top_layer: m6}
+      - {path: ChipTop/DICREG2, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 663.552,   y: 1341.54, top_layer: m6}
 
 
-      ## Margins are only useful for toplevel
-      ## Place all SRAMs and RocketTiles
-      - {path: RocketTile, type: toplevel, x: 0, y: 0, width: 1900.044, height: 2000.07, margins: {left: 0, right: 0, top: 0, bottom: 0}}
-      ## Margin between SRAMs is 11.97 (minimum 11.52, but add some buffer)
+
 
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_0, type: hardmacro, x: 0, y: 0.09}
       - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_2_2, type: hardmacro, x: 0, y: 140.04}
@@ -346,12 +340,6 @@ vlsi.inputs.hierarchical:
       - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1120.05}
       - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 560, y: 1270.08}
 
-
-      # PAIR MUST BE PLACED IN RocketTile (assumed to be at: (1949.4,20.16)).
-      # EXPECTED ABSOLUTE PLACEMENT: CD : (2616.624, 1361.7)
-      # EXPECTED ABSOLUTE PLACEMENT: REG: (2666.304, 1361.7)
-      - {path: ChipTop/DICCD2, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 667.224,   y: 1341.54, top_layer: m6}
-      - {path: ChipTop/DICREG2, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 716.904,   y: 1341.54, top_layer: m6}
 
 ## Deleted power strap related stuffs
 
