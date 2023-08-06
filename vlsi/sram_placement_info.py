@@ -179,7 +179,15 @@ def convert_tile(path):
 convert_rockettile = convert_tile
 
 
-decomp_hist_paths, all_paths = filter_out_path(all_paths, f"ChipTop/system/tile_prci_domain/{tile_path_name}/compress_accel_decompressor/command_expander/MEM")
+if NODE == "Client":
+    decomp_unit_path = "compress_accel_decompressor/command_expander/MEM"
+elif NODE == "Server":
+    decomp_unit_path = "zstd_decompressor/frame_decompressor_block_decompressor/seqExecWriter/MEM"
+
+
+decomp_hb_path = f"ChipTop/system/tile_prci_domain/{tile_path_name}/{decomp_unit_path}"
+
+decomp_hist_paths, all_paths = filter_out_path(all_paths, decomp_hb_path)
 
 def map_decomp_hist(decomp_hist):
     x_start = 150
@@ -190,12 +198,35 @@ def map_decomp_hist(decomp_hist):
 map_decomp_hist(decomp_hist_paths)
 
 
+if NODE == "Server":
+    # client doesn't have these SRAMs at all
+    zstd_extra_path1 = f"ChipTop/system/tile_prci_domain/{tile_path_name}/zstd_decompressor/frame_decompressor_block_decompressor/off_dt"
+    zstd_extra_paths1, all_paths = filter_out_path(all_paths, zstd_extra_path1)
+
+    zstd_extra_path2 = f"ChipTop/system/tile_prci_domain/{tile_path_name}/zstd_decompressor/frame_decompressor_block_decompressor"
+    zstd_extra_paths2, all_paths = filter_out_path(all_paths, zstd_extra_path2)
+
+    def map_extras(zstd_extra1, zstd_extra2):
+
+        y_start = 250
+        x_start = 100
+
+        end_x, end_y = map_grid_helper(zstd_extra1, x_start=x_start, y_start=y_start, grid_width=1, grid_height=2, path_converter=convert_tile)
+
+        end_x2, end_y2 = map_grid_helper(zstd_extra2, x_start=end_x, y_start=y_start, grid_width=4, grid_height=1, path_converter=convert_tile)
+
+    map_extras(zstd_extra_paths1, zstd_extra_paths2)
 
 
+if NODE == "Client":
+    comp_unit_path = "compress_accel_compressor/lz77hashmatcher/history_buffer"
+elif NODE == "Server":
+    comp_unit_path = "merged_compressor/matchfinder/lz77hashmatcher/history_buffer"
+
+comp_hb_path = f"ChipTop/system/tile_prci_domain/{tile_path_name}/{comp_unit_path}"
 
 
-
-comp_hist_paths, all_paths = filter_out_path(all_paths, f"ChipTop/system/tile_prci_domain/{tile_path_name}/compress_accel_compressor/lz77hashmatcher/history_buffer")
+comp_hist_paths, all_paths = filter_out_path(all_paths, comp_hb_path)
 
 comp_hist_paths = list(filter(lambda x: "MEM_0_ext/mem_1_" not in x, comp_hist_paths))
 
@@ -209,7 +240,14 @@ def map_comp_hist(comp_hist):
 map_comp_hist(comp_hist_paths)
 
 
-comp_ht_paths, all_paths = filter_out_path(all_paths, f"ChipTop/system/tile_prci_domain/{tile_path_name}/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext")
+if NODE == "Client":
+    comp_unit_path2 = "compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext"
+elif NODE == "Server":
+    comp_unit_path2 = "merged_compressor/matchfinder/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext"
+
+comp_ht_path = f"ChipTop/system/tile_prci_domain/{tile_path_name}/{comp_unit_path2}"
+
+comp_ht_paths, all_paths = filter_out_path(all_paths, comp_ht_path)
 
 def map_comp_ht(comp_ht):
     x_start = 1690
