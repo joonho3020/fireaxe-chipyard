@@ -289,148 +289,149 @@ vlsi.inputs.hierarchical:
       - {path: RocketTile/compress_accel_decompressor/command_expander/MEM_1/MEM_ext/mem_0_0, type: hardmacro, x: 486.54, y: 43.11}
       # below sram properties: width: 47.996, height: 16.38, sram: ip224rfsbhpm1r1w128x8m1, x_end: 534.708, y_end: 76.14
       - {path: RocketTile/compress_accel_decompressor/command_expander/MEM/MEM_ext/mem_0_0, type: hardmacro, x: 486.54, y: 59.58}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 747.252, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_31/MEM_0_ext/mem_0_0, type: hardmacro, x: 600.156, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 747.252, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_30/MEM_0_ext/mem_0_0, type: hardmacro, x: 600.156, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 747.252, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_29/MEM_0_ext/mem_0_0, type: hardmacro, x: 600.156, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 747.252, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_28/MEM_0_ext/mem_0_0, type: hardmacro, x: 600.156, y: 117.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 894.24, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_27/MEM_0_ext/mem_0_0, type: hardmacro, x: 747.144, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 894.24, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_26/MEM_0_ext/mem_0_0, type: hardmacro, x: 747.144, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 894.24, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_25/MEM_0_ext/mem_0_0, type: hardmacro, x: 747.144, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 894.24, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_24/MEM_0_ext/mem_0_0, type: hardmacro, x: 747.144, y: 117.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1041.228, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_23/MEM_0_ext/mem_0_0, type: hardmacro, x: 894.132, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1041.228, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_22/MEM_0_ext/mem_0_0, type: hardmacro, x: 894.132, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1041.228, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_21/MEM_0_ext/mem_0_0, type: hardmacro, x: 894.132, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1041.228, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_20/MEM_0_ext/mem_0_0, type: hardmacro, x: 894.132, y: 117.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1188.216, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_19/MEM_0_ext/mem_0_0, type: hardmacro, x: 1041.12, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1188.216, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_18/MEM_0_ext/mem_0_0, type: hardmacro, x: 1041.12, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1188.216, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_17/MEM_0_ext/mem_0_0, type: hardmacro, x: 1041.12, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1188.216, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_16/MEM_0_ext/mem_0_0, type: hardmacro, x: 1041.12, y: 117.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1335.204, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_15/MEM_0_ext/mem_0_0, type: hardmacro, x: 1188.108, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1335.204, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_14/MEM_0_ext/mem_0_0, type: hardmacro, x: 1188.108, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1335.204, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_13/MEM_0_ext/mem_0_0, type: hardmacro, x: 1188.108, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1335.204, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_12/MEM_0_ext/mem_0_0, type: hardmacro, x: 1188.108, y: 117.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1482.192, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_11/MEM_0_ext/mem_0_0, type: hardmacro, x: 1335.096, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1482.192, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_10/MEM_0_ext/mem_0_0, type: hardmacro, x: 1335.096, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1482.192, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_9/MEM_0_ext/mem_0_0, type: hardmacro, x: 1335.096, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1482.192, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_8/MEM_0_ext/mem_0_0, type: hardmacro, x: 1335.096, y: 117.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1629.18, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_7/MEM_0_ext/mem_0_0, type: hardmacro, x: 1482.084, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1629.18, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_6/MEM_0_ext/mem_0_0, type: hardmacro, x: 1482.084, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1629.18, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_5/MEM_0_ext/mem_0_0, type: hardmacro, x: 1482.084, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1629.18, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_4/MEM_0_ext/mem_0_0, type: hardmacro, x: 1482.084, y: 117.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1776.168, y_end: 46.17
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_3/MEM_0_ext/mem_0_0, type: hardmacro, x: 1629.072, y: 10.17}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1776.168, y_end: 81.99
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_2/MEM_0_ext/mem_0_0, type: hardmacro, x: 1629.072, y: 45.99}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1776.168, y_end: 117.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_1/MEM_0_ext/mem_0_0, type: hardmacro, x: 1629.072, y: 81.9}
-      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1776.168, y_end: 153.9
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM/MEM_0_ext/mem_0_0, type: hardmacro, x: 1629.072, y: 117.9}
-      # below sram properties: width: 45.296, height: 113.58, sram: ip224rfsbhpm1r1w512x32m4, x_end: 1735.668, y_end: 413.91
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_0, type: hardmacro, x: 1690.2, y: 300.15}
-      # below sram properties: width: 45.296, height: 113.58, sram: ip224rfsbhpm1r1w512x32m4, x_end: 1735.668, y_end: 527.58
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_1, type: hardmacro, x: 1690.2, y: 413.82}
-      # below sram properties: width: 45.296, height: 113.58, sram: ip224rfsbhpm1r1w512x32m4, x_end: 1735.668, y_end: 641.25
-      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_2, type: hardmacro, x: 1690.2, y: 527.49}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1101.816, y_end: 1717.83
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 1050.192, y: 1600.11}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1101.816, y_end: 1835.46
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 1050.192, y: 1717.74}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1101.816, y_end: 1953.09
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 1050.192, y: 1835.37}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1101.816, y_end: 2070.72
-      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 1050.192, y: 1953.0}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1153.332, y_end: 1717.83
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 1101.708, y: 1600.11}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1153.332, y_end: 1835.46
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 1101.708, y: 1717.74}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1153.332, y_end: 1953.09
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 1101.708, y: 1835.37}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1153.332, y_end: 2070.72
-      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 1101.708, y: 1953.0}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1204.848, y_end: 1717.83
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 1153.224, y: 1600.11}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1204.848, y_end: 1835.46
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 1153.224, y: 1717.74}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1204.848, y_end: 1953.09
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 1153.224, y: 1835.37}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1204.848, y_end: 2070.72
-      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 1153.224, y: 1953.0}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1256.364, y_end: 1717.83
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 1204.74, y: 1600.11}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1256.364, y_end: 1835.46
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 1204.74, y: 1717.74}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1256.364, y_end: 1953.09
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 1204.74, y: 1835.37}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1256.364, y_end: 2070.72
-      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 1204.74, y: 1953.0}
-      # below sram properties: width: 51.452, height: 88.38, sram: ip224uhdlp1p11rf_512x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1001.808, y_end: 1924.02
-      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_0, type: hardmacro, x: 950.184, y: 1835.46}
-      # below sram properties: width: 51.452, height: 88.38, sram: ip224uhdlp1p11rf_512x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1001.808, y_end: 2012.49
-      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_1, type: hardmacro, x: 950.184, y: 1923.93}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1601.748, y_end: 1617.84
-      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1550.124, y: 1500.12}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1601.748, y_end: 1735.47
-      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1550.124, y: 1617.75}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1601.748, y_end: 1853.1
-      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1550.124, y: 1735.38}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1601.748, y_end: 1970.73
-      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1550.124, y: 1853.01}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1653.264, y_end: 1617.84
-      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1601.64, y: 1500.12}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1653.264, y_end: 1735.47
-      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1601.64, y: 1617.75}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1653.264, y_end: 1853.1
-      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1601.64, y: 1735.38}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1653.264, y_end: 1970.73
-      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1601.64, y: 1853.01}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1704.78, y_end: 1617.84
-      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1653.156, y: 1500.12}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1704.78, y_end: 1735.47
-      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1653.156, y: 1617.75}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1704.78, y_end: 1853.1
-      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1653.156, y: 1735.38}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1704.78, y_end: 1970.73
-      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1653.156, y: 1853.01}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1756.296, y_end: 1617.84
-      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1704.672, y: 1500.12}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1756.296, y_end: 1735.47
-      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1704.672, y: 1617.75}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1756.296, y_end: 1853.1
-      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1704.672, y: 1735.38}
-      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1756.296, y_end: 1970.73
-      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1704.672, y: 1853.01}
-      # below sram properties: width: 51.452, height: 85.14, sram: ip224uhdlp1p11rf_512x44m4b2c1s1_t0r0p0d0a1m1h, x_end: 1501.74, y_end: 1820.79
-      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_0, type: hardmacro, x: 1450.116, y: 1735.47}
-      # below sram properties: width: 51.452, height: 85.14, sram: ip224uhdlp1p11rf_512x44m4b2c1s1_t0r0p0d0a1m1h, x_end: 1501.74, y_end: 1906.02
-      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_1, type: hardmacro, x: 1450.116, y: 1820.7}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 812.268, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_31/MEM_0_ext/mem_0_0, type: hardmacro, x: 665.172, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 812.268, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_30/MEM_0_ext/mem_0_0, type: hardmacro, x: 665.172, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 812.268, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_29/MEM_0_ext/mem_0_0, type: hardmacro, x: 665.172, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 812.268, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_28/MEM_0_ext/mem_0_0, type: hardmacro, x: 665.172, y: 117.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 959.148, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_27/MEM_0_ext/mem_0_0, type: hardmacro, x: 812.052, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 959.148, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_26/MEM_0_ext/mem_0_0, type: hardmacro, x: 812.052, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 959.148, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_25/MEM_0_ext/mem_0_0, type: hardmacro, x: 812.052, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 959.148, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_24/MEM_0_ext/mem_0_0, type: hardmacro, x: 812.052, y: 117.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1106.244, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_23/MEM_0_ext/mem_0_0, type: hardmacro, x: 959.148, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1106.244, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_22/MEM_0_ext/mem_0_0, type: hardmacro, x: 959.148, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1106.244, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_21/MEM_0_ext/mem_0_0, type: hardmacro, x: 959.148, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1106.244, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_20/MEM_0_ext/mem_0_0, type: hardmacro, x: 959.148, y: 117.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1253.232, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_19/MEM_0_ext/mem_0_0, type: hardmacro, x: 1106.136, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1253.232, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_18/MEM_0_ext/mem_0_0, type: hardmacro, x: 1106.136, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1253.232, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_17/MEM_0_ext/mem_0_0, type: hardmacro, x: 1106.136, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1253.232, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_16/MEM_0_ext/mem_0_0, type: hardmacro, x: 1106.136, y: 117.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1400.22, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_15/MEM_0_ext/mem_0_0, type: hardmacro, x: 1253.124, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1400.22, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_14/MEM_0_ext/mem_0_0, type: hardmacro, x: 1253.124, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1400.22, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_13/MEM_0_ext/mem_0_0, type: hardmacro, x: 1253.124, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1400.22, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_12/MEM_0_ext/mem_0_0, type: hardmacro, x: 1253.124, y: 117.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1547.208, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_11/MEM_0_ext/mem_0_0, type: hardmacro, x: 1400.112, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1547.208, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_10/MEM_0_ext/mem_0_0, type: hardmacro, x: 1400.112, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1547.208, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_9/MEM_0_ext/mem_0_0, type: hardmacro, x: 1400.112, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1547.208, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_8/MEM_0_ext/mem_0_0, type: hardmacro, x: 1400.112, y: 117.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1694.196, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_7/MEM_0_ext/mem_0_0, type: hardmacro, x: 1547.1, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1694.196, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_6/MEM_0_ext/mem_0_0, type: hardmacro, x: 1547.1, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1694.196, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_5/MEM_0_ext/mem_0_0, type: hardmacro, x: 1547.1, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1694.196, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_4/MEM_0_ext/mem_0_0, type: hardmacro, x: 1547.1, y: 117.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1841.184, y_end: 46.17
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_3/MEM_0_ext/mem_0_0, type: hardmacro, x: 1694.088, y: 10.17}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1841.184, y_end: 81.99
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_2/MEM_0_ext/mem_0_0, type: hardmacro, x: 1694.088, y: 45.99}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1841.184, y_end: 117.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM_1/MEM_0_ext/mem_0_0, type: hardmacro, x: 1694.088, y: 81.9}
+      # below sram properties: width: 146.924, height: 35.82, sram: ip224rfsbhpm1r1w2048x8m4, x_end: 1841.184, y_end: 153.9
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/history_buffer/MEM/MEM_0_ext/mem_0_0, type: hardmacro, x: 1694.088, y: 117.9}
+      # below sram properties: width: 45.296, height: 113.58, sram: ip224rfsbhpm1r1w512x32m4, x_end: 1835.676, y_end: 413.91
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_0, type: hardmacro, x: 1790.208, y: 300.15}
+      # below sram properties: width: 45.296, height: 113.58, sram: ip224rfsbhpm1r1w512x32m4, x_end: 1835.676, y_end: 527.58
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_1, type: hardmacro, x: 1790.208, y: 413.82}
+      # below sram properties: width: 45.296, height: 113.58, sram: ip224rfsbhpm1r1w512x32m4, x_end: 1835.676, y_end: 641.25
+      - {path: RocketTile/compress_accel_compressor/lz77hashmatcher/hash_table/hash_mem/hash_mem_ext/mem_0_2, type: hardmacro, x: 1790.208, y: 527.49}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 451.764, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 400.14, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 503.28, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 451.656, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 554.796, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 503.172, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 606.204, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_3/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 554.58, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 657.72, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 606.204, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 709.344, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 657.72, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 760.752, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 709.128, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 812.268, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_2/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 760.752, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 863.892, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 812.268, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 915.3, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 863.676, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 966.924, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 915.3, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1018.332, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_1/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 966.708, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1069.956, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_0, type: hardmacro, x: 1018.332, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1121.472, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_1, type: hardmacro, x: 1069.848, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1172.88, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_2, type: hardmacro, x: 1121.256, y: 1865.16}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1224.504, y_end: 1982.88
+      - {path: RocketTile/dcache/data/data_arrays_0/data_arrays_0_ext/mem_0_3, type: hardmacro, x: 1172.88, y: 1865.16}
+      # below sram properties: width: 51.452, height: 88.38, sram: ip224uhdlp1p11rf_512x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1351.188, y_end: 1978.74
+      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_0, type: hardmacro, x: 1299.564, y: 1890.18}
+      # below sram properties: width: 51.452, height: 88.38, sram: ip224uhdlp1p11rf_512x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1402.704, y_end: 1978.74
+      - {path: RocketTile/dcache/tag_array/tag_array_ext/mem_0_1, type: hardmacro, x: 1351.08, y: 1890.18}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1686.744, y_end: 1632.87
+      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1635.12, y: 1515.15}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1686.744, y_end: 1750.5
+      - {path: RocketTile/frontend/icache/data_arrays_7/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1635.12, y: 1632.78}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1686.744, y_end: 1868.13
+      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1635.12, y: 1750.41}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1686.744, y_end: 1985.76
+      - {path: RocketTile/frontend/icache/data_arrays_6/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1635.12, y: 1868.04}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1738.26, y_end: 1632.87
+      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1686.636, y: 1515.15}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1738.26, y_end: 1750.5
+      - {path: RocketTile/frontend/icache/data_arrays_5/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1686.636, y: 1632.78}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1738.26, y_end: 1868.13
+      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1686.636, y: 1750.41}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1738.26, y_end: 1985.76
+      - {path: RocketTile/frontend/icache/data_arrays_4/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1686.636, y: 1868.04}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1789.668, y_end: 1632.87
+      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1738.044, y: 1515.15}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1789.668, y_end: 1750.5
+      - {path: RocketTile/frontend/icache/data_arrays_3/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1738.044, y: 1632.78}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1789.668, y_end: 1868.13
+      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1738.044, y: 1750.41}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1789.668, y_end: 1985.76
+      - {path: RocketTile/frontend/icache/data_arrays_2/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1738.044, y: 1868.04}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1841.292, y_end: 1632.87
+      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1789.668, y: 1515.15}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1841.292, y_end: 1750.5
+      - {path: RocketTile/frontend/icache/data_arrays_1/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1789.668, y: 1632.78}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1841.292, y_end: 1868.13
+      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_0, type: hardmacro, x: 1789.668, y: 1750.41}
+      # below sram properties: width: 51.452, height: 117.54, sram: ip224uhdlp1p11rf_512x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 1841.292, y_end: 1985.76
+      - {path: RocketTile/frontend/icache/data_arrays_0/data_arrays_0_0_ext/mem_0_1, type: hardmacro, x: 1789.668, y: 1868.04}
+      # below sram properties: width: 51.452, height: 85.14, sram: ip224uhdlp1p11rf_512x44m4b2c1s1_t0r0p0d0a1m1h, x_end: 1511.784, y_end: 1985.49
+      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_0, type: hardmacro, x: 1460.16, y: 1900.17}
+      # below sram properties: width: 51.452, height: 85.14, sram: ip224uhdlp1p11rf_512x44m4b2c1s1_t0r0p0d0a1m1h, x_end: 1563.3, y_end: 1985.49
+      - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_1, type: hardmacro, x: 1511.676, y: 1900.17}
+
 
 
 # Include extra libraries

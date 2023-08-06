@@ -9,6 +9,20 @@ CONFIGNAME=f"HyperscaleSoC{CORE}{NODE}NodeConfig"
 tile_path_name=""
 tile_module_name=""
 
+# used for checking bounds violations
+tile_max_x_raw = 1860.192
+tile_max_y_raw = 2002.41
+
+extra_margin = 15
+
+tile_max_x = tile_max_x_raw - extra_margin
+tile_max_y = tile_max_y_raw - extra_margin
+
+
+# TODO NOT REAL
+chip_max_x = 2000
+chip_max_y = 2000
+
 if CORE == "Rocket":
     tile_path_name = "tile_reset_domain_tile"
     tile_module_name="RocketTile"
@@ -118,7 +132,7 @@ def filter_out_path(input_array, filter_path, secondary_cond=None):
 def identity_path_converter(x):
     return x
 
-def map_grid_helper(similar_sram_paths, x_start, y_start, grid_width, grid_height, path_converter):
+def map_grid_helper(similar_sram_paths, x_start, y_start, grid_width, grid_height, path_converter, bounds_check_x, bounds_check_y):
     x_start_rd = round_xval(x_start)
     y_start_rd = round_yval(y_start)
 
@@ -154,6 +168,17 @@ def map_grid_helper(similar_sram_paths, x_start, y_start, grid_width, grid_heigh
     x_end = round_xval(x_start_rd + x_offset * grid_width)
     y_end = round_yval(y_start_rd + y_offset * grid_height)
 
+    bounds_fail = False
+    if x_end >= bounds_check_x:
+        print(f"FAILED X BOUNDS CHECK: {x_end} >= {bounds_check_x}")
+        bounds_fail = True
+    if y_end >= bounds_check_y:
+        print(f"FAILED Y BOUNDS CHECK: {y_end} >= {bounds_check_y}")
+        bounds_fail = True
+    if bounds_fail:
+        print(similar_sram_paths)
+        exit(1)
+
     return x_end, y_end
 
 
@@ -166,8 +191,8 @@ def map_l2_data(data_bank_paths, dir_paths):
     y_start = 100
 
 
-    end_x, end_y = map_grid_helper(data_bank_paths, x_start=x_start, y_start=y_start, grid_width=2, grid_height=8, path_converter=identity_path_converter)
-    end_x2, end_y2 = map_grid_helper(dir_paths, x_start=end_x + 50, y_start=((end_y - y_start)/2.0) + y_start, grid_width=2, grid_height=2, path_converter=identity_path_converter)
+    end_x, end_y = map_grid_helper(data_bank_paths, x_start=x_start, y_start=y_start, grid_width=2, grid_height=8, path_converter=identity_path_converter, bounds_check_x=chip_max_x, bounds_check_y=chip_max_y)
+    end_x2, end_y2 = map_grid_helper(dir_paths, x_start=end_x + 50, y_start=((end_y - y_start)/2.0) + y_start, grid_width=2, grid_height=2, path_converter=identity_path_converter, bounds_check_x=chip_max_x, bounds_check_y=chip_max_y)
 
 
 map_l2_data(data_bank_paths, dir_paths)
@@ -193,7 +218,7 @@ def map_decomp_hist(decomp_hist):
     x_start = 150
     y_start = 10
 
-    end_x, end_y = map_grid_helper(decomp_hist, x_start=x_start, y_start=y_start, grid_width=8, grid_height=4, path_converter=convert_tile)
+    end_x, end_y = map_grid_helper(decomp_hist, x_start=x_start, y_start=y_start, grid_width=8, grid_height=4, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
 map_decomp_hist(decomp_hist_paths)
 
@@ -211,9 +236,9 @@ if NODE == "Server":
         y_start = 250
         x_start = 100
 
-        end_x, end_y = map_grid_helper(zstd_extra1, x_start=x_start, y_start=y_start, grid_width=1, grid_height=2, path_converter=convert_tile)
+        end_x, end_y = map_grid_helper(zstd_extra1, x_start=x_start, y_start=y_start, grid_width=1, grid_height=2, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
-        end_x2, end_y2 = map_grid_helper(zstd_extra2, x_start=end_x, y_start=y_start, grid_width=4, grid_height=1, path_converter=convert_tile)
+        end_x2, end_y2 = map_grid_helper(zstd_extra2, x_start=end_x, y_start=y_start, grid_width=4, grid_height=1, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
     map_extras(zstd_extra_paths1, zstd_extra_paths2)
 
@@ -232,10 +257,10 @@ comp_hist_paths = list(filter(lambda x: "MEM_0_ext/mem_1_" not in x, comp_hist_p
 
 
 def map_comp_hist(comp_hist):
-    x_start = 600
+    x_start = 600+65
     y_start = 10
 
-    end_x, end_y = map_grid_helper(comp_hist, x_start=x_start, y_start=y_start, grid_width=8, grid_height=4, path_converter=convert_tile)
+    end_x, end_y = map_grid_helper(comp_hist, x_start=x_start, y_start=y_start, grid_width=8, grid_height=4, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
 map_comp_hist(comp_hist_paths)
 
@@ -250,10 +275,10 @@ comp_ht_path = f"ChipTop/system/tile_prci_domain/{tile_path_name}/{comp_unit_pat
 comp_ht_paths, all_paths = filter_out_path(all_paths, comp_ht_path)
 
 def map_comp_ht(comp_ht):
-    x_start = 1690
+    x_start = 1690 + 100
     y_start = 300
 
-    end_x, end_y = map_grid_helper(comp_ht, x_start=x_start, y_start=y_start, grid_width=1, grid_height=3, path_converter=convert_tile)
+    end_x, end_y = map_grid_helper(comp_ht, x_start=x_start, y_start=y_start, grid_width=1, grid_height=3, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
 map_comp_ht(comp_ht_paths)
 
@@ -270,13 +295,14 @@ l1_data_tag_paths, all_paths = filter_out_path(all_paths, f"ChipTop/system/tile_
 
 def map_l1_data(l1_data_bank_paths, l1_data_tag_paths):
 
-    x_start = 1050
-    y_start = 1600
+    x_start = 400
+    y_start = 1865
 
-    end_x, end_y = map_grid_helper(l1_data_bank_paths, x_start=x_start, y_start=y_start, grid_width=4, grid_height=4, path_converter=convert_tile)
+    end_x, end_y = map_grid_helper(l1_data_bank_paths, x_start=x_start, y_start=y_start, grid_width=16, grid_height=1, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
-    x_start2 = x_start - 100
-    end_x2, end_y2 = map_grid_helper(l1_data_tag_paths, x_start=x_start2, y_start=((end_y - y_start)/2.0) + y_start, grid_width=1, grid_height=2, path_converter=convert_tile)
+    x_start2 = end_x + 75
+    y_start2 = 1890
+    end_x2, end_y2 = map_grid_helper(l1_data_tag_paths, x_start=x_start2, y_start=y_start2, grid_width=2, grid_height=1, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
 map_l1_data(l1_data_bank_paths, l1_data_tag_paths)
 
@@ -294,13 +320,14 @@ l1_instruction_tag_paths, all_paths = filter_out_path(all_paths, f"ChipTop/syste
 
 def map_l1_instruction(l1_instruction_bank_paths, l1_instruction_tag_paths):
 
-    x_start = 1550
-    y_start = 1500
+    x_start = 1550+85
+    y_start = 1500+15
 
-    end_x, end_y = map_grid_helper(l1_instruction_bank_paths, x_start=x_start, y_start=y_start, grid_width=4, grid_height=4, path_converter=convert_tile)
+    end_x, end_y = map_grid_helper(l1_instruction_bank_paths, x_start=x_start, y_start=y_start, grid_width=4, grid_height=4, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
-    x_start2 = x_start - 100
-    end_x2, end_y2 = map_grid_helper(l1_instruction_tag_paths, x_start=x_start2, y_start=((end_y - y_start)/2.0) + y_start, grid_width=1, grid_height=2, path_converter=convert_tile)
+    x_start2 = x_start - 175
+    y_start2 = 1900
+    end_x2, end_y2 = map_grid_helper(l1_instruction_tag_paths, x_start=x_start2, y_start=y_start2, grid_width=2, grid_height=1, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 
 map_l1_instruction(l1_instruction_bank_paths, l1_instruction_tag_paths)
 
@@ -312,7 +339,7 @@ map_l1_instruction(l1_instruction_bank_paths, l1_instruction_tag_paths)
 #    x_start = 200
 #    y_start = 1000
 #
-#    end_x, end_y = map_grid_helper(predictors_1, x_start=x_start, y_start=y_start, grid_width=6, grid_height=8, path_converter=convert_tile)
+#    end_x, end_y = map_grid_helper(predictors_1, x_start=x_start, y_start=y_start, grid_width=6, grid_height=8, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 #
 #map_predictors1(predictors_1)
 #
@@ -325,7 +352,7 @@ map_l1_instruction(l1_instruction_bank_paths, l1_instruction_tag_paths)
 #    x_start = 200
 #    y_start = 1000
 #
-#    #end_x, end_y = map_grid_helper(predictors_2, x_start=x_start, y_start=y_start, grid_width=6, grid_height=8, path_converter=convert_tile)
+#    #end_x, end_y = map_grid_helper(predictors_2, x_start=x_start, y_start=y_start, grid_width=6, grid_height=8, path_converter=convert_tile, bounds_check_x=tile_max_x, bounds_check_y=tile_max_y)
 #
 #map_predictors1(predictors_2)
 
