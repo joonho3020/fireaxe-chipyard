@@ -35,24 +35,19 @@ vlsi.inputs.hierarchical:
       - vlsi.inputs.supplies.power: [{name: "VCC", pin: "VDD"}]
       - vlsi.inputs.supplies.ground: [{name: "VSS", pin: "GND"}]
       - vlsi.inputs.clocks: [
-          ## 1 uncore clock, 2 per-tile clock, 1 serial TL clock
-          ## Add JTAG tck clock (path)
-          ## If jtag doesn't work, remove hpin and ChipTop
           {name: "clock_clock", port: "clock_clock", period: "1.25ns", uncertainty: "0.13ns"},
-          {name: "jtag_TCK", path: "[get_pins hpin: ChipTop/jtag_TCK]", period: "200ns", uncertainty: "0.13ns"},
-          ## Receive serial_tl_clock as an input signal from the FPGA (port)
-          {name: "serial_tl_clock", port: "get_pins hpin ChipTop/system/serial_tl_clock", period: "1.25ns", uncertainty: "0.13ns"},
+          {name: "jtag_TCK", port: "jtag_TCK", period: "200ns", uncertainty: "0.13ns"},
+          {name: "serial_tl_clock", port: "serial_tl_clock", period: "1.25ns", uncertainty: "0.13ns"},
 
+          {name: "selector_tile_0_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clockSelector/auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock]", period: "1.25ns", uncertainty: "0.13ns"},
 
-          {name: "selector_tile_0_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector/auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock "], period: "1.25ns", uncertainty: "0.13ns"},
+          {name: "divider_tile_0_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clockDivider/auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock]", period: "1.25ns", uncertainty: "0.13ns"},
 
-          {name: "divider_tile_0_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockDivider/auto_clock_out_member_allClocks_tileClockGroup_tile_0_clock "], period: "1.25ns", uncertainty: "0.13ns"},
+          {name: "selector_uncore_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clockSelector/auto_clock_out_member_allClocks_uncore_clock]", period: "1.25ns", uncertainty: "0.13ns"},
+          # {name: "selector_fbus_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clockSelector/auto_clock_out_member_allClocks_fbus_clock]", period: "1.25ns", uncertainty: "0.13ns"},
 
-          {name: "selector_uncore_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector/auto_clock_out_member_allClocks_uncore_clock "], period: "1.25ns", uncertainty: "0.13ns"},
-          {name: "selector_fbus_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector/auto_clock_out_member_allClocks_fbus_clock "], period: "1.25ns", uncertainty: "0.13ns"},
-
-          {name: "divider_uncore_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockDivider/auto_clock_out_member_allClocks_uncore_clock "], period: "1.25ns", uncertainty: "0.13ns"},
-          {name: "divider_fbus_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockDivider/auto_clock_out_member_allClocks_fbus_clock "], period: "1.25ns", uncertainty: "0.13ns"},
+          {name: "divider_uncore_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clockDivider/auto_clock_out_member_allClocks_uncore_clock]", period: "1.25ns", uncertainty: "0.13ns"},
+          #  {name: "divider_fbus_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clockDivider/auto_clock_out_member_allClocks_fbus_clock]", period: "1.25ns", uncertainty: "0.13ns"},
 
           #uart ? do we need it
           {name: "uart_domain", path: "[get_pins hpin:ChipTop/system/uartClockDomainWrapper/auto_clock_in_clock]", period: "1.25ns", uncertainty: "0.13ns"},
@@ -61,7 +56,7 @@ vlsi.inputs.hierarchical:
           {name: "tile_0_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clock_gater/auto_clock_gater_out_member_allClocks_tileClockGroup_tile_0_clock]", period: "1.25ns", uncertainty: "0.13ns"},
 
           {name: "uncore_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clock_gater/auto_clock_gater_out_member_allClocks_uncore_clock]", period: "1.25ns", uncertainty: "0.13ns"},
-          {name: "fbus_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clock_gater/auto_clock_gater_out_member_allClocks_fbus_clock]", period: "1.25ns", uncertainty: "0.13ns"},
+          #  {name: "fbus_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clock_gater/auto_clock_gater_out_member_allClocks_fbus_clock]", period: "1.25ns", uncertainty: "0.13ns"},
 
           # debug mux
           # {name: "debug_mux_0", path: "[get_pins hpin:ChipTop/system/clockSelector/debug_mux/io_clocksIn_0]", period: "10ns", uncertainty: "0.1ns"},
@@ -71,12 +66,13 @@ vlsi.inputs.hierarchical:
 
       ]
 
-          #- {name: "tile_1_clock", path: ["get_pins hpin: ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_1_clock "], period: "5ns", uncertainty: "0.13ns"}
+          #- {name: "tile_1_clock", path: "[get_pins hpin:ChipTop/system/prci_ctrl_domain/clockSelector_auto_clock_out_member_allClocks_tileClockGroup_tile_1_clock]", period: "5ns", uncertainty: "0.13ns"}
 
       - vlsi.inputs.pin_mode: none
       - vlsi.inputs.custom_sdc_constraints: [
         # false path
         "set_false_path -from reset",
+        "set_false_path -from custom_boot",
         "set_false_path -from uart_0_txd",
         "set_false_path -from uart_0_rxd"
       ]
