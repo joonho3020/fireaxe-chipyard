@@ -280,7 +280,7 @@ class HyperscaleRocketSnappyCompleteConfig extends Config(
   )
 
 class HyperscaleRocketProtoSerDesConfig extends Config(
-   new protoacc.WithProtoAccelSerOnly ++
+  new protoacc.WithProtoAccelSerOnly ++
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
   )
