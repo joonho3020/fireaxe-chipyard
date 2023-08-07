@@ -272,3 +272,15 @@ class HyperscaleRocketAccelsConfig extends Config(
   new WithHyperscaleAccels ++
   new HyperscaleRocketBaseConfig
   )
+
+class HyperscaleRocketSnappyCompleteConfig extends Config(
+  new compressacc.AcceleratorPlacementRoCC ++
+  new compressacc.WithSnappyCompleteASIC ++
+  new HyperscaleRocketBaseConfig
+  )
+
+class HyperscaleRocketProtoSerDesConfig extends Config(
+   new protoacc.WithProtoAccelSerOnly ++
+  new protoacc.WithProtoAccelDeserOnly ++
+  new HyperscaleRocketBaseConfig
+  )
