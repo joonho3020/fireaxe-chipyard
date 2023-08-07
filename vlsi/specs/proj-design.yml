@@ -20,6 +20,7 @@ vlsi.inputs.hierarchical:
   manual_modules:
     - ChipTop:
       - RocketTile
+      - InclusiveCacheBankScheduler
 
   # Constrain ChipTop
   constraints:
@@ -115,8 +116,57 @@ vlsi.inputs.hierarchical:
         { name: "auto_buffer_out_e_valid", direction: "output", clock: "clock", delay: "300ps" },
         { name: "auto_buffer_out_e_bits_*", direction: "output", clock: "clock", delay: "300ps" },
         { name: "auto_wfi_out_0", direction: "output", clock: "clock", delay: "300ps" },
-
       ]
+
+    - InclusiveCacheBankScheduler:
+      - vlsi.inputs.pin_mode: generated
+      - vlsi.inputs.pin.generate_mode: semi_auto
+      - vlsi.inputs.pin.assignments: [{pins: "*", layers: ["m4", "m6"], side: "right"}]
+      - vlsi.inputs.power_spec_mode: "manual"
+      - vlsi.inputs.power_spec_type: "cpf"
+      - vlsi.inputs.power_spec_contents: "specs/cpf/ChipTop.cpf"
+      - vlsi.inputs.power_spec_contents_meta: transclude
+      - vlsi.inputs.supplies.power: [{name: "VCC", pin: "VDD"}]
+      - vlsi.inputs.clocks:
+        - {name: "clock", period: "1.25ns", uncertainty: "0.13ns"}
+      ## Copy everything under ChipTop here - done
+      ## Adding par power strap constraints below
+      - par.generate_power_straps_options.by_tracks.strap_layers: [m3, m4, m5, m6, m7, m8]
+      - par.generate_power_straps_options.by_tracks.pin_layers: [m8]
+      - vlsi.inputs.delays: [
+        { name: "reset", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_a_valid", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_a_bits_*", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_b_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_c_valid", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_c_bits_*", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_d_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_e_valid", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_e_bits_*", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_out_a_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_out_c_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_out_d_valid", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_out_d_bits_*", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_req_valid", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_req_bits_*", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_resp_ready", direction: "input", clock: "clock", delay: "300ps" },
+        { name: "io_in_a_ready", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_in_b_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_in_b_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_in_c_ready", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_in_d_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_in_d_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_out_a_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_out_a_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_out_c_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_out_c_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_out_d_ready", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_out_e_valid", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_out_e_bits_*", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_req_ready", direction: "output", clock: "clock", delay: "300ps" },
+        { name: "io_resp_valid", direction: "output", clock: "clock", delay: "300ps" },
+      ]
+
 # Set hierarchical manual placements
   manual_placement_constraints_meta: append
   manual_placement_constraints:
@@ -136,51 +186,15 @@ vlsi.inputs.hierarchical:
       #   (which then becomes: 20.16 + 2002.41 (RT height) + 1.26 (padding) + 2002.41 (another RT height) + 1.26 (padding) + 57.42 (top-right PRS obstruct) = 4084.92
       - {path: ChipTop/system/tile_prci_domain/tile_reset_domain_tile, x: 2002.752, y: 20.16, type: hardmacro}
 
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 217.89
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 100.17}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 335.52
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 217.8}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 453.15
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 335.43}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 570.78
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 453.06}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 688.41
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 570.69}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 806.04
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 688.32}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 923.67
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 805.95}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1247.508, y_end: 1041.3
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1000.188, y: 923.58}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 217.89
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_7/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 100.17}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 335.52
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_6/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 217.8}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 453.15
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_5/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 335.43}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 570.78
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_4/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 453.06}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 688.41
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 570.69}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 806.04
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 688.32}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 923.67
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 805.95}
-      # below sram properties: width: 247.148, height: 117.54, sram: ip224uhdlp1p11rf_4096x64m4b2c1s0_t0r0p0d0a1m1h, x_end: 1494.72, y_end: 1041.3
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 1247.4, y: 923.58}
-      # below sram properties: width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1623.996, y_end: 659.34
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 1544.724, y: 570.78}
-      # below sram properties: width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1623.996, y_end: 747.81
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 1544.724, y: 659.25}
-      # below sram properties: width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1703.16, y_end: 659.34
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 1623.888, y: 570.78}
-      # below sram properties: width: 79.1, height: 88.38, sram: ip224uhdlp1p11rf_1024x46m4b2c1s1_t0r0p0d0a1m1h, x_end: 1703.16, y_end: 747.81
-      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext/mem_0_3, type: hardmacro, x: 1623.888, y: 659.25}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched, x: 1001.376, y: 20.16, type: hardmacro}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched_1, x: 1001.376, y: 520.74, type: hardmacro}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched_2, x: 1001.376, y: 1021.32, type: hardmacro}
+      - {path: ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched_3, x: 1001.376, y: 1521.9, type: hardmacro}
 
 
-      # PAIR MUST BE PLACED IN ChipTop.
-      - {path: ChipTop/DICCD0, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1308.312,   y: 1361.7, top_layer: m6}
-      - {path: ChipTop/DICREG0, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1357.992,   y: 1361.7, top_layer: m6}
+      # PAIR MUST BE PLACED IN ChipTop. TODO: restore
+      # - {path: ChipTop/DICCD0, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1308.312,   y: 1361.7, top_layer: m6}
+      # - {path: ChipTop/DICREG0, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1357.992,   y: 1361.7, top_layer: m6}
       # PAIR MUST BE PLACED IN ChipTop.
       - {path: ChipTop/DICCD1, type: hardmacro, master: "fdk22tic4m1_diccd_cont", create_physical: true, x: 1308.312,   y: 2723.4, top_layer: m6}
       - {path: ChipTop/DICREG1, type: hardmacro, master: "fdk22tic4m1_dicreg_cont", create_physical: true, x: 1357.992,   y: 2723.4, top_layer: m6}
@@ -431,6 +445,55 @@ vlsi.inputs.hierarchical:
       - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_0, type: hardmacro, x: 1460.16, y: 1900.17}
       # below sram properties: width: 51.452, height: 85.14, sram: ip224uhdlp1p11rf_512x44m4b2c1s1_t0r0p0d0a1m1h, x_end: 1563.3, y_end: 1985.49
       - {path: RocketTile/frontend/icache/tag_array/tag_array_0_ext/mem_0_1, type: hardmacro, x: 1511.676, y: 1900.17}
+
+
+    - InclusiveCacheBankScheduler:
+
+      - {path: InclusiveCacheBankScheduler, type: toplevel, x: 0, y: 0, width: 700.056, height: 425.07, margins: {left: 0, right: 0, top: 0, bottom: 0}}
+
+
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 89.424, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_15/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 10.152, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 89.424, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_14/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 10.152, y: 117.81}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 168.588, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_13/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 89.316, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 168.588, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_12/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 89.316, y: 117.81}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 247.752, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_11/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 168.48, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 247.752, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_10/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 168.48, y: 117.81}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 326.916, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_9/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 247.644, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 326.916, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_8/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 247.644, y: 117.81}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 406.08, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_7/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 326.808, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 406.08, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_6/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 326.808, y: 117.81}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 485.244, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_5/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 405.972, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 485.244, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_4/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 405.972, y: 117.81}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 564.408, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_3/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 485.136, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 564.408, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_2/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 485.136, y: 117.81}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 643.464, y_end: 117.9
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_1/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 564.3, y: 0.18}
+      # below sram properties: width: 79.1, height: 117.54, sram: ip224uhdlp1p11rf_1024x64m4b2c1s1_t0r0p0d0a1m1h, x_end: 643.464, y_end: 235.53
+      - {path: InclusiveCacheBankScheduler/bankedStore/cc_banks_0/cc_banks_0_ext/mem_0_0, type: hardmacro, x: 564.3, y: 117.81}
+      # below sram properties: width: 51.452, height: 81.9, sram: ip224uhdlp1p11rf_512x42m4b2c1s1_t0r0p0d0a1m1h, x_end: 61.776, y_end: 317.7
+      - {path: InclusiveCacheBankScheduler/directory/cc_dir/cc_dir_ext/mem_0_0, type: hardmacro, x: 10.152, y: 235.62}
+      # below sram properties: width: 51.452, height: 81.9, sram: ip224uhdlp1p11rf_512x42m4b2c1s1_t0r0p0d0a1m1h, x_end: 61.776, y_end: 399.69
+      - {path: InclusiveCacheBankScheduler/directory/cc_dir/cc_dir_ext/mem_0_1, type: hardmacro, x: 10.152, y: 317.61}
+      # below sram properties: width: 51.452, height: 81.9, sram: ip224uhdlp1p11rf_512x42m4b2c1s1_t0r0p0d0a1m1h, x_end: 113.292, y_end: 317.7
+      - {path: InclusiveCacheBankScheduler/directory/cc_dir/cc_dir_ext/mem_0_2, type: hardmacro, x: 61.668, y: 235.62}
+      # below sram properties: width: 51.452, height: 81.9, sram: ip224uhdlp1p11rf_512x42m4b2c1s1_t0r0p0d0a1m1h, x_end: 113.292, y_end: 399.69
+      - {path: InclusiveCacheBankScheduler/directory/cc_dir/cc_dir_ext/mem_0_3, type: hardmacro, x: 61.668, y: 317.61}
+
+
 
 
 

@@ -182,21 +182,36 @@ def map_grid_helper(similar_sram_paths, x_start, y_start, grid_width, grid_heigh
     return x_end, y_end
 
 
+def convert_inclusivecache(path):
+    return path.replace(f"ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched", "InclusiveCacheBankScheduler")
+
+
+
+inclusive_cache_max_x = 700.056
+inclusive_cache_max_y = 425.07
 
 data_bank_paths, all_paths = filter_out_path(all_paths, "ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/bankedStore/cc_banks")
 dir_paths, all_paths = filter_out_path(all_paths, "ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched/directory/cc_dir/cc_dir_ext")
 
 def map_l2_data(data_bank_paths, dir_paths):
-    x_start = 1000
-    y_start = 100
+    x_start = 10
+    y_start = 0
 
 
-    end_x, end_y = map_grid_helper(data_bank_paths, x_start=x_start, y_start=y_start, grid_width=2, grid_height=8, path_converter=identity_path_converter, bounds_check_x=chip_max_x, bounds_check_y=chip_max_y)
-    end_x2, end_y2 = map_grid_helper(dir_paths, x_start=end_x + 50, y_start=((end_y - y_start)/2.0) + y_start, grid_width=2, grid_height=2, path_converter=identity_path_converter, bounds_check_x=chip_max_x, bounds_check_y=chip_max_y)
+    end_x, end_y = map_grid_helper(data_bank_paths, x_start=x_start, y_start=y_start, grid_width=8, grid_height=2, path_converter=convert_inclusivecache, bounds_check_x=inclusive_cache_max_x, bounds_check_y=inclusive_cache_max_y)
+
+
+    end_x2, end_y2 = map_grid_helper(dir_paths, x_start=x_start, y_start=end_y, grid_width=2, grid_height=2, path_converter=convert_inclusivecache, bounds_check_x=inclusive_cache_max_x, bounds_check_y=inclusive_cache_max_y)
 
 
 map_l2_data(data_bank_paths, dir_paths)
 
+# get rid of the other paths, since they're hierarch copies
+l2_copy_paths, all_paths = filter_out_path(all_paths, "ChipTop/system/subsystem_l2_wrapper/l2/inclusive_cache_bank_sched_")
+
+for x in l2_copy_paths:
+    final_placements.append("# skipped for hierarch")
+    final_placements.append("# skipped for hierarch")
 
 def convert_tile(path):
     return path.replace(f"ChipTop/system/tile_prci_domain/{tile_path_name}", tile_module_name)

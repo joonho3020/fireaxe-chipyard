@@ -24,9 +24,9 @@ class WithRocketBoundaryBuffers extends Config((site, here, up) => {
 
 
 class HyperscaleSoCRocketBaseConfig extends Config(
-  //new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2048) ++
-  //new freechips.rocketchip.subsystem.WithNBanks(8) ++
-  new WithExtMemIdBits(7) ++
+  new freechips.rocketchip.subsystem.WithInclusiveCache(outerLatencyCycles=10) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  //new WithExtMemIdBits(7) ++
   //new freechips.rocketchip.subsystem.WithNMemoryChannels(1) ++
   //
 
