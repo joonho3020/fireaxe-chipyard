@@ -72,6 +72,22 @@ class HyperscaleSoCRocketClientNodeConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleSoCRocketBaseConfig)
 
+
+class HyperscaleRocketFireSimBaseConfig extends Config(
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2048) ++
+  new freechips.rocketchip.subsystem.WithNBanks(8) ++
+  new WithExtMemIdBits(7) ++
+  new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
+  new chipyard.config.WithSystemBusWidth(32*8) ++
+  new RocketConfig)
+
+class HyperscaleSoCRocketClientNodeFireSimConfig extends Config(
+  new compressacc.AcceleratorPlacementRoCC ++
+  new compressacc.WithSnappyCompleteASIC ++
+  new protoacc.WithProtoAccelSerOnly ++
+  new protoacc.WithProtoAccelDeserOnly ++
+  new HyperscaleRocketFireSimBaseConfig)
+
 class HyperscaleSoCRocketServerNodeConfig extends Config(
   new compressacc.AcceleratorPlacementRoCC ++
   new compressacc.WithMergedCompressorLatencyInjection ++
