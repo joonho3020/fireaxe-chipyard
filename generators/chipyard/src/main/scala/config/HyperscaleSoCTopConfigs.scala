@@ -88,6 +88,11 @@ class HyperscaleSoCRocketClientNodeFireSimConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketFireSimBaseConfig)
 
+class HyperscaleSoCRocketProtoOnlyClientFireSimConfig extends Config(
+  new protoacc.WithProtoAccelSerOnly ++
+  new protoacc.WithProtoAccelDeserOnly ++
+  new HyperscaleRocketFireSimBaseConfig)
+
 class HyperscaleSoCRocketServerNodeConfig extends Config(
   new compressacc.AcceleratorPlacementRoCC ++
   new compressacc.WithMergedCompressorLatencyInjection ++
