@@ -361,3 +361,11 @@ class WithNoTraceFireSimConfigTweaks extends Config(
   new chipyard.config.WithMemoryBusFrequency(1000.0) ++
   new WithNoTraceFireSimDesignTweaks
 )
+
+class WithDefaultFireSimTweaksAndBridges extends Config(
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks)
+
+class FireSimHyperscaleTapeoutClientConfig extends Config(
+  new WithDefaultFireSimTweaksAndBridges ++
+  new eHyperscaleRocketTapeoutClientConfig)

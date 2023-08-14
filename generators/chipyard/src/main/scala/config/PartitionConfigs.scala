@@ -284,3 +284,13 @@ class HyperscaleRocketProtoSerDesConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
   )
+
+
+class HyperscaleRocketTapeoutClientConfig extends Config(
+  new compressacc.AcceleratorPlacementRoCC ++
+  new compressacc.WithSnappyCompleteASIC ++
+  new protoacc.WithProtoAccelSerOnly ++
+  new protoacc.WithProtoAccelDeserOnly ++
+  new HyperscaleRocketBaseConfig
+  )
+
