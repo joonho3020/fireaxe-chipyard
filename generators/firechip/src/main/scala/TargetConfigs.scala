@@ -368,4 +368,4 @@ class WithDefaultFireSimTweaksAndBridges extends Config(
 
 class FireSimHyperscaleTapeoutClientConfig extends Config(
   new WithDefaultFireSimTweaksAndBridges ++
-  new eHyperscaleRocketTapeoutClientConfig)
+  new HyperscaleRocketTapeoutClientConfig)
