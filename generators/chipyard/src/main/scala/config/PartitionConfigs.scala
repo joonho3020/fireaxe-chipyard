@@ -310,3 +310,37 @@ class HyperscaleRocketProtoSerDesConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
   )
+
+class EightRocketDistributedL2SbusMeshNoCConfig extends Config(
+  new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
+    constellation.protocol.DiplomaticNetworkNodeMapping(
+      inNodeMapping = ListMap(
+        "Core 0" -> 0,
+        "Core 1" -> 1,
+        "Core 2" -> 2,
+        "Core 3" -> 3,
+        "Core 4" -> 4,
+        "Core 5" -> 5,
+        "Core 6" -> 6,
+        "Core 7" -> 7,
+        "serial-tl" -> 8),
+      outNodeMapping = ListMap(
+        "system[0]" -> 0,
+        "system[1]" -> 1,
+        "system[2]" -> 2,
+        "system[3]" -> 3,
+        "system[4]" -> 4,
+        "system[5]" -> 5,
+        "system[6]" -> 6,
+        "system[7]" -> 7,
+        "pbus" -> 8)),
+    NoCParams(
+      topology        = Mesh2D(4, 4),
+      channelParamGen = (a, b) => UserChannelParams(Seq.fill(14) { UserVirtualChannelParams(4) }),
+      routingRelation = BlockingVirtualSubnetworksRouting(Mesh2DEscapeRouting(), 5, 1))
+  )) ++
+  new freechips.rocketchip.subsystem.WithNBanks(8) ++
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2 * 1024) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(8) ++
+  new chipyard.config.AbstractConfig
+)
