@@ -248,9 +248,9 @@ class EightRocketSbusMeshNoCConfig extends Config(
         "system[0]" -> 9, "system[1]" -> 10, "system[2]" -> 11, "system[3]" -> 12,
         "pbus" -> 8)),
     NoCParams(
-      topology        = TerminalRouter(Mesh2D(4, 4)),
+      topology        = Mesh2D(4, 4),
       channelParamGen = (a, b) => UserChannelParams(Seq.fill(14) { UserVirtualChannelParams(4) }),
-      routingRelation = BlockingVirtualSubnetworksRouting(TerminalRouterRouting(Mesh2DEscapeRouting()), 5, 1))
+      routingRelation = BlockingVirtualSubnetworksRouting(Mesh2DEscapeRouting(), 5, 1))
   )) ++
   new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
