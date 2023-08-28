@@ -28,7 +28,7 @@
 	url = https://github.com/firesim/icenet.git
 [submodule "generators/block-inclusivecache-sifive"]
 	path = generators/sifive-cache
-	url = https://github.com/joey0320/sifive-cache.git
+  url = https://github.com/joey0320/sifive-cache-private.git
   branch = multi-fpga-main
 [submodule "tools/dsptools"]
 	path = tools/dsptools
