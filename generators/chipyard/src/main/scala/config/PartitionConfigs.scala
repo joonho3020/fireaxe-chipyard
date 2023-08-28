@@ -340,6 +340,7 @@ class EightRocketDistributedL2SbusMeshNoCConfig extends Config(
       routingRelation = BlockingVirtualSubnetworksRouting(Mesh2DEscapeRouting(), 5, 1))
   )) ++
   new freechips.rocketchip.subsystem.WithNBanks(8) ++
+  new freechips.rocketchip.subsystem.WithoutTLMonitors ++
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2 * 1024) ++
   new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new chipyard.config.AbstractConfig
