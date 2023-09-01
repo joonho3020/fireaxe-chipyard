@@ -34,7 +34,7 @@
 	url = https://github.com/ucb-bar/dsptools.git
 [submodule "generators/sha3"]
 	path = generators/sha3
-	url = https://github.com/joey0320/sha3-private.git
+	url = ssh://git@github.com/joey0320/sha3-private.git
   branch = multi-fpga-main
 [submodule "vlsi/hammer-mentor-plugins"]
 	path = vlsi/hammer-mentor-plugins
@@ -50,7 +50,7 @@
 	url = https://github.com/ucb-bar/coremark-workload.git
 [submodule "generators/gemmini"]
 	path = generators/gemmini
-	url = https://github.com/joey0320/gemmini-private.git
+	url = ssh://git@github.com/joey0320/gemmini-private.git
   branch = multi-fpga-main
 [submodule "software/firemarshal"]
 	path = software/firemarshal
