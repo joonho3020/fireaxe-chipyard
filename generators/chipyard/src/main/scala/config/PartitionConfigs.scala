@@ -341,7 +341,7 @@ class EightRocketDistributedL2SbusMeshNoCConfig extends Config(
   )) ++
   new freechips.rocketchip.subsystem.WithNBanks(8) ++
   new freechips.rocketchip.subsystem.WithoutTLMonitors ++
-  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2 * 1024, hasControl=false) ++
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2 * 1024, ctrlAddr=None) ++
   new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new chipyard.config.AbstractConfig
 )
