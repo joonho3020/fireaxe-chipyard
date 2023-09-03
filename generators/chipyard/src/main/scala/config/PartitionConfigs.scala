@@ -317,4 +317,4 @@ class HyperscaleRocketTapeoutClientConfig extends Config(
   new protoacc.WithProtoAccelSerOnly ++
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
-  )
+)
