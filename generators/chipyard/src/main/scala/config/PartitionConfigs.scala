@@ -231,6 +231,32 @@ class QuadRocketSbusRingNoCConfig extends Config(
   new chipyard.config.AbstractConfig
 )
 
+class EightRocketSbusMeshNoCConfig extends Config(
+  new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
+    constellation.protocol.DiplomaticNetworkNodeMapping(
+      inNodeMapping = ListMap(
+        "Core 0" -> 0,
+        "Core 1" -> 1,
+        "Core 2" -> 2,
+        "Core 3" -> 3,
+        "Core 4" -> 4,
+        "Core 5" -> 5,
+        "Core 6" -> 6,
+        "Core 7" -> 7,
+        "serial-tl" -> 8),
+      outNodeMapping = ListMap(
+        "system[0]" -> 9, "system[1]" -> 10, "system[2]" -> 11, "system[3]" -> 12,
+        "pbus" -> 8)),
+    NoCParams(
+      topology        = Mesh2D(4, 4),
+      channelParamGen = (a, b) => UserChannelParams(Seq.fill(14) { UserVirtualChannelParams(4) }),
+      routingRelation = BlockingVirtualSubnetworksRouting(Mesh2DEscapeRouting(), 5, 1))
+  )) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(8) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.AbstractConfig
+)
+
 
 class WithHyperscaleAccels extends Config ((site, here, up) => {
   case ProtoTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
@@ -285,7 +311,6 @@ class HyperscaleRocketProtoSerDesConfig extends Config(
   new HyperscaleRocketBaseConfig
   )
 
-
 class HyperscaleRocketTapeoutClientConfig extends Config(
   new compressacc.AcceleratorPlacementRoCC ++
   new compressacc.WithSnappyCompleteASIC ++
@@ -293,4 +318,3 @@ class HyperscaleRocketTapeoutClientConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
   )
-
