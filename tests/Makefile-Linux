@@ -1,0 +1,15 @@
+RVPFX=riscv64-unknown
+CXX=$(RVPFX)-linux-gnu-gcc
+
+CFLAGS = -std=gnu99 -O2 -fno-common -fno-builtin-printf -Wall
+CFLAGS += -lpthread
+LDFLAGS = -static
+
+
+pt-hello.riscv: pt-hello.c
+	$(CXX) -o $@ $^ $(CFLAGS) $(LDFLAGS) 
+
+
+.PHONY:
+clean:
+	rm -f *.riscv *.o
