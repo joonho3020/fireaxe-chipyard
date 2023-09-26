@@ -25,7 +25,7 @@
   branch = multi-fpga-main
 [submodule "generators/icenet"]
 	path = generators/icenet
-	url = https://github.com/joey0320/icenet-private.git
+	url = ssh://git@github.com/joey0320/icenet-private.git
 [submodule "generators/block-inclusivecache-sifive"]
 	path = generators/sifive-cache
   url = https://github.com/chipsalliance/rocket-chip-inclusive-cache.git
