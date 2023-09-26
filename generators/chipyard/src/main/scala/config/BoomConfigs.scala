@@ -26,7 +26,7 @@ class MegaBoomConfig extends Config(
 
 class GigaBoomConfig extends Config(
   new boom.common.WithNGigaBooms(1) ++                           // giga boom config
-  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.WithSystemBusWidth(256) ++
   new chipyard.config.AbstractConfig)
 
 class DualSmallBoomConfig extends Config(
