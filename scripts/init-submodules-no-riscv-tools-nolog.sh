@@ -103,6 +103,7 @@ cd "$RDIR"
             generators/compress-acc \
             generators/protoacc \
             generators/sha3 \
+            generators/boom \
             generators/icenet \
             generators/gemmini \
             sims/firesim \
@@ -133,6 +134,7 @@ cd "$RDIR"
     git submodule update --init generators/compress-acc
     git submodule update --init generators/protoacc
     git submodule update --init generators/icenet
+    git submodule update --init generators/boom
 
     # Non-recursive clone to exclude gemmini-software
     git submodule update --init generators/gemmini
