@@ -78,7 +78,7 @@ class ChipyardSubsystem(implicit p: Parameters) extends BaseSubsystem
 {
   def coreMonitorBundles = tiles.map {
     case r: RocketTile => r.module.core.rocketImpl.coreMonitorBundle
-    case b: BoomTile => b.module.core.coreMonitorBundle
+    case b: BoomTile => b.module.backend.core.coreMonitorBundle
   }.toList
 
   // No-tile configs have to be handled specially.
