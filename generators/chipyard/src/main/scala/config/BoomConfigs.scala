@@ -29,7 +29,7 @@ class GigaBoomConfig extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
-class GoldenCoveConfig extends Config(
+class GoldenCoveBoomConfig extends Config(
   new boom.common.WithNGoldenCoveBooms(1) ++                     // golden cove boom config
   new chipyard.config.WithSystemBusWidth(256) ++
   new chipyard.config.AbstractConfig)
