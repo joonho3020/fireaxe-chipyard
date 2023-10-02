@@ -318,3 +318,18 @@ class HyperscaleRocketTapeoutClientConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
 )
+
+class SmallGoldenCoveBoomConfig extends Config(
+  new boom.common.WithNSmallGoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class MediumGoldenCoveBoomConfig extends Config(
+  new boom.common.WithNMediumGoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class LargeGoldenCoveBoomConfig extends Config(
+  new boom.common.WithNLargeGoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
