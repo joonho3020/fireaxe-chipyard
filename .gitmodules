@@ -130,7 +130,7 @@
 	url = https://github.com/chipsalliance/cde.git
 [submodule "software/embench/embench-iot"]
 	path = software/embench/embench-iot
-	url = https://github.com/embench/embench-iot.git
+	url = https://github.com/joey0320/embench-riscv.git
 [submodule "shuttle"]
 	path = generators/shuttle
 	url = https://github.com/ucb-bar/shuttle.git
