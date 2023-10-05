@@ -24,6 +24,8 @@ import icenet._
 import firesim.bridges._
 import firesim.configs._
 
+import boom.common.WithBoomDebugPrintf
+
 class WithBootROM extends Config((site, here, up) => {
   case BootROMLocated(x) => {
     val chipyardBootROM = new File(s"./generators/testchipip/bootrom/bootrom.rv${site(XLen)}.img")
@@ -95,6 +97,8 @@ class WithFireSimDesignTweaks extends Config(
   new chipyard.config.WithUART(BigInt(3686400L)) ++
   // Optional: Adds IO to attach tracerV bridges
   new chipyard.config.WithTraceIO ++
+  // Optional: Adds IO to attach TIP bridges
+  new chipyard.config.WithGenericTraceIO ++
   // Optional: Request 16 GiB of target-DRAM by default (can safely request up to 32 GiB on F1)
   new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 16L) ++
   // Optional: Removing this will require using an initramfs under linux

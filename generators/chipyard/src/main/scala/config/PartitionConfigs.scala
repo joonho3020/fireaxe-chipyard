@@ -318,3 +318,7 @@ class HyperscaleRocketTapeoutClientConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
 )
+
+class WithGenericTraceIO extends Config((site, here, up) => {
+  case GenericTracePortKey => Some(GenericTracePortParams())
+})
