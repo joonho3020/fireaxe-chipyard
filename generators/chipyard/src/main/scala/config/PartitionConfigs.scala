@@ -318,3 +318,9 @@ class HyperscaleRocketTapeoutClientConfig extends Config(
   new protoacc.WithProtoAccelDeserOnly ++
   new HyperscaleRocketBaseConfig
 )
+
+
+class TeraBoomConfig extends Config(
+  new boom.common.WithNTeraBooms(1) ++                          // large boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
