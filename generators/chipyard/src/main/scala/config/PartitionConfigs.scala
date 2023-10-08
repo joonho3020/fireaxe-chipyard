@@ -319,6 +319,35 @@ class HyperscaleRocketTapeoutClientConfig extends Config(
   new HyperscaleRocketBaseConfig
 )
 
+class SmallGoldenCoveBoomConfig extends Config(
+  new boom.common.WithNSmallGoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class MediumGoldenCoveBoomConfig extends Config(
+  new boom.common.WithNMediumGoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class LargeGoldenCoveBoomConfig extends Config(
+  new boom.common.WithNLargeGoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class GoldenCove50BoomConfig extends Config(
+  new boom.common.WithN50GoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class GoldenCove25BoomConfig extends Config(
+  new boom.common.WithN25GoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class GoldenCove40BoomConfig extends Config(
+  new boom.common.WithN40GoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
 
 class TeraBoomConfig extends Config(
   new boom.common.WithNTeraBooms(1) ++                          // large boom config

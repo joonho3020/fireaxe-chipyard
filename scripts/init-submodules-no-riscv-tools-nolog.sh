@@ -100,10 +100,11 @@ cd "$RDIR"
         for name in \
             toolchains/*-tools/* \
             toolchains/libgloss \
-            generators/sha3 \
             generators/compress-acc \
             generators/protoacc \
             generators/sha3 \
+            generators/boom \
+            generators/icenet \
             generators/gemmini \
             sims/firesim \
             software/nvdla-workload \
@@ -132,6 +133,8 @@ cd "$RDIR"
     git submodule update --init generators/sha3
     git submodule update --init generators/compress-acc
     git submodule update --init generators/protoacc
+    git submodule update --init generators/icenet
+    git submodule update --init generators/boom
 
     # Non-recursive clone to exclude gemmini-software
     git submodule update --init generators/gemmini
