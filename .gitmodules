@@ -1,10 +1,10 @@
 [submodule "rocket-chip"]
 	path = generators/rocket-chip
-	url = ssh://github.com/joey0320/rocket-chip-private.git
+	url = ssh://git@github.com/joey0320/rocket-chip-private.git
   branch = multi-fpga-main
 [submodule "testchipip"]
 	path = generators/testchipip
-	url = ssh://github.com/joey0320/testchipip-private.git
+	url = ssh://git@github.com/joey0320/testchipip-private.git
   branch = multi-fpga-main
 [submodule "barstools"]
 	path = tools/barstools
@@ -14,7 +14,7 @@
 	url = https://github.com/ucb-bar/riscv-torture.git
 [submodule "generators/boom"]
 	path = generators/boom
-	url = https://git@github.com/joey0320/riscv-boom-private.git
+	url = ssh://git@github.com/joey0320/riscv-boom-private.git
 [submodule "generators/sifive-blocks"]
 	path = generators/sifive-blocks
 	url = https://github.com/chipsalliance/rocket-chip-blocks.git
