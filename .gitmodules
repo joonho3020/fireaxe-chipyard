@@ -14,7 +14,7 @@
 	url = https://github.com/ucb-bar/riscv-torture.git
 [submodule "generators/boom"]
 	path = generators/boom
-	url = https://github.com/joey0320/riscv-boom-private.git
+	url = https://git@github.com/joey0320/riscv-boom-private.git
 [submodule "generators/sifive-blocks"]
 	path = generators/sifive-blocks
 	url = https://github.com/chipsalliance/rocket-chip-blocks.git
@@ -27,7 +27,7 @@
   branch = multi-fpga-main
 [submodule "generators/icenet"]
 	path = generators/icenet
-	url = ssh://github.com/joey0320/icenet-private.git
+	url = ssh://git@github.com/joey0320/icenet-private.git
   branch = multi-fpga-main
 [submodule "generators/block-inclusivecache-sifive"]
 	path = generators/sifive-cache
