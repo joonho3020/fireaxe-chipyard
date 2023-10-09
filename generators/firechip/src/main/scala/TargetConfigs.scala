@@ -24,8 +24,6 @@ import icenet._
 import firesim.bridges._
 import firesim.configs._
 
-import boom.common.WithBoomDebugPrintf
-
 class WithBootROM extends Config((site, here, up) => {
   case BootROMLocated(x) => {
     val chipyardBootROM = new File(s"./generators/testchipip/bootrom/bootrom.rv${site(XLen)}.img")
