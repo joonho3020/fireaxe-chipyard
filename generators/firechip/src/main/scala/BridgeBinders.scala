@@ -256,7 +256,7 @@ class WithDefaultMMIOOnlyFireSimBridges extends Config(
   new WithFireSimIOCellModels
 )
 
-class WithNoPCISFireSimBridges extends Config(
+class WithNoTracerVFireSimBridges extends Config(
   new WithTSIBridgeAndHarnessRAMOverSerialTL ++
   new WithUARTBridge ++
   new WithBlockDeviceBridge ++
@@ -266,12 +266,12 @@ class WithNoPCISFireSimBridges extends Config(
   new WithFireSimIOCellModels
 )
 
-class WithPCISNICFireSimBridges extends Config(
+class WithPCISNICNoTracerVFireSimBridges extends Config(
   new WithPCISNICBridge ++
-  new WithNoPCISFireSimBridges
+  new WithNoDMAFireSimBridges
 )
 
-class WithPCIMNICFireSimBridges extends Config(
+class WithPCIMNICNoTracerVFireSimBridges extends Config(
   new WithPCIMNICBridge ++
-  new WithNoPCISFireSimBridges
+  new WithNoDMAFireSimBridges
 )
