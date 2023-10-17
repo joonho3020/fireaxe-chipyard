@@ -1,9 +1,11 @@
 [submodule "rocket-chip"]
 	path = generators/rocket-chip
-	url = https://github.com/chipsalliance/rocket-chip.git
+	url = ssh://git@github.com/joey0320/rocket-chip-private.git
+  branch = multi-fpga-main
 [submodule "testchipip"]
 	path = generators/testchipip
-	url = https://github.com/ucb-bar/testchipip.git
+	url = ssh://git@github.com/joey0320/testchipip-private.git
+  branch = multi-fpga-main
 [submodule "barstools"]
 	path = tools/barstools
 	url = https://github.com/ucb-bar/barstools.git
@@ -27,6 +29,7 @@
 [submodule "generators/icenet"]
 	path = generators/icenet
 	url = ssh://git@github.com/joey0320/icenet-private.git
+  branch = multi-fpga-main
 [submodule "generators/block-inclusivecache-sifive"]
 	path = generators/sifive-cache
   url = https://github.com/chipsalliance/rocket-chip-inclusive-cache.git

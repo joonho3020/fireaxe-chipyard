@@ -197,6 +197,13 @@ class WithTraceGenBridge extends OverrideHarnessBinder({
     ports.map { p => GroundTestBridge(th.harnessBinderClock, p)(system.p) }; Nil
 })
 
+class WithGenericTraceBridge extends ComposeHarnessBinder({
+  (system: CanHaveGenericTraceIOModuleImp, th: FireSim, ports: Seq[GenericTraceOutputTop]) => {
+    ports.map { p => p.generic_traces.map(tileTrace => GenericTraceBridge(tileTrace)(system.p)) }
+    Nil
+  }
+})
+
 class WithFireSimMultiCycleRegfile extends ComposeIOBinder({
   (system: HasTilesModuleImp) => {
     system.outer.tiles.map {
@@ -242,6 +249,7 @@ class WithDefaultFireSimBridges extends Config(
   new WithFireSimMultiCycleRegfile ++
   new WithFireSimFAME5 ++
   new WithTracerVBridge ++
+  new WithGenericTraceBridge ++
   new WithFireSimIOCellModels
 )
 

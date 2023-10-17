@@ -334,7 +334,6 @@ class LargeGoldenCoveBoomConfig extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
-
 class GoldenCove50BoomConfig extends Config(
   new boom.common.WithN50GoldenCoveBooms(1) ++                           // giga boom config
   new chipyard.config.WithSystemBusWidth(128) ++
@@ -347,5 +346,10 @@ class GoldenCove25BoomConfig extends Config(
 
 class GoldenCove40BoomConfig extends Config(
   new boom.common.WithN40GoldenCoveBooms(1) ++                           // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
+class TeraBoomConfig extends Config(
+  new boom.common.WithNTeraBooms(1) ++                          // large boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
