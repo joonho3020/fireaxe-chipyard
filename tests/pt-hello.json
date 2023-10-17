@@ -1,0 +1,9 @@
+{
+  "name": "pt-hello",
+  "base": "br-base.json",
+  "overlay": "overlay",
+  "testing": {
+    "refDir": "refOutput",
+    "strip": true
+  }
+}

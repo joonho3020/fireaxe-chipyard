@@ -205,7 +205,7 @@ class WithFireSimMultiCycleRegfile extends ComposeIOBinder({
         r.module.fpuOpt.foreach(fpu => annotate(MemModelAnnotation(fpu.fpuImpl.regfile)))
       }
       case b: BoomTile => {
-        val core = b.module.core
+        val core = b.module.backend.core
         core.iregfile match {
           case irf: boom.exu.RegisterFileSynthesizable => annotate(MemModelAnnotation(irf.regfile))
         }

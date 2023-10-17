@@ -12,7 +12,8 @@
 	url = https://github.com/ucb-bar/riscv-torture.git
 [submodule "generators/boom"]
 	path = generators/boom
-	url = https://github.com/riscv-boom/riscv-boom.git
+	url = ssh://github.com/joey0320/riscv-boom-private.git
+  branch = multi-fpga-main
 [submodule "generators/sifive-blocks"]
 	path = generators/sifive-blocks
 	url = https://github.com/chipsalliance/rocket-chip-blocks.git
@@ -25,16 +26,16 @@
   branch = multi-fpga-main
 [submodule "generators/icenet"]
 	path = generators/icenet
-	url = https://github.com/firesim/icenet.git
+	url = ssh://git@github.com/joey0320/icenet-private.git
 [submodule "generators/block-inclusivecache-sifive"]
 	path = generators/sifive-cache
-	url = https://github.com/chipsalliance/rocket-chip-inclusive-cache.git
+  url = https://github.com/chipsalliance/rocket-chip-inclusive-cache.git
 [submodule "tools/dsptools"]
 	path = tools/dsptools
 	url = https://github.com/ucb-bar/dsptools.git
 [submodule "generators/sha3"]
 	path = generators/sha3
-	url = https://github.com/joey0320/sha3-private.git
+	url = ssh://git@github.com/joey0320/sha3-private.git
   branch = multi-fpga-main
 [submodule "vlsi/hammer-mentor-plugins"]
 	path = vlsi/hammer-mentor-plugins
@@ -50,7 +51,7 @@
 	url = https://github.com/ucb-bar/coremark-workload.git
 [submodule "generators/gemmini"]
 	path = generators/gemmini
-	url = https://github.com/joey0320/gemmini-private.git
+	url = ssh://git@github.com/joey0320/gemmini-private.git
   branch = multi-fpga-main
 [submodule "software/firemarshal"]
 	path = software/firemarshal
@@ -129,7 +130,7 @@
 	url = https://github.com/chipsalliance/cde.git
 [submodule "software/embench/embench-iot"]
 	path = software/embench/embench-iot
-	url = https://github.com/embench/embench-iot.git
+	url = https://github.com/joey0320/embench-riscv.git
 [submodule "shuttle"]
 	path = generators/shuttle
 	url = https://github.com/ucb-bar/shuttle.git
