@@ -276,10 +276,10 @@ class WithNoTracerVFireSimBridges extends Config(
 
 class WithPCISNICNoTracerVFireSimBridges extends Config(
   new WithPCISNICBridge ++
-  new WithNoDMAFireSimBridges
+  new WithNoTracerVFireSimBridges
 )
 
 class WithPCIMNICNoTracerVFireSimBridges extends Config(
   new WithPCIMNICBridge ++
-  new WithNoDMAFireSimBridges
+  new WithNoTracerVFireSimBridges
 )
