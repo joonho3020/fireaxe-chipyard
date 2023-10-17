@@ -369,3 +369,17 @@ class WithDefaultFireSimTweaksAndBridges extends Config(
 class FireSimHyperscaleTapeoutClientConfig extends Config(
   new WithDefaultFireSimTweaksAndBridges ++
   new chipyard.HyperscaleRocketTapeoutClientConfig)
+
+class WithPCISNICNoTracerVFireSimTweaksAndBridges extends Config(
+  new WithPCISNICNoTracerVFireSimBridges ++
+  new WithNoTraceFireSimConfigTweaks)
+
+class WithPCIMNoTracerVFireSimTweaksAndBridges extends Config(
+  new WithPCIMNICNoTracerVFireSimBridges ++
+  new WithNoTraceFireSimConfigTweaks)
+
+class WithPCIMFireSimTweaksAndBridges extends Config(
+  new WithTracerVBridge ++
+  // Optional: Adds IO to attach tracerV bridges
+  new chipyard.config.WithTraceIO ++
+  new WithPCIMNoTracerVFireSimTweaksAndBridges)
