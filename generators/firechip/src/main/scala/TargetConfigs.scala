@@ -379,6 +379,7 @@ class WithPCIMNoTraceFireSimTweaksAndBridges extends Config(
   new WithNoTraceFireSimConfigTweaks)
 
 class WithPCIMFireSimTweaksAndBridges extends Config(
+  new WithTracerVBridge ++
   // Optional: Adds IO to attach tracerV bridges
   new chipyard.config.WithTraceIO ++
   new WithPCIMNoTraceFireSimTweaksAndBridges)
