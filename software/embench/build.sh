@@ -15,7 +15,8 @@ bmarks=("aha-mont64" "crc32" "cubic" "edn" "huffbench"
         "matmult-int" "minver" "nbody" "nettle-aes"
         "nettle-sha256" "nsichneu" "picojpeg"
         "qrduino" "sglib-combined" "slre" "st"
-        "statemate" "ud" "wikisort")
+        "ud" "wikisort")
+# "statemate" "ud" "wikisort")
 for bmark in "${bmarks[@]}"
 do
     cp bd/src/$bmark/$bmark $BUILDDIR/
