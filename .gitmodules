@@ -32,7 +32,7 @@
   branch = multi-fpga-main
 [submodule "generators/block-inclusivecache-sifive"]
 	path = generators/sifive-cache
-  url = https://github.com/chipsalliance/rocket-chip-inclusive-cache.git
+	url = ssh://git@github.com/joey0320/sifive-cache-private.git
 [submodule "tools/dsptools"]
 	path = tools/dsptools
 	url = https://github.com/ucb-bar/dsptools.git
