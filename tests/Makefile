@@ -29,7 +29,8 @@ include libgloss.mk
 
 PROGRAMS = pwm blkdev accum charcount nic-loopback big-blkdev pingd \
            streaming-passthrough streaming-fir nvdla spiflashread spiflashwrite fft gcd \
-           hello mt-hello dram-probe
+           hello mt-hello dram-probe \
+					 nic-loopback-rss
 
 
 .DEFAULT_GOAL := default
