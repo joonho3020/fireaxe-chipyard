@@ -6,7 +6,7 @@
 #include <riscv-pk/encoding.h>
 #include "nic.h"
 
-#define NPACKETS 10
+#define NPACKETS 50
 #define TEST_OFFSET 3
 #define TEST_LEN 356
 #define ARRAY_LEN 360
