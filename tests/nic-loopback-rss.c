@@ -91,7 +91,7 @@ void __main(void) {
     if (mhartid == i) {
       run_nic(mhartid);
     }
-    barrier();
+/* barrier(); */
   }
 /* barrier(); */
 
