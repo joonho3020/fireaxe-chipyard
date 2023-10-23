@@ -16,6 +16,7 @@
 /* #define NO_NIC_DEBUG */
 
 
+static size_t RUN_CORES = 1;
 static size_t N_CORES = 2;
 
 static void __attribute__((noinline)) barrier()
@@ -27,7 +28,7 @@ static void __attribute__((noinline)) barrier()
   __sync_synchronize();
 
   threadsense = !threadsense;
-  if (__sync_fetch_and_add(&count, 1) == N_CORES-1)
+  if (__sync_fetch_and_add(&count, 1) == RUN_CORES-1)
   {
     count = 0;
     sense = threadsense;
@@ -101,8 +102,8 @@ void print_stats(void) {
 
 void __main(void) {
   size_t mhartid = read_csr(mhartid);
-  if (mhartid >= N_CORES) while (1);
-  for (size_t i = 0; i < N_CORES; i++) {
+  if (mhartid >= RUN_CORES) while (1);
+  for (size_t i = 0; i < RUN_CORES; i++) {
     if (mhartid == i) {
       run_nic(mhartid);
     }
