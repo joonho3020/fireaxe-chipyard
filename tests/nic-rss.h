@@ -51,6 +51,24 @@ static inline int nic_recv_comp(int id)
   return reg_read16(SIMPLENIC_RECV_COMP(id));
 }
 
+static inline float nic_ddio_rd_avg_lat(int nc) {
+  uint64_t cycles = reg_read64(SIMPLENIC_BASE + 24 * nc + 8);
+  uint64_t req_cnt = reg_read64(SIMPLENIC_BASE + 24 * nc + 16);
+  if (req_cnt == 0)
+    return -1;
+  else
+    return (float)(cycles / req_cnt);
+}
+
+static inline float nic_ddio_wr_avg_lat(int nc) {
+  uint64_t cycles = reg_read64(SIMPLENIC_BASE + 24 * nc + 24);
+  uint64_t req_cnt = reg_read64(SIMPLENIC_BASE + 24 * nc + 32);
+  if (req_cnt == 0)
+    return -1;
+  else
+   return (float)(cycles / req_cnt);
+}
+
 static void nic_send(void *data, unsigned long len, int id)
 {
   uintptr_t addr = ((uintptr_t) data) & ((1L << 48) - 1);
