@@ -20,3 +20,11 @@ class DDIODualRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBanks(2) ++     // 2 L2 banks
   new freechips.rocketchip.subsystem.WithNBigCores(2) ++  // dual rocket-core
   new chipyard.config.AbstractConfig)
+
+class DDIOOctaRocketConfig extends Config(
+  new chipyard.harness.WithLoopbackNIC ++                 // drive NIC IOs with loopback
+  new icenet.WithIceNIC ++                                // add an IceNIC
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=512) ++
+  new freechips.rocketchip.subsystem.WithNBanks(2) ++     // 2 L2 banks
+  new freechips.rocketchip.subsystem.WithNBigCores(8) ++  // dual rocket-core
+  new chipyard.config.AbstractConfig)
