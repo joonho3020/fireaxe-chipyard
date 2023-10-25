@@ -241,7 +241,6 @@ class WithDefaultFireSimBridges extends Config(
   new WithFireSimMultiCycleRegfile ++
   new WithFireSimFAME5 ++
   new WithTracerVBridge ++
-  new WithGenericTraceBridge ++
   new WithFireSimIOCellModels
 )
 
@@ -254,4 +253,9 @@ class WithDefaultMMIOOnlyFireSimBridges extends Config(
   new WithFireSimMultiCycleRegfile ++
   new WithFireSimFAME5 ++
   new WithFireSimIOCellModels
+)
+
+class WithTipTraceFireSimBridges extends Config(
+  new WithGenericTraceBridge ++
+  new WithDefaultFireSimBridges
 )
