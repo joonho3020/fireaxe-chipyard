@@ -82,18 +82,10 @@ class WithTSIBridgeAndHarnessRAMOverSerialTL extends OverrideHarnessBinder({
   }
 })
 
-class WithPCISNICBridge extends OverrideHarnessBinder({
+class WithNICBridge extends OverrideHarnessBinder({
   (system: CanHavePeripheryIceNIC, th: FireSim, ports: Seq[ClockedIO[NICIOvonly]]) => {
     val p: Parameters = GetSystemParameters(system)
-    ports.map { n => PCISNICBridge(n.clock, n.bits)(p) }
-    Nil
-  }
-})
-
-class WithPCIMNICBridge extends OverrideHarnessBinder({
-  (system: CanHavePeripheryIceNIC, th: FireSim, ports: Seq[ClockedIO[NICIOvonly]]) => {
-    val p: Parameters = GetSystemParameters(system)
-    ports.map { n => PCIMNICBridge(n.clock, n.bits)(p) }
+    ports.map { n => NICBridge(n.clock, n.bits)(p) }
     Nil
   }
 })
@@ -242,7 +234,7 @@ class WithFireSimFAME5 extends ComposeIOBinder({
 // Shorthand to register all of the provided bridges above
 class WithDefaultFireSimBridges extends Config(
   new WithTSIBridgeAndHarnessRAMOverSerialTL ++
-  new WithPCISNICBridge ++
+  new WithNICBridge ++
   new WithUARTBridge ++
   new WithBlockDeviceBridge ++
   new WithFASEDBridge ++
@@ -262,24 +254,4 @@ class WithDefaultMMIOOnlyFireSimBridges extends Config(
   new WithFireSimMultiCycleRegfile ++
   new WithFireSimFAME5 ++
   new WithFireSimIOCellModels
-)
-
-class WithNoTracerVFireSimBridges extends Config(
-  new WithTSIBridgeAndHarnessRAMOverSerialTL ++
-  new WithUARTBridge ++
-  new WithBlockDeviceBridge ++
-  new WithFASEDBridge ++
-  new WithFireSimMultiCycleRegfile ++
-  new WithFireSimFAME5 ++
-  new WithFireSimIOCellModels
-)
-
-class WithPCISNICNoTracerVFireSimBridges extends Config(
-  new WithPCISNICBridge ++
-  new WithNoDMAFireSimBridges
-)
-
-class WithPCIMNICNoTracerVFireSimBridges extends Config(
-  new WithPCIMNICBridge ++
-  new WithNoDMAFireSimBridges
 )
