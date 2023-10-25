@@ -95,8 +95,6 @@ class WithFireSimDesignTweaks extends Config(
   new chipyard.config.WithUART(BigInt(3686400L)) ++
   // Optional: Adds IO to attach tracerV bridges
   new chipyard.config.WithTraceIO ++
-  // Optional: Adds IO to attach TIP bridges
-  new chipyard.config.WithGenericTraceIO ++
   // Optional: Request 16 GiB of target-DRAM by default (can safely request up to 32 GiB on F1)
   new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 16L) ++
   // Optional: Removing this will require using an initramfs under linux
@@ -371,3 +369,13 @@ class WithDefaultFireSimTweaksAndBridges extends Config(
 class FireSimHyperscaleTapeoutClientConfig extends Config(
   new WithDefaultFireSimTweaksAndBridges ++
   new chipyard.HyperscaleRocketTapeoutClientConfig)
+
+class WithFireSimTipTraceDesignTweaks extends Config(
+  // Optional: Adds IO to attach TIP bridges
+  new chipyard.config.WithGenericTraceIO ++
+  new WithFireSimDesignTweaks
+)
+
+class WithFireSimTipTraceTweaskAndBridges extends Config(
+  new WithFireSimTipTraceDesignTweaks ++
+  new WithTipTraceFireSimBridges)
