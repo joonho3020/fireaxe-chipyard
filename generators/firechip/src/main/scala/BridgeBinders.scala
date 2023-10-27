@@ -203,7 +203,7 @@ class WithFireSimMultiCycleRegfile extends ComposeIOBinder({
         annotate(MemModelAnnotation(r.module.core.rocketImpl.rf.rf))
         r.module.fpuOpt.foreach(fpu => annotate(MemModelAnnotation(fpu.fpuImpl.regfile)))
       }
-      case b: BoomTile if (!b.boomTileParams.cloneTile) => {
+      case b: BoomTile if (!b.boomParams.cloneTile) => {
         val core = b.module.backend.core
         core.iregfile match {
           case irf: boom.exu.RegisterFileSynthesizable => annotate(MemModelAnnotation(irf.regfile))
@@ -221,7 +221,7 @@ class WithFireSimMultiCycleRegfile extends ComposeIOBinder({
 class WithFireSimFAME5 extends ComposeIOBinder({
   (system: HasTilesModuleImp) => {
     system.outer.tiles.map {
-      case b: BoomTile if (!b.boomTileParams.cloneTile) =>
+      case b: BoomTile if (!b.boomParams.cloneTile) =>
         annotate(EnableModelMultiThreadingAnnotation(b.module))
       case r: RocketTile if (!r.rocketParams.cloneTile) =>
         annotate(EnableModelMultiThreadingAnnotation(r.module))
