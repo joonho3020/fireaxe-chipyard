@@ -205,17 +205,14 @@ class DualRocket4MemChanNoCConfig extends Config(
   new chipyard.DualRocket4MemChanConfig
 )
 
-
-
-
 class QuadRocketSbusRingNoCConfig extends Config(
   new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
     constellation.protocol.DiplomaticNetworkNodeMapping(
       inNodeMapping = ListMap(
-        "Core 0" -> 0,
-        "Core 1" -> 1,
-        "Core 2" -> 2,
-        "Core 3" -> 3,
+        "Core 0 " -> 0,
+        "Core 1 " -> 1,
+        "Core 2 " -> 2,
+        "Core 3 " -> 3,
         "serial-tl" -> 4),
       outNodeMapping = ListMap(
         "system[0]" -> 5,
@@ -228,10 +225,10 @@ class QuadRocketSbusRingNoCConfig extends Config(
       channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
-  new freechips.rocketchip.subsystem.WithNBigCores(4) ++
+  new freechips.rocketchip.subsystem.WithCloneRocketTiles(3, 0) ++ // copy tile0 3 more times
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
-  new chipyard.config.AbstractConfig
-)
+  new chipyard.config.AbstractConfig)
 
 class EightRocketSbusMeshNoCConfig extends Config(
   new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
@@ -256,8 +253,7 @@ class EightRocketSbusMeshNoCConfig extends Config(
   )) ++
   new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
-  new chipyard.config.AbstractConfig
-)
+  new chipyard.config.AbstractConfig)
 
 class OctaRocketSbusRingNoCConfig extends Config(
   new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
@@ -302,7 +298,8 @@ class BroadwellSbusRingNoCConfig extends Config(
       channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
-  new boom.common.WithNLargeBooms(42) ++
+  new boom.common.WithCloneBoomTiles(41, 0) ++
+  new boom.common.WithNLargeBooms(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
   new chipyard.config.AbstractConfig)
 
