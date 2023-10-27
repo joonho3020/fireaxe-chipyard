@@ -287,7 +287,7 @@ class OctaRocketSbusRingNoCConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
   new chipyard.config.AbstractConfig)
 
-class BroadWellSbusRingNoCConfig extends Config(
+class BroadwellSbusRingNoCConfig extends Config(
   new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
     constellation.protocol.DiplomaticNetworkNodeMapping(
       inNodeMapping = ListMap((0 until 42).map(idx => s"Core ${idx}" -> idx).toListMap :_*) + ("serial-tl" -> 42),
