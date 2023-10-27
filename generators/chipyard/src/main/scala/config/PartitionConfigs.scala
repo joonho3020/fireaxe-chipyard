@@ -290,7 +290,7 @@ class OctaRocketSbusRingNoCConfig extends Config(
 class BroadwellSbusRingNoCConfig extends Config(
   new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
     constellation.protocol.DiplomaticNetworkNodeMapping(
-      inNodeMapping = ListMap((0 until 42).map(idx => s"Core ${idx}" -> idx).toListMap :_*) + ("serial-tl" -> 42),
+      inNodeMapping = ListMap((0 until 42).map(idx => s"Core ${idx}" -> idx) :_*) + ("serial-tl" -> 42),
       outNodeMapping = ListMap(
         "system[0]" -> 43,
         "system[1]" -> 44,
