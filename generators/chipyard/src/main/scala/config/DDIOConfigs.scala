@@ -48,3 +48,16 @@ class DDIOOctaLoopbackNICLargeBoomConfig extends Config(
   new chipyard.harness.WithLoopbackNIC ++                 // drive NIC IOs with loopback
   new icenet.WithIceNIC ++                                // add an IceNIC
   new chipyard.DDIOOctaLargeBoomConfig)
+
+
+class DDIODoDecaRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=512) ++
+  new freechips.rocketchip.subsystem.WithNBanks(2) ++     // 2 L2 banks
+  new freechips.rocketchip.subsystem.WithNBigCores(12) ++  // dual rocket-core
+  new chipyard.config.AbstractConfig)
+
+class DDIODoDeca128kBRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=128) ++
+  new freechips.rocketchip.subsystem.WithNBanks(2) ++     // 2 L2 banks
+  new freechips.rocketchip.subsystem.WithNBigCores(12) ++  // dual rocket-core
+  new chipyard.config.AbstractConfig)
