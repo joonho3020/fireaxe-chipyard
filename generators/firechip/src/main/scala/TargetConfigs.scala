@@ -366,6 +366,10 @@ class WithDefaultFireSimTweaksAndBridges extends Config(
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks)
 
+class WithNoTraceFireSimTweaksAndBridges extends Config(
+  new WithDefaultFireSimBridges ++
+  new WithNoTraceFireSimConfigTweaks)
+
 class FireSimHyperscaleTapeoutClientConfig extends Config(
   new WithDefaultFireSimTweaksAndBridges ++
   new chipyard.HyperscaleRocketTapeoutClientConfig)

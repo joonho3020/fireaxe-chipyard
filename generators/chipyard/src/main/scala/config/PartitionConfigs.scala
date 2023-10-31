@@ -16,8 +16,6 @@ import constellation.topology._
 import constellation.noc._
 import constellation.soc.{GlobalNoCParams}
 
-import scala.collection.immutable.ListMap
-
 import compressacc._
 import protoacc._
 

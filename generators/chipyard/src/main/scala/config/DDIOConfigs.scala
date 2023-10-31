@@ -1,7 +1,15 @@
 package chipyard
 
+import scala.collection.immutable.ListMap
 import org.chipsalliance.cde.config.{Config}
 import freechips.rocketchip.diplomacy.{AsynchronousCrossing}
+
+import constellation.channel._
+import constellation.routing._
+import constellation.topology._
+import constellation.noc._
+import constellation.soc.{GlobalNoCParams}
+
 
 // --------------
 // Rocket Configs
@@ -78,7 +86,7 @@ class DDIODoDecaBoom128kBL2SbusRingNoCConfig extends Config(
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=128) ++
-  new freechips.rocketchip.subsystem.WithNBanks(2) ++     // 2 L2 banks
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++     // 2 L2 banks
   new boom.common.WithCloneBoomTiles(11, 0) ++
   new boom.common.WithNLargeBooms(1) ++
   new chipyard.config.AbstractConfig)
@@ -99,7 +107,7 @@ class DDIODoDecaBoom256kBL2SbusRingNoCConfig extends Config(
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=256) ++
-  new freechips.rocketchip.subsystem.WithNBanks(2) ++     // 2 L2 banks
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++     // 2 L2 banks
   new boom.common.WithCloneBoomTiles(11, 0) ++
   new boom.common.WithNLargeBooms(1) ++
   new chipyard.config.AbstractConfig)
@@ -120,7 +128,7 @@ class DDIODoDecaBoom512kBL2SbusRingNoCConfig extends Config(
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=512) ++
-  new freechips.rocketchip.subsystem.WithNBanks(2) ++     // 2 L2 banks
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++     // 2 L2 banks
   new boom.common.WithCloneBoomTiles(11, 0) ++
   new boom.common.WithNLargeBooms(1) ++
   new chipyard.config.AbstractConfig)
