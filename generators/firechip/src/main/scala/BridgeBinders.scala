@@ -8,7 +8,7 @@ import chisel3.experimental.{DataMirror, Direction}
 import chisel3.util.experimental.BoringUtils
 
 import org.chipsalliance.cde.config.{Field, Config, Parameters}
-import freechips.rocketchip.diplomacy.{LazyModule}
+import freechips.rocketchip.diplomacy.{LazyModule, CloneLazyModule}
 import freechips.rocketchip.devices.debug.{Debug, HasPeripheryDebug}
 import freechips.rocketchip.amba.axi4.{AXI4Bundle}
 import freechips.rocketchip.subsystem._
@@ -199,11 +199,11 @@ class WithGenericTraceBridge extends ComposeHarnessBinder({
 class WithFireSimMultiCycleRegfile extends ComposeIOBinder({
   (system: HasTilesModuleImp) => {
     system.outer.tiles.map {
-      case r: RocketTile => {
+      case r: RocketTile if (!r.rocketParams.cloneTile) => {
         annotate(MemModelAnnotation(r.module.core.rocketImpl.rf.rf))
         r.module.fpuOpt.foreach(fpu => annotate(MemModelAnnotation(fpu.fpuImpl.regfile)))
       }
-      case b: BoomTile => {
+      case b: BoomTile if (!b.boomParams.cloneTile) => {
         val core = b.module.backend.core
         core.iregfile match {
           case irf: boom.exu.RegisterFileSynthesizable => annotate(MemModelAnnotation(irf.regfile))
@@ -221,9 +221,9 @@ class WithFireSimMultiCycleRegfile extends ComposeIOBinder({
 class WithFireSimFAME5 extends ComposeIOBinder({
   (system: HasTilesModuleImp) => {
     system.outer.tiles.map {
-      case b: BoomTile =>
+      case b: BoomTile if (!b.boomParams.cloneTile) =>
         annotate(EnableModelMultiThreadingAnnotation(b.module))
-      case r: RocketTile =>
+      case r: RocketTile if (!r.rocketParams.cloneTile) =>
         annotate(EnableModelMultiThreadingAnnotation(r.module))
       case _ => Nil
     }

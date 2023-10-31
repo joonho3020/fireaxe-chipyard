@@ -1,5 +1,7 @@
 package chipyard
 
+import scala.collection.immutable.ListMap
+
 import org.chipsalliance.cde.config._
 import freechips.rocketchip.subsystem.{ExtMem}
 import freechips.rocketchip.diplomacy._
@@ -203,17 +205,14 @@ class DualRocket4MemChanNoCConfig extends Config(
   new chipyard.DualRocket4MemChanConfig
 )
 
-
-
-
 class QuadRocketSbusRingNoCConfig extends Config(
   new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
     constellation.protocol.DiplomaticNetworkNodeMapping(
       inNodeMapping = ListMap(
-        "Core 0" -> 0,
-        "Core 1" -> 1,
-        "Core 2" -> 2,
-        "Core 3" -> 3,
+        "Core 0 " -> 0,
+        "Core 1 " -> 1,
+        "Core 2 " -> 2,
+        "Core 3 " -> 3,
         "serial-tl" -> 4),
       outNodeMapping = ListMap(
         "system[0]" -> 5,
@@ -226,10 +225,10 @@ class QuadRocketSbusRingNoCConfig extends Config(
       channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
-  new freechips.rocketchip.subsystem.WithNBigCores(4) ++
+  new freechips.rocketchip.subsystem.WithCloneRocketTiles(3, 0) ++ // copy tile0 3 more times
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
-  new chipyard.config.AbstractConfig
-)
+  new chipyard.config.AbstractConfig)
 
 class EightRocketSbusMeshNoCConfig extends Config(
   new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
@@ -254,9 +253,55 @@ class EightRocketSbusMeshNoCConfig extends Config(
   )) ++
   new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
-  new chipyard.config.AbstractConfig
-)
+  new chipyard.config.AbstractConfig)
 
+class OctaRocketSbusRingNoCConfig extends Config(
+  new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
+    constellation.protocol.DiplomaticNetworkNodeMapping(
+      inNodeMapping = ListMap(
+        "Core 0" -> 0,
+        "Core 1" -> 1,
+        "Core 2" -> 2,
+        "Core 3" -> 3,
+        "Core 4" -> 4,
+        "Core 5" -> 5,
+        "Core 6" -> 6,
+        "Core 7" -> 7,
+        "serial-tl" -> 8),
+      outNodeMapping = ListMap(
+        "system[0]" -> 9,
+        "system[1]" -> 10,
+        "system[2]" -> 11,
+        "system[3]" -> 12,
+        "pbus" -> 8)), // TSI is on the pbus, so serial-tl and pbus should be on the same node
+    NoCParams(
+      topology        = UnidirectionalTorus1D(13),
+      channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
+      routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
+  )) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(8) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.AbstractConfig)
+
+class BroadwellSbusRingNoCConfig extends Config(
+  new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
+    constellation.protocol.DiplomaticNetworkNodeMapping(
+      inNodeMapping = ListMap((0 until 42).map(idx => s"Core ${idx} " -> idx) :_*) + ("serial-tl" -> 42),
+      outNodeMapping = ListMap(
+        "system[0]" -> 43,
+        "system[1]" -> 44,
+        "system[2]" -> 45,
+        "system[3]" -> 46,
+        "pbus" -> 42)), // TSI is on the pbus, so serial-tl and pbus should be on the same node
+    NoCParams(
+      topology        = UnidirectionalTorus1D(47),
+      channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
+      routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
+  )) ++
+  new boom.common.WithCloneBoomTiles(41, 0) ++
+  new boom.common.WithNLargeBooms(1) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.AbstractConfig)
 
 class WithHyperscaleAccels extends Config ((site, here, up) => {
   case ProtoTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
@@ -296,28 +341,24 @@ class WithHyperscaleAccels extends Config ((site, here, up) => {
 
 class HyperscaleRocketAccelsConfig extends Config(
   new WithHyperscaleAccels ++
-  new HyperscaleRocketBaseConfig
-  )
+  new HyperscaleRocketBaseConfig)
 
 class HyperscaleRocketSnappyCompleteConfig extends Config(
   new compressacc.AcceleratorPlacementRoCC ++
   new compressacc.WithSnappyCompleteASIC ++
-  new HyperscaleRocketBaseConfig
-  )
+  new HyperscaleRocketBaseConfig)
 
 class HyperscaleRocketProtoSerDesConfig extends Config(
   new protoacc.WithProtoAccelSerOnly ++
   new protoacc.WithProtoAccelDeserOnly ++
-  new HyperscaleRocketBaseConfig
-  )
+  new HyperscaleRocketBaseConfig)
 
 class HyperscaleRocketTapeoutClientConfig extends Config(
   new compressacc.AcceleratorPlacementRoCC ++
   new compressacc.WithSnappyCompleteASIC ++
   new protoacc.WithProtoAccelSerOnly ++
   new protoacc.WithProtoAccelDeserOnly ++
-  new HyperscaleRocketBaseConfig
-)
+  new HyperscaleRocketBaseConfig)
 
 class SmallGoldenCoveBoomConfig extends Config(
   new boom.common.WithNSmallGoldenCoveBooms(1) ++                           // giga boom config
