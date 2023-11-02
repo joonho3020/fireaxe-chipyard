@@ -299,6 +299,28 @@ class BroadwellSbusRingNoCConfig extends Config(
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
   new boom.common.WithCloneBoomTiles(41, 0) ++
+  new boom.common.WithBoomCommitLogPrintf ++
+  new boom.common.WithNLargeBooms(1) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.AbstractConfig)
+
+class BroadwellSbus6RingNoCConfig extends Config(
+  new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
+    constellation.protocol.DiplomaticNetworkNodeMapping(
+      inNodeMapping = ListMap((0 until 30).map(idx => s"Core ${idx} " -> idx) :_*) + ("serial-tl" -> 30),
+      outNodeMapping = ListMap(
+        "system[0]" -> 31,
+        "system[1]" -> 32,
+        "system[2]" -> 33,
+        "system[3]" -> 34,
+        "pbus" -> 30)), // TSI is on the pbus, so serial-tl and pbus should be on the same node
+    NoCParams(
+      topology        = UnidirectionalTorus1D(35),
+      channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
+      routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
+  )) ++
+  new boom.common.WithCloneBoomTiles(29, 0) ++
+  new boom.common.WithBoomCommitLogPrintf ++
   new boom.common.WithNLargeBooms(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
   new chipyard.config.AbstractConfig)
