@@ -87,6 +87,7 @@ class DDIODoDecaBoom128kBL2SbusRingNoCConfig extends Config(
   )) ++
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=128) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++     // 2 L2 banks
+  new chipyard.config.WithSystemBusWidth(256) ++
   new boom.common.WithCloneBoomTiles(11, 0) ++
   new boom.common.WithNLargeBooms(1) ++
   new chipyard.config.AbstractConfig)
@@ -99,6 +100,7 @@ class DDIODoDecaBoomLoopbackNICConfig extends Config(
 class DDIODoDecaBoom128kBL2Config extends Config(
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=2, capacityKB=128) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++     // 2 L2 banks
+  new chipyard.config.WithSystemBusWidth(256) ++
   new boom.common.WithCloneBoomTiles(11, 0) ++
   new boom.common.WithNLargeBooms(1) ++
   new chipyard.config.AbstractConfig)
