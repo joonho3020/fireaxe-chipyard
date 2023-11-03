@@ -104,3 +104,8 @@ class DDIODoDecaBoom128kBL2Config extends Config(
   new boom.common.WithCloneBoomTiles(11, 0) ++
   new boom.common.WithNLargeBooms(1) ++
   new chipyard.config.AbstractConfig)
+
+class QuadBoomConfig extends Config(
+  new chipyard.config.WithSystemBusWidth(256) ++
+  new boom.common.WithNLargeBooms(4) ++
+  new chipyard.config.AbstractConfig)
