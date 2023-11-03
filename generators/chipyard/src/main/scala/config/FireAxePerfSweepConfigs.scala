@@ -23,36 +23,36 @@ import protoacc._
 
 //////////////////////////////////////////////////////////////////////////////
 
-class OneSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(1) ++
+class OneBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new chipyard.config.AbstractConfig)
 
-class TwoSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(2) ++
+class TwoBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(2) ++
   new chipyard.config.AbstractConfig)
 
-class ThreeSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(3) ++
+class ThreeBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(3) ++
   new chipyard.config.AbstractConfig)
 
-class FourSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(4) ++
+class FourBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(4) ++
   new chipyard.config.AbstractConfig)
 
-class FiveSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(5) ++
+class FiveBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(5) ++
   new chipyard.config.AbstractConfig)
 
-class SixSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(6) ++
+class SixBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(6) ++
   new chipyard.config.AbstractConfig)
 
-class SevenSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(7) ++
+class SevenBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(7) ++
   new chipyard.config.AbstractConfig)
 
-class EightSmallRocketConfig extends Config(
-  new freechips.rocketchip.subsystem.WithNSmallCores(8) ++
+class EightBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new chipyard.config.AbstractConfig)
 
 //////////////////////////////////////////////////////////////////////////////
