@@ -390,6 +390,11 @@ class GoldenCove40BoomConfig extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
+class GoldenCove40L1I512kBBoomConfig extends Config(
+  new boom.common.WithN512kBL1IGC40Booms(1) ++
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
 class TeraBoomConfig extends Config(
   new boom.common.WithNTeraBooms(1) ++                          // large boom config
   new chipyard.config.WithSystemBusWidth(128) ++
