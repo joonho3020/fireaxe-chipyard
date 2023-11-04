@@ -302,6 +302,7 @@ class BroadwellSbusRingNoCConfig extends Config(
   new boom.common.WithBoomCommitLogPrintf ++
   new boom.common.WithNLargeBooms(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
 class BroadwellSbus6RingNoCConfig extends Config(
@@ -319,10 +320,13 @@ class BroadwellSbus6RingNoCConfig extends Config(
       channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
       routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
   )) ++
+// new freechips.rocketchip.subsystem.WithCloneRocketTiles(29, 0) ++
+// new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new boom.common.WithCloneBoomTiles(29, 0) ++
   new boom.common.WithBoomCommitLogPrintf ++
   new boom.common.WithNLargeBooms(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
 class WithHyperscaleAccels extends Config ((site, here, up) => {
