@@ -462,3 +462,24 @@ class DoDecaRocketSbusRingNoCConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
   new chipyard.config.AbstractConfig)
+
+class DoDecaBoomSbusRingNoCConfig extends Config(
+  new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
+    constellation.protocol.DiplomaticNetworkNodeMapping(
+      inNodeMapping = ListMap((0 until 12).map(idx => s"Core ${idx} " -> idx) :_*) + ("serial-tl" -> 12),
+      outNodeMapping = ListMap(
+        "system[0]" -> 13,
+        "system[1]" -> 14,
+        "system[2]" -> 15,
+        "system[3]" -> 16,
+        "pbus" -> 12)), // TSI is on the pbus, so serial-tl and pbus should be on the same node
+    NoCParams(
+      topology        = UnidirectionalTorus1D(17),
+      channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
+      routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
+  )) ++
+  new boom.common.WithBoomCommitLogPrintf ++
+  new boom.common.WithCloneBoomTiles(11, 0) ++
+  new boom.common.WithNLargeBooms(1) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.AbstractConfig)
