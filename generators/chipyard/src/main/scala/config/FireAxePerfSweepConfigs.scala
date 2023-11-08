@@ -59,7 +59,7 @@ class TwelveBigRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(12) ++
   new chipyard.config.AbstractConfig)
 
-class SixTeenBigRocketConfig extends Config(
+class SixteenBigRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(16) ++
   new chipyard.config.AbstractConfig)
 
