@@ -55,6 +55,14 @@ class EightBigRocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(8) ++
   new chipyard.config.AbstractConfig)
 
+class TwelveBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(12) ++
+  new chipyard.config.AbstractConfig)
+
+class SixTeenBigRocketConfig extends Config(
+  new freechips.rocketchip.subsystem.WithNBigCores(16) ++
+  new chipyard.config.AbstractConfig)
+
 //////////////////////////////////////////////////////////////////////////////
 
 class OneLargeBoomConfig extends Config(
