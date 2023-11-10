@@ -495,8 +495,7 @@ class TwoGigaBoomTwoRocket2ML2Config extends Config(
   new boom.common.WithBoomCommitLogPrintf ++
   new boom.common.WithNGigaBooms(2) ++
   // Two Rockets
-  new freechips.rocketchip.subsystem.WithCloneRocketTiles(1, 0) ++
-  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(2) ++
   // 2M L2
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2048) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
@@ -507,7 +506,7 @@ class TwoGigaBoomTwoRocket2ML2Config extends Config(
 class FourGigaBoom2ML2Config extends Config(
   // Two GigaBooms
   new boom.common.WithBoomCommitLogPrintf ++
-  new boom.common.WithNGigaBooms(2) ++
+  new boom.common.WithNGigaBooms(4) ++
   // 2M L2
   new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2048) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
