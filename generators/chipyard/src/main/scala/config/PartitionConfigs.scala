@@ -483,3 +483,24 @@ class DoDecaBoomSbusRingNoCConfig extends Config(
   new boom.common.WithNLargeBooms(1) ++
   new freechips.rocketchip.subsystem.WithNBanks(4) ++
   new chipyard.config.AbstractConfig)
+
+class DoDecaBoomConfig extends Config(
+  new freechips.rocketchip.subsystem.WithCloneRocketTiles(11, 0) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.AbstractConfig)
+
+class TwoGigaBoomTwoRocket2ML2Config extends Config(
+  // Two GigaBooms
+  new boom.common.WithBoomCommitLogPrintf ++
+  new boom.common.WithCloneBoomTiles(1, 0) ++
+  new boom.common.WithNGigaBooms(1) ++
+  // Two Rockets
+  new freechips.rocketchip.subsystem.WithCloneRocketTiles(1, 0) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  // 2M L2
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2048) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  // 128b sbus
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
