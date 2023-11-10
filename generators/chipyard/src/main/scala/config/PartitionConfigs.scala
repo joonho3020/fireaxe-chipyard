@@ -503,3 +503,14 @@ class TwoGigaBoomTwoRocket2ML2Config extends Config(
   // 128b sbus
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
+
+class FourGigaBoom2ML2Config extends Config(
+  // Two GigaBooms
+  new boom.common.WithBoomCommitLogPrintf ++
+  new boom.common.WithNGigaBooms(2) ++
+  // 2M L2
+  new freechips.rocketchip.subsystem.WithInclusiveCache(nWays=16, capacityKB=2048) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  // 128b sbus
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
