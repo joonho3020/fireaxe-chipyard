@@ -493,8 +493,7 @@ class DoDecaBoomConfig extends Config(
 class TwoGigaBoomTwoRocket2ML2Config extends Config(
   // Two GigaBooms
   new boom.common.WithBoomCommitLogPrintf ++
-  new boom.common.WithCloneBoomTiles(1, 0) ++
-  new boom.common.WithNGigaBooms(1) ++
+  new boom.common.WithNGigaBooms(2) ++
   // Two Rockets
   new freechips.rocketchip.subsystem.WithCloneRocketTiles(1, 0) ++
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++
