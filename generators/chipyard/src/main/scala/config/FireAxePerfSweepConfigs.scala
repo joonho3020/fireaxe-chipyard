@@ -86,3 +86,30 @@ class SixLargeBoomConfig extends Config(
   new boom.common.WithNLargeBooms(6) ++                          // large boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
+
+///////////////////////////////////////////////////////////////////////////////
+
+class FiveRocketSbusRingNoCConfig extends Config(
+  new constellation.soc.WithSbusNoC(constellation.protocol.TLNoCParams(
+    constellation.protocol.DiplomaticNetworkNodeMapping(
+      inNodeMapping = ListMap(
+        "Core 0" -> 0,
+        "Core 1" -> 1,
+        "Core 2" -> 2,
+        "Core 3" -> 3,
+        "Core 4" -> 4,
+        "serial-tl" -> 5),
+      outNodeMapping = ListMap(
+        "system[0]" -> 6,
+        "system[1]" -> 7,
+        "system[2]" -> 8,
+        "system[3]" -> 9,
+        "pbus" -> 5)), // TSI is on the pbus, so serial-tl and pbus should be on the same node
+    NoCParams(
+      topology        = UnidirectionalTorus1D(10),
+      channelParamGen = (a, b) => UserChannelParams(Seq.fill(10) { UserVirtualChannelParams(4) }),
+      routingRelation = NonblockingVirtualSubnetworksRouting(UnidirectionalTorus1DDatelineRouting(), 5, 2))
+  )) ++
+  new freechips.rocketchip.subsystem.WithNBigCores(5) ++
+  new freechips.rocketchip.subsystem.WithNBanks(4) ++
+  new chipyard.config.AbstractConfig)
