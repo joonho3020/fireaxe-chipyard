@@ -355,7 +355,7 @@ class TeraBoomConfig extends Config(
   new chipyard.config.AbstractConfig)
 
 
-class HyperscaleZstdCompAccuracy10109 extends Config((site, here, up) => {
+class WithZstdCompAccuracy10109 extends Config((site, here, up) => {
   case CompressAccelTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
   case ZstdCompressorKey => Some(ZstdCompressorConfig(queDepth = 4))
   case HufCompressUnrollCnt => 4
@@ -371,11 +371,14 @@ class HyperscaleZstdCompAccuracy10109 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  ) ++
-  new HyperscaleRocketBaseConfig
+  )
 })
 
-class HyperscaleZstdCompAccuracy998 extends Config((site, here, up) => {
+class HyperscaleZstdCompAccuracy10109 extends Config(
+  new WithZstdCompAccuracy10109 ++
+  new HyperscaleRocketBaseConfig)
+
+class WithZstdCompAccuracy998 extends Config((site, here, up) => {
   case CompressAccelTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
   case ZstdCompressorKey => Some(ZstdCompressorConfig(queDepth = 4))
   case HufCompressUnrollCnt => 4
@@ -391,11 +394,15 @@ class HyperscaleZstdCompAccuracy998 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  ) ++
-  new HyperscaleRocketBaseConfig
+  )
 })
 
-class HyperscaleZstdCompAccuracy887 extends Config((site, here, up) => {
+class HyperscaleZstdCompAccuracy998 extends Config(
+  new WithZstdCompAccuracy998 ++
+  new HyperscaleRocketBaseConfig)
+
+
+class WithZstdCompAccuracy887 extends Config((site, here, up) => {
   case CompressAccelTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
   case ZstdCompressorKey => Some(ZstdCompressorConfig(queDepth = 4))
   case HufCompressUnrollCnt => 4
@@ -411,11 +418,14 @@ class HyperscaleZstdCompAccuracy887 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  ) ++
-  new HyperscaleRocketBaseConfig
+  )
 })
 
-class HyperscaleZstdCompAccuracy776 extends Config((site, here, up) => {
+class HyperscaleZstdCompAccuracy887 extends Config(
+  new WithZstdCompAccuracy887 ++
+  new HyperscaleRocketBaseConfig)
+
+class WithZstdCompAccuracy776 extends Config((site, here, up) => {
   case CompressAccelTLB => Some(TLBConfig(nSets = 4, nWays = 4, nSectors = 1, nSuperpageEntries = 1))
   case ZstdCompressorKey => Some(ZstdCompressorConfig(queDepth = 4))
   case HufCompressUnrollCnt => 4
@@ -431,6 +441,10 @@ class HyperscaleZstdCompAccuracy776 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  ) ++
-  new HyperscaleRocketBaseConfig
+  )
 })
+
+class HyperscaleZstdCompAccuracy776 extends Config(
+  new WithZstdCompAccuracy776 ++
+  new HyperscaleRocketBaseConfig)
+
