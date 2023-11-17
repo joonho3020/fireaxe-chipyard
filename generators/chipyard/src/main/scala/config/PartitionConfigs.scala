@@ -371,7 +371,8 @@ class HyperscaleZstdCompAccuracy10109 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  )
+  ) ++
+  new HyperscaleRocketBaseConfig
 })
 
 class HyperscaleZstdCompAccuracy998 extends Config((site, here, up) => {
@@ -390,7 +391,8 @@ class HyperscaleZstdCompAccuracy998 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  )
+  ) ++
+  new HyperscaleRocketBaseConfig
 })
 
 class HyperscaleZstdCompAccuracy887 extends Config((site, here, up) => {
@@ -409,7 +411,8 @@ class HyperscaleZstdCompAccuracy887 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  )
+  ) ++
+  new HyperscaleRocketBaseConfig
 })
 
 class HyperscaleZstdCompAccuracy776 extends Config((site, here, up) => {
@@ -428,5 +431,6 @@ class HyperscaleZstdCompAccuracy776 extends Config((site, here, up) => {
       val zstdcomp = LazyModule(new ZstdCompressor(OpcodeSet.custom1)(p))
       zstdcomp
     }
-  )
+  ) ++
+  new HyperscaleRocketBaseConfig
 })
