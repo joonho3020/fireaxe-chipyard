@@ -587,8 +587,8 @@ class WithZstdCompAccuracy554 extends Config((site, here, up) => {
   )
 })
 
-class HyperscaleZstdCompAccuracy443 extends Config(
-  new WithZstdCompAccuracy443 ++
+class HyperscaleZstdCompAccuracy554 extends Config(
+  new WithZstdCompAccuracy554 ++
   new HyperscaleRocketBaseConfig)
 
 class WithZstdCompAccuracy443 extends Config((site, here, up) => {
