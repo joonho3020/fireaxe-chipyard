@@ -1,10 +1,10 @@
 [submodule "rocket-chip"]
 	path = generators/rocket-chip
-	url = ssh://git@github.com/joey0320/rocket-chip-private.git
+	url = ssh://git@github.com/joonho3020/rocket-chip-fireaxe.git
   branch = multi-fpga-main
 [submodule "testchipip"]
 	path = generators/testchipip
-	url = ssh://git@github.com/joey0320/testchipip-private.git
+	url = ssh://git@github.com/joonho3020/testchipip-fireaxe.git
   branch = multi-fpga-main
 [submodule "barstools"]
 	path = tools/barstools
@@ -14,7 +14,7 @@
 	url = https://github.com/ucb-bar/riscv-torture.git
 [submodule "generators/boom"]
 	path = generators/boom
-	url = ssh://git@github.com/joey0320/riscv-boom-private.git
+	url = ssh://git@github.com/joonho3020/riscv-boom-fireaxe.git
   branch = multi-fpga-main
 [submodule "generators/sifive-blocks"]
 	path = generators/sifive-blocks
@@ -24,11 +24,11 @@
 	url = https://github.com/ucb-bar/hwacha.git
 [submodule "sims/firesim"]
 	path = sims/firesim
-	url = https://github.com/firesim/firesim-private.git
+	url = https://github.com/firesim/firesim-fireaxe.git
   branch = multi-fpga-main
 [submodule "generators/icenet"]
 	path = generators/icenet
-	url = ssh://git@github.com/joey0320/icenet-private.git
+	url = ssh://git@github.com/joonho3020/icenet-fireaxe.git
   branch = multi-fpga-main
 [submodule "generators/block-inclusivecache-sifive"]
 	path = generators/sifive-cache
@@ -38,7 +38,7 @@
 	url = https://github.com/ucb-bar/dsptools.git
 [submodule "generators/sha3"]
 	path = generators/sha3
-	url = ssh://git@github.com/joey0320/sha3-private.git
+	url = ssh://git@github.com/joonho3020/sha3-fireaxe.git
   branch = multi-fpga-main
 [submodule "vlsi/hammer-mentor-plugins"]
 	path = vlsi/hammer-mentor-plugins
@@ -54,7 +54,7 @@
 	url = https://github.com/ucb-bar/coremark-workload.git
 [submodule "generators/gemmini"]
 	path = generators/gemmini
-	url = ssh://git@github.com/joey0320/gemmini-private.git
+	url = ssh://git@github.com/joonho3020/gemmini-fireaxe.git
   branch = multi-fpga-main
 [submodule "software/firemarshal"]
 	path = software/firemarshal
@@ -133,7 +133,7 @@
 	url = https://github.com/chipsalliance/cde.git
 [submodule "software/embench/embench-iot"]
 	path = software/embench/embench-iot
-	url = https://github.com/joey0320/embench-riscv.git
+	url = https://github.com/joonho3020/embench-riscv.git
 [submodule "shuttle"]
 	path = generators/shuttle
 	url = https://github.com/ucb-bar/shuttle.git
