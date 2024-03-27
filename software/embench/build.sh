@@ -11,10 +11,14 @@ cd embench-iot
 ./build_all.py --arch riscv32 --chip generic --board ri5cyverilator --cc riscv64-unknown-elf-gcc --cflags="-c -O2 -ffunction-sections -mabi=lp64d -specs=htif_nano.specs" --ldflags="-Wl,-gc-sections -specs=htif_nano.specs" --user-libs="-lm" --clean -v
 
 echo "Copying binaries to $BUILDDIR"
-bmarks=("aha-mont64" "crc32" "cubic" "edn" "huffbench"
-        "matmult-int" "minver" "nbody" "nettle-aes"
-        "nettle-sha256" "nsichneu" "picojpeg"
-        "qrduino" "sglib-combined" "slre" "st"
+bmarks=(
+    "aha-mont64" "crc32" "cubic" "edn"
+    "matmult-int" "minver" "nbody" "nettle-aes"
+    "nettle-sha256" "nsichneu" "picojpeg"
+# "huffbench"
+# "qrduino"
+# "sglib-combined"
+        "slre" "st"
         "ud" "wikisort")
 for bmark in "${bmarks[@]}"
 do
