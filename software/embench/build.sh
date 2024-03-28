@@ -12,14 +12,25 @@ cd embench-iot
 
 echo "Copying binaries to $BUILDDIR"
 bmarks=(
-    "aha-mont64" "crc32" "cubic" "edn"
-    "matmult-int" "minver" "nbody" "nettle-aes"
-    "nettle-sha256" "nsichneu" "picojpeg"
+    "aha-mont64"
+    "crc32"
+# "cubic"
+    "edn"
+    "matmult-int"
+    "minver"
+    "nbody"
+    "nettle-aes"
+# "nettle-sha256"
+    "nsichneu"
+# "picojpeg"
 # "huffbench"
 # "qrduino"
 # "sglib-combined"
-        "slre" "st"
-        "ud" "wikisort")
+# "slre"
+        "st"
+        "ud"
+# "wikisort"
+    )
 for bmark in "${bmarks[@]}"
 do
     cp bd/src/$bmark/$bmark $BUILDDIR/
